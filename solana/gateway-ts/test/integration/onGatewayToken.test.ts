@@ -18,8 +18,6 @@ import { VALIDATOR_URL } from "../constants";
 
 chai.use(chaiSubset);
 
-const tomorrow = Math.floor((Date.now() + 24 * 60 * 60 * 1000) / 1000);
-
 describe("onGatewayToken", function () {
   this.timeout(10_000);
   const connection = new Connection(VALIDATOR_URL, "processed");

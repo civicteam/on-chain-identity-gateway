@@ -1,4 +1,4 @@
-import { Schema, serialize, deserialize, deserializeUnchecked } from "borsh";
+import {Schema, serialize, deserializeUnchecked} from "borsh";
 
 export const SCHEMA: Schema = new Map();
 

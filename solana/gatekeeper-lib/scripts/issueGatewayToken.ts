@@ -4,6 +4,7 @@ import { GatekeeperService } from "../src";
 import { homedir } from "os";
 import * as path from "path";
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const gatekeeperKey = require(path.join(
   homedir(),
   ".config",
@@ -28,7 +29,7 @@ const gatekeeperService = new GatekeeperService(
 (async function () {
   const owner = Keypair.generate().publicKey;
 
-  const { blockhash } = await connection.getRecentBlockhash(SOLANA_COMMITMENT);
+  const { blockhash } = await connection.getLatestBlockhash(SOLANA_COMMITMENT);
   const issuedToken = await gatekeeperService.issue(owner, {
     blockhashOrNonce: { recentBlockhash: blockhash },
   });

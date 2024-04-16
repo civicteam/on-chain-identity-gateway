@@ -11,7 +11,6 @@ import {
   PROGRAM_ID,
 } from "../../src";
 import { VALIDATOR_URL } from "../constants";
-import { describe } from "mocha";
 import { getAccountWithState } from "./utils";
 
 chai.use(chaiSubset);

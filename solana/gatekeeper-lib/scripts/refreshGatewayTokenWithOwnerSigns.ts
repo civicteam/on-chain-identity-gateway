@@ -12,6 +12,7 @@ import * as path from "path";
 
 const LAMPORTS_FOR_ISSUANCE = 2_000_000; // The owner needs this much to issue their own token.
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const gatekeeperKey = require(path.join(
   homedir(),
   ".config",
@@ -38,9 +39,6 @@ const gatekeeperService = new GatekeeperService(
   }
 );
 
-const sleep = (ms: number): Promise<void> =>
-  new Promise((resolve) => setTimeout(resolve, ms));
-
 console.log("Refreshing gateway token for " + owner.publicKey);
 
 (async function () {
@@ -50,7 +48,7 @@ console.log("Refreshing gateway token for " + owner.publicKey);
     clusterApiUrl("devnet"),
     LAMPORTS_FOR_ISSUANCE
   );
-  let { blockhash } = await connection.getRecentBlockhash(SOLANA_COMMITMENT);
+  let { blockhash } = await connection.getLatestBlockhash(SOLANA_COMMITMENT);
 
   // issue first
   const { transaction: issueTx } = await gatekeeperService.issue(
@@ -66,7 +64,7 @@ console.log("Refreshing gateway token for " + owner.publicKey);
   await connection.confirmTransaction(issueTxSig);
   console.log("issue confirmed");
 
-  ({ blockhash } = await connection.getRecentBlockhash(SOLANA_COMMITMENT));
+  ({ blockhash } = await connection.getLatestBlockhash(SOLANA_COMMITMENT));
 
   const gt = await gatekeeperService.findGatewayTokenForOwner(owner.publicKey);
 

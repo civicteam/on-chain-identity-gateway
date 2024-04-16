@@ -74,7 +74,7 @@ describe("GatekeeperService", () => {
       PROGRAM_ID
     );
     connection = {
-      getRecentBlockhash: async () => {
+      getLatestBlockhash: async () => {
         return Promise.resolve({ blockhash: dummyBlockhash });
       },
       sendRawTransaction: async () => {
@@ -143,7 +143,7 @@ describe("GatekeeperService", () => {
     transaction.transaction.add(transfer);
     transaction.transaction.feePayer = keypair2.publicKey;
     transaction.transaction.recentBlockhash = await connection
-      .getRecentBlockhash("confirmed")
+      .getLatestBlockhash("confirmed")
       .then((rbh) => rbh.blockhash);
     transaction.partialSign(keypair1);
     const serialized = transaction.transaction.serialize({
@@ -457,10 +457,7 @@ describe("GatekeeperService", () => {
         });
       });
       context("with the update blockchain call failing", () => {
-        // eslint-disable-next-line @typescript-eslint/require-await
-        it("should resolve with the ACTIVE token with the updated expiry", async () => {
-          return activeTokenResolution();
-        });
+        it("should resolve with the ACTIVE token with the updated expiry", () => activeTokenResolution());
       });
     });
   });

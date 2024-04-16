@@ -31,7 +31,6 @@ export class GatekeeperService {
    * @param gatekeeperAuthority The gatekeeper's key
    * @param config Global default configuration for the gatekeeper
    */
-  // eslint-disable-next-line no-useless-constructor
   constructor(
     private readonly connection: Connection,
     private gatekeeperNetwork: PublicKey,
@@ -142,7 +141,7 @@ export class GatekeeperService {
     
     const hashOrNonce =
       normalizedOptions.blockhashOrNonce ||
-      (await this.connection.getRecentBlockhash());
+      (await this.connection.getLatestBlockhash());
     return new SendableTransaction(this.connection, transaction)
       .withData(() => getGatewayToken(this.connection, gatewayTokenAddress))
       .feePayer(normalizedOptions.feePayer)

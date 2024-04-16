@@ -1,50 +1,52 @@
 {
   "name": "@identity.com/solana-gatekeeper-lib",
   "description": "Library to manage Gateway Tokens",
-  "version": "6.1.0",
+  "version": "6.1.1-alpha.0",
   "author": "dankelleher @dankelleher",
   "bugs": "https://github.com/identity-com/on-chain-identity-gateway/issues",
   "dependencies": {
-    "@identity.com/solana-gateway-ts": "0.12.0",
-    "@solana/buffer-layout": "^4.0.0",
-    "@solana/spl-token": "^0.3.5",
-    "@solana/web3.js": "^1.61.0",
+    "@identity.com/solana-gateway-ts": "^0.13.0-alpha.0",
+    "@solana/buffer-layout": "^4.0.1",
+    "@solana/spl-token": "^0.4.3",
+    "@solana/web3.js": "^1.91.4",
     "async-retry": "^1.3.3",
     "borsh": "^0.4.0",
-    "ramda": "^0.28.0",
-    "tslib": "^1"
+    "ramda": "^0.29.1",
+    "tslib": "^2.6.2"
   },
   "devDependencies": {
-    "@types/async-retry": "^1.4.3",
-    "@types/bn.js": "^5.1.0",
-    "@types/bs58": "^4.0.1",
-    "@types/chai": "^4.3.0",
-    "@types/mocha": "^9.1.0",
-    "@types/node": "^16",
-    "@types/yargs": "^16.0.1",
-    "@typescript-eslint/eslint-plugin": "^4.23.0",
-    "@typescript-eslint/parser": "^4.23.0",
-    "audit-ci": "^5.1.2",
-    "bs58": "^4.0.1",
+    "@eslint/js": "^9.0.0",
+    "@types/async-retry": "^1.4.8",
+    "@types/bn.js": "^5.1.5",
+    "@types/bs58": "^4.0.4",
+    "@types/chai": "^4.3.14",
+    "@types/mocha": "^10.0.6",
+    "@types/node": "^20.12.7",
+    "@types/yargs": "^17.0.32",
+    "@typescript-eslint/eslint-plugin": "^7.7.0",
+    "@typescript-eslint/parser": "^7.7.0",
+    "audit-ci": "^6.6.1",
+    "bs58": "^5.0.0",
     "buffer": "^6.0.3",
-    "chai": "^4",
+    "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
     "chai-subset": "^1.6.0",
-    "eslint": "^7.26.0",
-    "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-prettier": "^3.4.0",
-    "globby": "^10",
-    "mocha": "^5",
-    "nyc": "^14",
+    "eslint": "^9.0.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.1.3",
+    "globby": "^14.0.1",
+    "mocha": "^10.4.0",
+    "nyc": "^15.1.0",
     "postinstall-prepare": "^2.0.0",
-    "prettier": "^2.3.0",
-    "sinon": "^13.0.1",
+    "prettier": "^3.2.5",
+    "sinon": "^17.0.1",
     "sinon-chai": "^3.7.0",
-    "ts-mocha": "^9.0.2",
-    "ts-node": "^8",
-    "typedoc": "^0.21.5",
-    "typescript": "^4.2.3",
-    "yargs": "^17.0.1"
+    "ts-mocha": "^10.0.0",
+    "ts-node": "^10.9.2",
+    "typedoc": "^0.25.13",
+    "typescript": "^5.4.5",
+    "typescript-eslint": "^7.7.0",
+    "yargs": "^17.7.2"
   },
   "engines": {
     "node": ">=8.0.0"
@@ -52,31 +54,11 @@
   "files": [
     "/bin",
     "/dist",
-    "/npm-shrinkwrap.json",
-    "/oclif.manifest.json"
+    "/npm-shrinkwrap.json"
   ],
   "homepage": "https://www.identity.com",
-  "keywords": [
-    "oclif"
-  ],
   "license": "MIT",
   "main": "dist/index.js",
-  "oclif": {
-    "commands": "./dist/commands",
-    "additionalHelpFlags": [
-      "-h"
-    ],
-    "additionalVersionFlags": [
-      "-v"
-    ],
-    "bin": "gateway",
-    "topicSeparator": " ",
-    "plugins": [
-      "@oclif/plugin-help",
-      "@oclif/plugin-version",
-      "@oclif/plugin-plugins"
-    ]
-  },
   "repository": "git@github.com:identity-com/on-chain-identity-gateway.git",
   "scripts": {
     "build": "rm -rf dist && tsc -b",
@@ -85,7 +67,7 @@
     "start-validator": "solana-test-validator --bpf-program gatem74V238djXdzWnJf94Wo1DcnuGkfijbf3AuBhfs ../program/target/deploy/solana_gateway.so --reset",
     "lint": "eslint '{src,test}/**/*.ts' --max-warnings 0",
     "lint:fix": "yarn lint --fix",
-    "test": "STAGE=${STAGE:-dev} FORCE_COLOR=1 nyc --extension .ts --reporter=text ts-mocha --timeout 30000 --paths 'test/**/*.ts'",
+    "test": "STAGE=${STAGE:-dev} FORCE_COLOR=1 nyc --reporter=text mocha",
     "doc": "yarn typedoc src/index.ts --readme none --excludeNotDocumented",
     "audit-ci": "audit-ci --config audit-ci.json"
   },

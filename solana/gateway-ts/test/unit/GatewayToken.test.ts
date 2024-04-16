@@ -9,7 +9,6 @@ import {
   AssignablePublicKey,
   GatewayToken,
 } from "../../src";
-import { describe } from "mocha";
 
 chai.use(chaiSubset);
 const { expect } = chai;

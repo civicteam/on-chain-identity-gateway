@@ -21,9 +21,7 @@ export const airdropTo = async (
   let retries = 30;
   await connection.requestAirdrop(publicKey, lamports);
   for (;;) {
-    // eslint-disable-next-line no-await-in-loop
     await sleep(500);
-    // eslint-disable-next-line no-await-in-loop
     const balance = await connection.getBalance(publicKey);
     if (balance >= lamports) {
       console.log("Airdrop done");
@@ -38,7 +36,6 @@ export const airdropTo = async (
   throw new Error(`Airdrop of ${lamports} failed`);
 };
 
-// eslint-disable-next-line @typescript-eslint/require-await
 export const readKey = async (file: string): Promise<Keypair> =>
   Keypair.fromSecretKey(
     new Uint8Array(JSON.parse(fs.readFileSync(file).toString("utf-8")))
