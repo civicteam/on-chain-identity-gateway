@@ -1,12 +1,11 @@
 {
   "name": "@identity.com/solana-gatekeeper-lib",
   "description": "Library to manage Gateway Tokens",
-  "version": "6.1.1-alpha.0",
+  "version": "6.1.1-alpha.1",
   "author": "dankelleher @dankelleher",
   "bugs": "https://github.com/identity-com/on-chain-identity-gateway/issues",
   "dependencies": {
     "@identity.com/solana-gateway-ts": "^0.13.0-alpha.0",
-    "@solana/buffer-layout": "^4.0.1",
     "@solana/spl-token": "^0.4.3",
     "@solana/web3.js": "^1.91.4",
     "async-retry": "^1.3.3",
