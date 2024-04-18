@@ -1,7 +1,7 @@
 import chai from "chai";
 import chaiSubset from "chai-subset";
 import sinon from "sinon";
-import { PublicKey, Keypair } from "@solana/web3.js";
+import { PublicKey } from "@solana/web3.js";
 import {
   getFeatureAccountAddress,
   NetworkFeature,
@@ -13,15 +13,6 @@ const { expect } = chai;
 const sandbox = sinon.createSandbox();
 
 describe("GatewayNetwork", () => {
-  let owner: PublicKey;
-  let gatekeeperKey: PublicKey;
-  let gatekeeperNetworkKey: PublicKey;
-
-  beforeEach(() => {
-    owner = Keypair.generate().publicKey;
-    gatekeeperKey = Keypair.generate().publicKey;
-    gatekeeperNetworkKey = Keypair.generate().publicKey;
-  });
   afterEach(sandbox.restore);
 
   context("GatekeeperNetwork Feature", () => {

@@ -1,5 +1,5 @@
 import sinon from "sinon";
-import {AccountInfo, Connection, PublicKey} from "@solana/web3.js";
+import {AccountInfo, PublicKey} from "@solana/web3.js";
 
 import { GatewayTokenData, GatewayTokenState, PROGRAM_ID } from "../../src";
 import { AssignablePublicKey } from "../../src";

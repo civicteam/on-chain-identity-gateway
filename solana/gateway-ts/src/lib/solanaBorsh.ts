@@ -4,11 +4,14 @@ export const SCHEMA: Schema = new Map();
 
 // Class wrapping a plain object
 export abstract class Assignable {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   constructor(properties: { [key: string]: any }) {
     Object.keys(properties).forEach((key: string) => {
       // this is probably possible in Typescript,
       // but requires (keyof this) which is not possible in the constructor
-      // @ts-ignore
+      // WARNING: This functionality actually changes depending on which ts compiler you use
+      // it works with tsc, not with bun. To be safe we should change it.
+      // @ts-expect-error - therefore we need to disable this error.
       this[key] = properties[key];
     });
   }
@@ -29,6 +32,7 @@ export abstract class Assignable {
 export abstract class Enum extends Assignable {
   enum: string;
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   constructor(properties: any) {
     super(properties);
     if (Object.keys(properties).length !== 1) {
