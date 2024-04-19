@@ -12,6 +12,7 @@ import * as path from "path";
 
 const LAMPORTS_FOR_ISSUANCE = 2_000_000; // The owner needs this much to issue their own token.
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const gatekeeperKey = require(path.join(
   homedir(),
   ".config",
@@ -46,7 +47,7 @@ console.log("Issuing gateway token for " + owner.publicKey);
     clusterApiUrl("devnet"),
     LAMPORTS_FOR_ISSUANCE
   );
-  const { blockhash } = await connection.getRecentBlockhash(SOLANA_COMMITMENT);
+  const { blockhash } = await connection.getLatestBlockhash(SOLANA_COMMITMENT);
 
   //  Creates a transaction signed by the gatekeeper only
   const sendableTx = await gatekeeperService.issue(owner.publicKey, {

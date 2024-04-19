@@ -5,11 +5,12 @@ import {
   PublicKey,
   Transaction,
 } from "@solana/web3.js";
-import { expireToken, findGatewayToken, getGatewayToken } from "../src";
+import { expireToken, getGatewayToken } from "../src";
 import * as os from "os";
 
 const gatewayToken = new PublicKey(process.argv[2]);
 const keypair = Keypair.fromSecretKey(
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
   Buffer.from(require(os.homedir() + "/.config/solana/id.json"))
 );
 

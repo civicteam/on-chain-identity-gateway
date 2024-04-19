@@ -58,7 +58,7 @@ export async function addHashOrNonce(
 ): Promise<void> {
   if (hashOrNonce === "find") {
     transaction.transaction.recentBlockhash = await transaction.connection
-      .getRecentBlockhash()
+      .getLatestBlockhash()
       .then((rbh) => rbh.blockhash);
   } else if ("recentBlockhash" in hashOrNonce) {
     transaction.transaction.recentBlockhash = hashOrNonce.recentBlockhash;
@@ -68,7 +68,6 @@ export async function addHashOrNonce(
 }
 
 export class SendableTransaction implements TransactionHolder {
-  // eslint-disable-next-line no-useless-constructor
   constructor(
     readonly connection: Connection,
     readonly transaction: Transaction
@@ -123,7 +122,6 @@ export class SendableTransaction implements TransactionHolder {
 }
 
 export class SendableDataTransaction<T> implements TransactionHolder {
-  // eslint-disable-next-line no-useless-constructor
   constructor(
     readonly sendableTransaction: SendableTransaction,
     readonly data: DataCallback<T>
@@ -187,7 +185,6 @@ const normalizeDataCallback = <T>(
 };
 
 export class SentTransaction {
-  // eslint-disable-next-line no-useless-constructor
   constructor(
     readonly connection: Connection,
     readonly signature: TransactionSignature
@@ -218,7 +215,6 @@ export class SentTransaction {
 }
 
 export class SentDataTransaction<T> {
-  // eslint-disable-next-line no-useless-constructor
   constructor(
     readonly sentTransaction: SentTransaction,
     readonly data: DataCallback<T>

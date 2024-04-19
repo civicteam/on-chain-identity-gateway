@@ -14,7 +14,6 @@ import {
   SOLANA_COMMITMENT,
 } from "../../src";
 import { VALIDATOR_URL } from "../constants";
-import { describe } from "mocha";
 import { getAccountWithState, matchesPubkeyArray } from "./utils";
 import { Assignable } from "../../src/lib/solanaBorsh";
 

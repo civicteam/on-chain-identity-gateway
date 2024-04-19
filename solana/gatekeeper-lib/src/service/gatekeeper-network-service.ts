@@ -27,7 +27,6 @@ export class GatekeeperNetworkService {
    * @param connection A solana connection object
    * @param gatekeeperNetwork The network authority's key
    */
-  // eslint-disable-next-line no-useless-constructor
   constructor(
     private readonly connection: Connection,
     private gatekeeperNetwork: Keypair

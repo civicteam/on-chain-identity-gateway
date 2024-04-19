@@ -108,7 +108,6 @@ describe("onGatewayTokenChange", () => {
 
   context("when subscribing to gateway token state changes", () => {
     it("should stop listening to gateway state changes", async () => {
-      const gatewayTokenHistory: GatewayToken[] = [];
       const subscriptionId = 1234;
 
       // Add subscription and return subscription id

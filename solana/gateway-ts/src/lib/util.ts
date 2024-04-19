@@ -75,9 +75,9 @@ export const GATEWAY_TOKEN_ACCOUNT_OWNER_FIELD_OFFSET = 2;
 export const GATEWAY_TOKEN_ACCOUNT_GATEKEEPER_NETWORK_FIELD_OFFSET = 35;
 
 function fromGatewayTokenState(state: GatewayTokenState): State {
-  if (!!state.active) return State.ACTIVE;
-  if (!!state.revoked) return State.REVOKED;
-  if (!!state.frozen) return State.FROZEN;
+  if (state.active) return State.ACTIVE;
+  if (state.revoked) return State.REVOKED;
+  if (state.frozen) return State.FROZEN;
 
   throw new Error("Unrecognised state " + JSON.stringify(state));
 }
