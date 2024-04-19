@@ -10,6 +10,7 @@ import {createWallet} from "../tasks/createWallet";
 import {addForwarder} from "../tasks/addForwarder";
 import {execute} from "../tasks/execute";
 import {getBalance} from "../tasks/getBalance";
+import {getFees} from "../tasks/getFees";
 
 const defaultPath = './contracts';
 const testContractsPath = './test/contracts';
@@ -62,6 +63,7 @@ task('execute', 'sign and send a transaction')
     .addParam('value', 'the amount to send with the transaction')
     .setAction(execute);
 task('get-balance', 'get the balance of the deployer').setAction(getBalance);
+task('get-fees', 'get the current fees on the selected network').setAction(getFees);
 
 // Override the default "compile" task to compile both main and test contracts
 task('compile', 'Compiles the entire project, including main and test contracts')

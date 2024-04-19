@@ -6,6 +6,7 @@
     "test": "test"
   },
   "scripts": {
+    "task": "hardhat",
     "analyze": "slither . --config-file slither.config.json",
     "coverage": "NODE_ENV=test hardhat coverage && istanbul check-coverage --statements 97 --branches 90 --functions 95 --lines 93",
     "test": "NODE_ENV=test hardhat test",
