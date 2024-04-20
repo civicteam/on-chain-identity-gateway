@@ -59,6 +59,7 @@ module.exports = {
       polygonZkEVMTestnet: process.env.POLYGONSCAN_API_KEY,
       arbitrumOne: process.env.ARBISCAN_API_KEY,
       arbitrumGoerli: process.env.ARBISCAN_API_KEY,
+      polygonAmoy: process.env.OKLINK_AMOY_API_KEY
     },
     customChains: [
       {
@@ -76,6 +77,15 @@ module.exports = {
           browserURL: 'https://testnet-zkevm.polygonscan.com/',
         },
         chainId: 1442,
+      },
+      {
+        network: "polygonAmoy",
+        chainId: 80002,
+        urls: {
+          apiURL:
+              "https://www.oklink.com/api/explorer/v1/contract/verify/async/api/polygonAmoy",
+          browserURL: "https://www.oklink.com/polygonAmoy",
+        },
       },
     ],
   },

@@ -17,8 +17,9 @@ export const issueGT = async (args: any, hre: HardhatRuntimeEnvironment) => {
 
   const account = ethers.utils.getAddress(args.address);
 
-  const gatewayToken = await deployments.get('GatewayToken');
-  const contract = await ethers.getContractAt('GatewayToken', gatewayToken.address);
+  const gatewayToken = await deployments.get('GatewayTokenProxy');
+
+  const contract = (await ethers.getContractAt('GatewayToken', gatewayToken.address)).connect(owner);
 
   const hasToken = await contract['verifyToken(address,uint256)'](account, args.gatekeepernetwork);
   console.log({ hasToken });
@@ -34,7 +35,7 @@ export const issueGT = async (args: any, hre: HardhatRuntimeEnvironment) => {
   if (!args.forwarded) {
     transactionReceipt = await gatekeeper.sendTransaction(mintTx);
   } else {
-    const forwarder = (await ethers.getContractAt('Forwarder', DEFAULT_FORWARDER_ADDRESS)).connect(owner);
+    const forwarder = (await ethers.getContractAt('FlexibleNonceForwarder', DEFAULT_FORWARDER_ADDRESS)).connect(owner);
 
     const { request, signature } = await signMetaTxRequest(gatekeeper, forwarder as IForwarder, {
       from: gatekeeper.address,

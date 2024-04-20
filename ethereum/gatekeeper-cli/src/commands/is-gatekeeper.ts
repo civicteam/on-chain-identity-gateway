@@ -29,7 +29,7 @@ export default class IsGatekeeper extends Command {
 
     const parsedFlags = parseFlags({...flags, readOnly: true})
 
-    if (!parsedFlags.gatekeeperNetwork) {
+    if (parsedFlags.gatekeeperNetwork === undefined) {
       console.log('Usage:', IsGatekeeper.examples)
       throw new Error('Gatekeeper network not specified')
     }
