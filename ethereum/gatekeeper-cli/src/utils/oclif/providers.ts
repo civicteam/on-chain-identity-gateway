@@ -29,6 +29,10 @@ export const networks = {
     url: 'https://polygon-mumbai.infura.io/v3/',
     chainId: 80_001,
   },
+  polygonAmoy: {
+    url: 'https://polygon-amoy.infura.io/v3/',
+    chainId: 80_002,
+  },
   polygon: {
     url: 'https://polygon-mainnet.infura.io/v3/',
     chainId: 137,
@@ -172,7 +176,7 @@ export const getProvider = function (
 ): BaseProvider {
   if (network === 'localhost') return getLocalhostProvider()
 
-  const url = networks[network].url
+  const url = process.env.RPC ?? networks[network].url
   if (url.includes('infura')) {
     return new ExtendedInfuraProvider(network, process.env.INFURA_API_KEY)
   }
