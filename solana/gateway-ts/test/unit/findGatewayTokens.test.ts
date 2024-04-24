@@ -41,7 +41,7 @@ describe("findGatewayTokens", () => {
       const findGatewayTokensResponse = await findGatewayTokens(
         connection,
         owner,
-        gatekeeperNetworkKey
+        gatekeeperNetworkKey,
       );
       expect(findGatewayTokensResponse).to.deep.equal([]);
     });
@@ -51,7 +51,7 @@ describe("findGatewayTokens", () => {
       const findGatewayTokensResponse = await findGatewayTokens(
         connection,
         owner,
-        gatekeeperNetworkKey
+        gatekeeperNetworkKey,
       );
       expect(findGatewayTokensResponse).to.deep.equal([]);
     });
@@ -67,13 +67,13 @@ describe("findGatewayTokens", () => {
               owner,
               owner,
               gatekeeperNetworkKey,
-              gatekeeperKey
+              gatekeeperKey,
             ),
           ]);
           const findGatewayTokensResponse = await findGatewayTokens(
             connection,
             owner,
-            gatekeeperNetworkKey
+            gatekeeperNetworkKey,
           );
           expect(findGatewayTokensResponse).to.deep.equal([]);
         });
@@ -88,13 +88,13 @@ describe("findGatewayTokens", () => {
               testPubKey,
               owner,
               gatekeeperNetworkKey,
-              gatekeeperKey
+              gatekeeperKey,
             ),
           ]);
           const findGatewayTokensResponse = await findGatewayTokens(
             connection,
             owner,
-            gatekeeperNetworkKey
+            gatekeeperNetworkKey,
           );
           expect(findGatewayTokensResponse.length).to.equal(1);
           expect(findGatewayTokensResponse[0]).to.deep.equal({
@@ -120,14 +120,14 @@ describe("findGatewayTokens", () => {
               testPubKey,
               owner,
               gatekeeperNetworkKey,
-              gatekeeperKey
+              gatekeeperKey,
             ),
           ]);
           const findGatewayTokensResponse = await findGatewayTokens(
             connection,
             owner,
             gatekeeperNetworkKey,
-            true
+            true,
           );
           expect(findGatewayTokensResponse).to.containSubset([
             {
@@ -151,21 +151,21 @@ describe("findGatewayTokens", () => {
               testPubKey,
               owner,
               gatekeeperNetworkKey,
-              gatekeeperKey
+              gatekeeperKey,
             ),
             getAccountWithState(
               new GatewayTokenState({ revoked: new Revoked({}) }),
               revokedPubKey,
               owner,
               gatekeeperNetworkKey,
-              gatekeeperKey
+              gatekeeperKey,
             ),
           ]);
           const findGatewayTokensResponse = await findGatewayTokens(
             connection,
             owner,
             gatekeeperNetworkKey,
-            true
+            true,
           );
           expect(findGatewayTokensResponse.length).to.eq(2);
           expect(findGatewayTokensResponse).to.containSubset([

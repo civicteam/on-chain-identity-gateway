@@ -9,7 +9,7 @@ const endpoint =
 const connection = new Connection(endpoint, "processed");
 
 const gatekeeperKey = new PublicKey(
-  "G1y4BUXnbSMsdcXbCTMEdRWW9Th9tU9WfAmgbPDX7rRG"
+  "G1y4BUXnbSMsdcXbCTMEdRWW9Th9tU9WfAmgbPDX7rRG",
 );
 
 const networkKey = new PublicKey(process.argv[2]);
@@ -18,7 +18,7 @@ const networkKey = new PublicKey(process.argv[2]);
   const gatekeeperAccount = await gatekeeperExists(
     connection,
     gatekeeperKey,
-    networkKey
+    networkKey,
   );
   if (!gatekeeperAccount) throw new Error("No account found");
   console.log("account exists");

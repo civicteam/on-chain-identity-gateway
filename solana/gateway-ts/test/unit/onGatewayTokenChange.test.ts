@@ -86,7 +86,7 @@ describe("onGatewayTokenChange", () => {
       const onGatewayTokenChangeId = onGatewayTokenChange(
         connection,
         gatewayTokenKey,
-        callback
+        callback,
       );
 
       // trigger a gateway token change event
@@ -122,7 +122,7 @@ describe("onGatewayTokenChange", () => {
       const onGatewayTokenChangeId = onGatewayTokenChange(
         connection,
         gatewayTokenKey,
-        () => {}
+        () => {},
       );
 
       // remove the token event listener

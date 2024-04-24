@@ -16,7 +16,7 @@ import { mapEnumToFeatureName, NetworkFeature } from "./GatewayNetworkData";
  */
 export const getGatekeeperAccountAddress = (
   authority: PublicKey,
-  network: PublicKey
+  network: PublicKey,
 ): PublicKey =>
   PublicKey.findProgramAddressSync(
     [
@@ -24,7 +24,7 @@ export const getGatekeeperAccountAddress = (
       network.toBuffer(),
       Buffer.from(GATEKEEPER_NONCE_SEED_STRING, "utf8"),
     ],
-    PROGRAM_ID
+    PROGRAM_ID,
   )[0];
 
 /**
@@ -36,12 +36,12 @@ export const getGatekeeperAccountAddress = (
 export const getGatewayTokenAddressForOwnerAndGatekeeperNetwork = (
   owner: PublicKey,
   gatekeeperNetwork: PublicKey,
-  index = 0
+  index = 0,
 ): PublicKey => {
   // The index is converted to an 8-byte uint array. Ensure no overflow here.
   if (index > 2 ** (8 * 8)) {
     throw new Error(
-      "index must be < max(8 bytes) when calling getGatewayTokenAddressForOwnerAndGatekeeperNetwork."
+      "index must be < max(8 bytes) when calling getGatewayTokenAddressForOwnerAndGatekeeperNetwork.",
     );
   }
 
@@ -52,7 +52,7 @@ export const getGatewayTokenAddressForOwnerAndGatekeeperNetwork = (
     throw new Error(
       "Seed has length " +
         paddedSeed.length +
-        " instead of 8 when calling getGatewayTokenAddressForOwnerAndGatekeeperNetwork."
+        " instead of 8 when calling getGatewayTokenAddressForOwnerAndGatekeeperNetwork.",
     );
   }
   const seeds = [
@@ -84,7 +84,7 @@ function fromGatewayTokenState(state: GatewayTokenState): State {
 
 export const dataToGatewayToken = (
   data: GatewayTokenData,
-  publicKey: PublicKey
+  publicKey: PublicKey,
 ): GatewayToken =>
   new GatewayToken(
     data.issuingGatekeeper.toPublicKey(),
@@ -93,7 +93,7 @@ export const dataToGatewayToken = (
     fromGatewayTokenState(data.state),
     publicKey,
     PROGRAM_ID,
-    data.expiry?.toNumber()
+    data.expiry?.toNumber(),
   );
 
 /**
@@ -103,7 +103,7 @@ export const dataToGatewayToken = (
  */
 export const removeAccountChangeListener = (
   connection: Connection,
-  id: number
+  id: number,
 ): Promise<void> => connection.removeAccountChangeListener(id);
 
 /**
@@ -115,15 +115,15 @@ export const removeAccountChangeListener = (
 export const gatekeeperExists = async (
   connection: Connection,
   gatekeeperAuthority: PublicKey,
-  gatekeeperNetwork: PublicKey
+  gatekeeperNetwork: PublicKey,
 ): Promise<boolean> => {
   const gatekeeperAccount = getGatekeeperAccountAddress(
     gatekeeperAuthority,
-    gatekeeperNetwork
+    gatekeeperNetwork,
   );
   const account = await connection.getAccountInfo(
     gatekeeperAccount,
-    SOLANA_COMMITMENT
+    SOLANA_COMMITMENT,
   );
 
   return account != null && PROGRAM_ID.equals(account.owner);
@@ -156,12 +156,12 @@ export const numToBuffer = (num: number): Buffer => {
  */
 export const getFeatureAccountAddress = (
   feature: NetworkFeature,
-  network: PublicKey
+  network: PublicKey,
 ): PublicKey => {
   const featureName = mapEnumToFeatureName(feature.enum);
 
   return PublicKey.findProgramAddressSync(
     [network.toBytes(), Buffer.from(featureName, "utf8")],
-    PROGRAM_ID
+    PROGRAM_ID,
   )[0];
 };

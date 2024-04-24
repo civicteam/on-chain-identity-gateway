@@ -51,7 +51,7 @@ const fetchPage = async (page?: number): Promise<GatewayToken[]> => {
     walletAddress,
     gatekeeperNetwork,
     false,
-    page
+    page,
   );
 
   if (tokens.length > 0) {
@@ -66,7 +66,7 @@ const fetchPage = async (page?: number): Promise<GatewayToken[]> => {
 
 (async () => {
   console.log(
-    `Owner${SEPARATOR}Gatekeeper Network${SEPARATOR}Issuing Gatekeeper${SEPARATOR}Valid`
+    `Owner${SEPARATOR}Gatekeeper Network${SEPARATOR}Issuing Gatekeeper${SEPARATOR}Valid`,
   );
   if (process.env.PAGINATE) {
     for (let i = 0; i <= 255; i++) {

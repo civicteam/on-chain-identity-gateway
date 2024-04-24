@@ -11,12 +11,9 @@ import {
 } from "@identity.com/solana-gateway-ts";
 import { SendableDataTransaction, SendableTransaction } from "../util";
 import { HashOrNonce } from "../util/connection";
-import {
-  getOrCreateBlockhashOrNonce,
-  
-} from "../util/transaction";
+import { getOrCreateBlockhashOrNonce } from "../util/transaction";
 import { SOLANA_COMMITMENT } from "../util/constants";
-import {TransactionOptions} from "../util/types";
+import { TransactionOptions } from "../util/types";
 
 /**
  * Encapsulates the actions performed by a gatekeeper network authority
@@ -29,11 +26,11 @@ export class GatekeeperNetworkService {
    */
   constructor(
     private readonly connection: Connection,
-    private gatekeeperNetwork: Keypair
+    private gatekeeperNetwork: Keypair,
   ) {}
 
   private async optionsWithDefaults(
-    options: TransactionOptions = {}
+    options: TransactionOptions = {},
   ): Promise<Required<TransactionOptions>> {
     const defaultOptions = {
       feePayer: this.gatekeeperNetwork.publicKey,
@@ -44,7 +41,7 @@ export class GatekeeperNetworkService {
 
     const blockhashOrNonce = await getOrCreateBlockhashOrNonce(
       this.connection,
-      defaultOptions.blockhashOrNonce
+      defaultOptions.blockhashOrNonce,
     );
 
     return {
@@ -62,12 +59,12 @@ export class GatekeeperNetworkService {
    */
   async addGatekeeper(
     gatekeeperAuthority: PublicKey,
-    options?: TransactionOptions
+    options?: TransactionOptions,
   ): Promise<SendableDataTransaction<PublicKey>> {
     const normalizedOptions = await this.optionsWithDefaults(options);
     const gatekeeperAccount = getGatekeeperAccountAddress(
       gatekeeperAuthority,
-      this.gatekeeperNetwork.publicKey
+      this.gatekeeperNetwork.publicKey,
     );
 
     const transaction = new Transaction().add(
@@ -75,8 +72,8 @@ export class GatekeeperNetworkService {
         normalizedOptions.rentPayer,
         gatekeeperAccount,
         gatekeeperAuthority,
-        this.gatekeeperNetwork.publicKey
-      )
+        this.gatekeeperNetwork.publicKey,
+      ),
     );
 
     return new SendableTransaction(this.connection, transaction)
@@ -88,12 +85,12 @@ export class GatekeeperNetworkService {
 
   async revokeGatekeeper(
     gatekeeperAuthority: PublicKey,
-    options?: TransactionOptions
+    options?: TransactionOptions,
   ): Promise<SendableDataTransaction<PublicKey>> {
     const normalizedOptions = await this.optionsWithDefaults(options);
     const gatekeeperAccount = getGatekeeperAccountAddress(
       gatekeeperAuthority,
-      this.gatekeeperNetwork.publicKey
+      this.gatekeeperNetwork.publicKey,
     );
 
     const transaction = new Transaction().add(
@@ -101,8 +98,8 @@ export class GatekeeperNetworkService {
         normalizedOptions.rentPayer,
         gatekeeperAccount,
         gatekeeperAuthority,
-        this.gatekeeperNetwork.publicKey
-      )
+        this.gatekeeperNetwork.publicKey,
+      ),
     );
 
     return new SendableTransaction(this.connection, transaction)
@@ -121,11 +118,10 @@ export class GatekeeperNetworkService {
   async hasGatekeeper(gatekeeperAuthority: PublicKey): Promise<boolean> {
     const gatekeeperAccount = getGatekeeperAccountAddress(
       gatekeeperAuthority,
-      this.gatekeeperNetwork.publicKey
+      this.gatekeeperNetwork.publicKey,
     );
-    const gatekeeperAccountInfo = await this.connection.getAccountInfo(
-      gatekeeperAccount
-    );
+    const gatekeeperAccountInfo =
+      await this.connection.getAccountInfo(gatekeeperAccount);
 
     return Boolean(gatekeeperAccountInfo);
   }
@@ -141,19 +137,19 @@ export class GatekeeperNetworkService {
   async addNetworkFeature(
     hashOrNonce: HashOrNonce,
     feature: NetworkFeature,
-    options?: TransactionOptions
+    options?: TransactionOptions,
   ): Promise<SendableDataTransaction<PublicKey>> {
     const normalizedOptions = await this.optionsWithDefaults(options);
     const instruction = await addFeatureToNetwork(
       normalizedOptions.rentPayer,
       this.gatekeeperNetwork.publicKey,
-      feature
+      feature,
     );
     const transaction = new Transaction().add(instruction);
 
     return new SendableTransaction(this.connection, transaction)
       .withData(() =>
-        getFeatureAccountAddress(feature, this.gatekeeperNetwork.publicKey)
+        getFeatureAccountAddress(feature, this.gatekeeperNetwork.publicKey),
       )
       .feePayer(normalizedOptions.feePayer)
       .addHashOrNonce(normalizedOptions.blockhashOrNonce)
@@ -171,20 +167,20 @@ export class GatekeeperNetworkService {
   async removeNetworkFeature(
     hashOrNonce: HashOrNonce,
     feature: NetworkFeature,
-    options?: TransactionOptions
+    options?: TransactionOptions,
   ): Promise<SendableDataTransaction<PublicKey>> {
     const normalizedOptions = await this.optionsWithDefaults(options);
     const transaction = new Transaction().add(
       await removeFeatureFromNetwork(
         normalizedOptions.rentPayer,
         this.gatekeeperNetwork.publicKey,
-        feature
-      )
+        feature,
+      ),
     );
 
     return new SendableTransaction(this.connection, transaction)
       .withData(() =>
-        getFeatureAccountAddress(feature, this.gatekeeperNetwork.publicKey)
+        getFeatureAccountAddress(feature, this.gatekeeperNetwork.publicKey),
       )
       .feePayer(normalizedOptions.feePayer)
       .addHashOrNonce(normalizedOptions.blockhashOrNonce)
@@ -201,7 +197,7 @@ export class GatekeeperNetworkService {
     return featureExists(
       this.connection,
       feature,
-      this.gatekeeperNetwork.publicKey
+      this.gatekeeperNetwork.publicKey,
     );
   }
 }
@@ -226,7 +222,7 @@ export class SimpleGatekeeperNetworkService {
    */
   async addGatekeeper(
     gatekeeperAuthority: PublicKey,
-    options?: TransactionOptions
+    options?: TransactionOptions,
   ): Promise<PublicKey | null> {
     return this.gns
       .addGatekeeper(gatekeeperAuthority, options)
@@ -243,7 +239,7 @@ export class SimpleGatekeeperNetworkService {
    */
   async revokeGatekeeper(
     gatekeeperAuthority: PublicKey,
-    options?: TransactionOptions
+    options?: TransactionOptions,
   ): Promise<PublicKey | null> {
     return this.gns
       .revokeGatekeeper(gatekeeperAuthority, options)
@@ -262,7 +258,7 @@ export class SimpleGatekeeperNetworkService {
   async addNetworkFeature(
     hashOrNonce: HashOrNonce,
     feature: NetworkFeature,
-    options?: TransactionOptions
+    options?: TransactionOptions,
   ): Promise<PublicKey | null> {
     return this.gns
       .addNetworkFeature(hashOrNonce, feature, options)
@@ -281,7 +277,7 @@ export class SimpleGatekeeperNetworkService {
   async removeNetworkFeature(
     hashOrNonce: HashOrNonce,
     feature: NetworkFeature,
-    options?: TransactionOptions
+    options?: TransactionOptions,
   ): Promise<PublicKey | null> {
     return this.gns
       .removeNetworkFeature(hashOrNonce, feature, options)

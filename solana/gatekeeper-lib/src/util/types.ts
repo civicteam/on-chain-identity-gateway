@@ -1,5 +1,5 @@
-import {Commitment, PublicKey} from "@solana/web3.js";
-import {HashOrNonce} from "./connection";
+import { Commitment, PublicKey } from "@solana/web3.js";
+import { HashOrNonce } from "./connection";
 
 /**
  * Configuration for the charge the gatekeeper makes to the token receipient, if any.
@@ -7,9 +7,9 @@ import {HashOrNonce} from "./connection";
 export type ChargeOption = {
   amount: number; // minor units eg lamports
   splTokenMint?: PublicKey; // if undefined, assume SOL
-  chargePayer: 'FEE_PAYER' | 'RENT_PAYER';
+  chargePayer: "FEE_PAYER" | "RENT_PAYER";
   recipient: PublicKey;
-}
+};
 
 /***
  * Configuration for the charge the gatekeeper may make to the token recipient, per action
@@ -37,4 +37,4 @@ export enum Action {
   REFRESH,
   FREEZE,
   UNFREEZE,
-} 
+}

@@ -11,7 +11,7 @@ export const airdropTo = async (
   connection: Connection,
   publicKey: PublicKey,
   clusterUrl: string,
-  lamports = MIN_AIRDROP_BALANCE
+  lamports = MIN_AIRDROP_BALANCE,
 ): Promise<void> => {
   const balance = await connection.getBalance(publicKey);
   if (balance > MIN_AIRDROP_BALANCE) return;
@@ -38,5 +38,5 @@ export const airdropTo = async (
 
 export const readKey = async (file: string): Promise<Keypair> =>
   Keypair.fromSecretKey(
-    new Uint8Array(JSON.parse(fs.readFileSync(file).toString("utf-8")))
+    new Uint8Array(JSON.parse(fs.readFileSync(file).toString("utf-8"))),
   );

@@ -17,7 +17,7 @@ const getAccountInfoWithState = (
   pubkey: PublicKey,
   ownerKey: PublicKey,
   gatekeeperNetworkKey: PublicKey,
-  gatekeeperKey: PublicKey
+  gatekeeperKey: PublicKey,
 ): AccountInfo<Buffer> => {
   const gtData = new GatewayTokenData({
     state,
@@ -60,11 +60,11 @@ describe("GatewayToken", () => {
       gatewayTokenAccountKey,
       owner,
       gatekeeperNetworkKey,
-      gatekeeperKey
+      gatekeeperKey,
     );
     const gatewayToken = GatewayToken.fromAccount(
       accountInfo,
-      gatewayTokenAccountKey
+      gatewayTokenAccountKey,
     );
 
     expect(gatewayToken.publicKey).to.equal(gatewayTokenAccountKey);
@@ -80,7 +80,7 @@ describe("GatewayToken", () => {
           owner: PROGRAM_ID,
           data: buffer,
         },
-        gatewayTokenAccountKey
+        gatewayTokenAccountKey,
       );
       console.log(gatewayToken);
     });

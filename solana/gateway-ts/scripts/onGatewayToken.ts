@@ -7,12 +7,12 @@
  * ```
  *
  * Use a custom RPC endpoint by setting the CLUSTER_ENDPOINT environment variable.
-*/
+ */
 import { clusterApiUrl, Connection, PublicKey } from "@solana/web3.js";
 import {
-    getGatewayToken,
-    getGatewayTokenAddressForOwnerAndGatekeeperNetwork,
-    onGatewayToken
+  getGatewayToken,
+  getGatewayTokenAddressForOwnerAndGatekeeperNetwork,
+  onGatewayToken,
 } from "../src";
 
 const [gatekeeperNetworkString, walletAddressString] = process.argv.slice(2);
@@ -28,19 +28,20 @@ const walletAddress = walletAddressString
   : undefined;
 
 (async () => {
-    const gatewayTokenAddress = getGatewayTokenAddressForOwnerAndGatekeeperNetwork(
-        walletAddress!,
-        gatekeeperNetwork,
-    )
-    const initialState = await getGatewayToken(connection, gatewayTokenAddress);
-    console.log("Initial state", initialState)
-
-  await onGatewayToken(
-      connection,
+  const gatewayTokenAddress =
+    getGatewayTokenAddressForOwnerAndGatekeeperNetwork(
       walletAddress!,
       gatekeeperNetwork,
-      (gatewayToken) => {
-        console.log("GT:", gatewayToken)
-      }
+    );
+  const initialState = await getGatewayToken(connection, gatewayTokenAddress);
+  console.log("Initial state", initialState);
+
+  await onGatewayToken(
+    connection,
+    walletAddress!,
+    gatekeeperNetwork,
+    (gatewayToken) => {
+      console.log("GT:", gatewayToken);
+    },
   );
 })().catch((error) => console.error(error));

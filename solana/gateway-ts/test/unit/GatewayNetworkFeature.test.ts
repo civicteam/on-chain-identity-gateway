@@ -23,10 +23,10 @@ describe("GatewayNetwork", () => {
 
       const featureAddress = await getFeatureAccountAddress(
         expireFeature,
-        new PublicKey("tibePmPaoTgrs929rWpu755EXaxC7M3SthVCf6GzjZt")
+        new PublicKey("tibePmPaoTgrs929rWpu755EXaxC7M3SthVCf6GzjZt"),
       );
       expect(featureAddress.toBase58()).to.equal(
-        "BNkYz4VZFuNaLey1hF1GCjFfN1p11trYouGPKqwH7ioJ"
+        "BNkYz4VZFuNaLey1hF1GCjFfN1p11trYouGPKqwH7ioJ",
       );
     });
   });

@@ -1,9 +1,9 @@
-import {Connection, } from "@solana/web3.js";
-import {HashOrNonce} from "./connection";
+import { Connection } from "@solana/web3.js";
+import { HashOrNonce } from "./connection";
 
 export const getOrCreateBlockhashOrNonce = (
   connection: Connection,
-  blockhashOrNonce: HashOrNonce | undefined
+  blockhashOrNonce: HashOrNonce | undefined,
 ): Promise<HashOrNonce> => {
   if (blockhashOrNonce) return Promise.resolve(blockhashOrNonce);
   return (
