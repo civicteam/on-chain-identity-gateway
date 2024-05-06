@@ -21,6 +21,14 @@ export type TransactionOptions = {
   rentPayer?: PublicKey; // defaults to the gatekeeper
   commitment?: Commitment; // defaults to SOLANA_COMMITMENT
   blockhashOrNonce?: HashOrNonce; // if not set, calls connection.getLatestBlockhash to get a new blockhash
+  priorityFeeMicroLamports?: number | undefined;
+};
+
+export type RequiredTransactionOptions = Omit<
+  Required<TransactionOptions>,
+  "priorityFeeMicroLamports"
+> & {
+  priorityFeeMicroLamports: number | undefined;
 };
 
 /**
