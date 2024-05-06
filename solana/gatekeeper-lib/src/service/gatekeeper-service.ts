@@ -22,7 +22,7 @@ import {
 
 import { Action, SendableDataTransaction, SendableTransaction } from "../util";
 import { TransactionHolder } from "../util/connection";
-import { SOLANA_COMMITMENT } from "../util/constants";
+import { CU_LIMIT, SOLANA_COMMITMENT } from "../util/constants";
 import { getOrCreateBlockhashOrNonce } from "../util/transaction";
 import {
   GatekeeperConfig,
@@ -129,19 +129,19 @@ export class GatekeeperService {
     return transaction;
   }
 
-  private priorityFee(): TransactionInstruction | null {
+  private withPriorityFee(): TransactionInstruction[] {
     if (!this.config.priorityFeeMicroLamports) {
-      return null;
+      return [];
     }
 
-    return ComputeBudgetProgram.setComputeUnitPrice({
-      microLamports: this.config.priorityFeeMicroLamports,
-    });
-  }
-
-  private withPriorityFee(): TransactionInstruction[] {
-    const priorityFee = this.priorityFee();
-    return priorityFee ? [priorityFee] : [];
+    return [
+      ComputeBudgetProgram.setComputeUnitLimit({
+        units: CU_LIMIT,
+      }),
+      ComputeBudgetProgram.setComputeUnitPrice({
+        microLamports: this.config.priorityFeeMicroLamports,
+      }),
+    ];
   }
 
   private async issueWithSeed(
