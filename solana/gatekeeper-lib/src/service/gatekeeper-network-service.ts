@@ -13,7 +13,7 @@ import { SendableDataTransaction, SendableTransaction } from "../util";
 import { HashOrNonce } from "../util/connection";
 import { getOrCreateBlockhashOrNonce } from "../util/transaction";
 import { SOLANA_COMMITMENT } from "../util/constants";
-import { TransactionOptions } from "../util/types";
+import { RequiredTransactionOptions, TransactionOptions } from "../util/types";
 
 /**
  * Encapsulates the actions performed by a gatekeeper network authority
@@ -31,10 +31,11 @@ export class GatekeeperNetworkService {
 
   private async optionsWithDefaults(
     options: TransactionOptions = {},
-  ): Promise<Required<TransactionOptions>> {
+  ): Promise<RequiredTransactionOptions> {
     const defaultOptions = {
       feePayer: this.gatekeeperNetwork.publicKey,
       rentPayer: this.gatekeeperNetwork.publicKey,
+      priorityFeeMicroLamports: undefined,
       commitment: SOLANA_COMMITMENT,
       ...options,
     };

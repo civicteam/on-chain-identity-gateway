@@ -1,4 +1,5 @@
 import {
+  ComputeBudgetProgram,
   Connection,
   Keypair,
   PublicKey,
@@ -21,9 +22,13 @@ import {
 
 import { Action, SendableDataTransaction, SendableTransaction } from "../util";
 import { TransactionHolder } from "../util/connection";
-import { SOLANA_COMMITMENT } from "../util/constants";
+import { CU_LIMIT, SOLANA_COMMITMENT } from "../util/constants";
 import { getOrCreateBlockhashOrNonce } from "../util/transaction";
-import { GatekeeperConfig, TransactionOptions } from "../util/types";
+import {
+  GatekeeperConfig,
+  RequiredTransactionOptions,
+  TransactionOptions,
+} from "../util/types";
 import { generateChargeInstruction } from "../util/charge";
 
 /**
@@ -46,11 +51,12 @@ export class GatekeeperService {
 
   private async optionsWithDefaults(
     options: TransactionOptions = {},
-  ): Promise<Required<TransactionOptions>> {
+  ): Promise<RequiredTransactionOptions> {
     const defaultOptions = {
       feePayer: this.gatekeeperAuthority.publicKey,
       rentPayer: this.gatekeeperAuthority.publicKey,
       commitment: SOLANA_COMMITMENT,
+      priorityFeeMicroLamports: undefined,
       ...this.config,
       ...options,
     };
@@ -123,6 +129,21 @@ export class GatekeeperService {
     return transaction;
   }
 
+  private withPriorityFee(): TransactionInstruction[] {
+    if (!this.config.priorityFeeMicroLamports) {
+      return [];
+    }
+
+    return [
+      ComputeBudgetProgram.setComputeUnitLimit({
+        units: CU_LIMIT,
+      }),
+      ComputeBudgetProgram.setComputeUnitPrice({
+        microLamports: this.config.priorityFeeMicroLamports,
+      }),
+    ];
+  }
+
   private async issueWithSeed(
     owner: PublicKey,
     seed?: Uint8Array,
@@ -141,6 +162,7 @@ export class GatekeeperService {
 
     const expireTime = this.getDefaultExpireTime();
     const transaction = new Transaction().add(
+      ...this.withPriorityFee(),
       issue(
         gatewayTokenAddress,
         normalizedOptions.rentPayer,
@@ -196,7 +218,10 @@ export class GatekeeperService {
     options?: TransactionOptions,
   ): Promise<SendableDataTransaction<GatewayToken>> {
     const normalizedOptions = await this.optionsWithDefaults(options);
-    const transaction = new Transaction().add(instruction);
+    const transaction = new Transaction().add(
+      ...this.withPriorityFee(),
+      instruction,
+    );
 
     await this.addChargeOption(action, normalizedOptions, transaction);
 
@@ -345,7 +370,10 @@ export class GatekeeperService {
       this.gatekeeperAuthority.publicKey,
     );
     const normalizedOptions = await this.optionsWithDefaults(options);
-    const transaction = new Transaction().add(instruction);
+    const transaction = new Transaction().add(
+      ...this.withPriorityFee(),
+      instruction,
+    );
 
     return new SendableTransaction(this.connection, transaction)
       .withData(() => {})
