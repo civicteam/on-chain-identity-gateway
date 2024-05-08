@@ -6,7 +6,12 @@ export {
   SentTransaction,
   SendableTransaction,
   SendableDataTransaction,
-  ExtendedCluster
+  ExtendedCluster,
 } from "./connection";
 export * as constants from "./constants";
-export { ChargeOptions, Action, GatekeeperConfig, TransactionOptions } from "./types";
+export {
+  ChargeOptions,
+  Action,
+  GatekeeperConfig,
+  TransactionOptions,
+} from "./types";

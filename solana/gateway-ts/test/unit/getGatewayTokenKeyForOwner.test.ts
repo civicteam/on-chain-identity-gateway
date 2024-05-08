@@ -32,7 +32,7 @@ describe("getGatewayTokenKeyForOwner", function () {
     gatekeeperNetwork = Keypair.generate();
     gatekeeperAccount = await getGatekeeperAccountAddress(
       gatekeeperAuthority.publicKey,
-      gatekeeperNetwork.publicKey
+      gatekeeperNetwork.publicKey,
     );
   });
 
@@ -41,7 +41,7 @@ describe("getGatewayTokenKeyForOwner", function () {
       getGatewayTokenAddressForOwnerAndGatekeeperNetwork(
         owner,
         gatekeeperNetwork.publicKey,
-        1e50
+        1e50,
       );
     expect(shouldFail).to.throw("index must be < max(8 bytes)");
   });
@@ -53,7 +53,7 @@ describe("getGatewayTokenKeyForOwner", function () {
       payer = Keypair.generate();
       await connection.confirmTransaction(
         await connection.requestAirdrop(payer.publicKey, LAMPORTS_PER_SOL),
-        "confirmed"
+        "confirmed",
       );
     });
 
@@ -68,28 +68,28 @@ describe("getGatewayTokenKeyForOwner", function () {
                 payer.publicKey,
                 gatekeeperAccount,
                 gatekeeperAuthority.publicKey,
-                gatekeeperNetwork.publicKey
-              )
+                gatekeeperNetwork.publicKey,
+              ),
             )
             .add(
               issue(
                 await getGatewayTokenAddressForOwnerAndGatekeeperNetwork(
                   owner,
-                  gatekeeperNetwork.publicKey
+                  gatekeeperNetwork.publicKey,
                 ),
                 payer.publicKey,
                 gatekeeperAccount,
                 owner,
                 gatekeeperAuthority.publicKey,
-                gatekeeperNetwork.publicKey
-              )
+                gatekeeperNetwork.publicKey,
+              ),
             ),
           [payer, gatekeeperNetwork, gatekeeperAuthority],
           {
             preflightCommitment: "confirmed",
-          }
+          },
         ),
-        "confirmed"
+        "confirmed",
       );
 
       expect(transaction.value.err).to.be.null;

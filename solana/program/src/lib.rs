@@ -5,9 +5,9 @@ pub mod processor;
 
 #[macro_use]
 pub mod error;
-pub mod borsh;
 pub mod instruction;
 pub mod networks;
+pub mod program_borsh;
 pub mod state;
 
 #[cfg(test)]
@@ -16,7 +16,6 @@ mod test_utils;
 use crate::instruction::expire_token;
 use crate::state::{GatewayTokenAccess, GatewayTokenFunctions};
 use crate::{
-    borsh as program_borsh,
     error::GatewayError,
     state::{GatewayToken, GatewayTokenState},
 };
@@ -236,7 +235,6 @@ pub mod tests {
     use super::*;
     use crate::state::{get_expire_address_with_seed, get_gateway_token_address_with_seed};
     use crate::test_utils::test_utils_stubs::{init, now};
-    use ::borsh::BorshSerialize;
     use std::{cell::RefCell, rc::Rc};
 
     fn expired_gateway_token() -> GatewayToken {
@@ -338,7 +336,7 @@ pub mod tests {
         token.gatekeeper_network = network;
         let gateway_token = get_gateway_token_address_with_seed(&owner, &None, &network);
         let expire = get_expire_address_with_seed(&network);
-        let mut token_data = token.try_to_vec().unwrap();
+        let mut token_data = borsh::to_vec(&token).unwrap();
         let result = Gateway::verify_and_expire_token_with_eval(
             AccountInfo::new(
                 &Gateway::program_id(),

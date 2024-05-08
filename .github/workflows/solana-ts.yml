@@ -12,7 +12,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        node: ["16.x"]
+        node: ["20.x"]
         os: [ubuntu-latest]
 
     defaults:
@@ -54,8 +54,8 @@ jobs:
     strategy:
       matrix:
         # This should match rust-toolchain.toml ( actions-rs/toolchain@v1 does not pick it up directly in monorepos )
-        rust: ["1.69"]
-        node: ["16.x"]
+        rust: ["1.74"]
+        node: ["20.x"]
         solana: ["edge"]
         os: [ubuntu-latest]
 

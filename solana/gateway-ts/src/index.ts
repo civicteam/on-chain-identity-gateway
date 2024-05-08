@@ -49,7 +49,7 @@ export const findGatewayTokens = async (
   owner: PublicKey | undefined,
   gatekeeperNetwork: PublicKey,
   includeRevoked = false,
-  page?: number
+  page?: number,
 ): Promise<GatewayToken[]> => {
   // if owner is specified, filter on the gateway token owner
   const ownerFilter = owner
@@ -80,7 +80,7 @@ export const findGatewayTokens = async (
       : undefined;
 
   const filters = [ownerFilter, gatekeeperNetworkFilter, pageFilter].filter(
-    Boolean
+    Boolean,
   ) as GetProgramAccountsFilter[];
 
   const accountsResponse = await connection.getProgramAccounts(PROGRAM_ID, {
@@ -98,7 +98,7 @@ export const findGatewayTokens = async (
   return accountsResponse
     .map(toGatewayToken)
     .filter(
-      (gatewayToken) => gatewayToken.state !== State.REVOKED || includeRevoked
+      (gatewayToken) => gatewayToken.state !== State.REVOKED || includeRevoked,
     );
 };
 
@@ -121,21 +121,21 @@ export const findGatewayTokensForOwnerAndNetwork = async (
   gatekeeperNetwork: PublicKey,
   includeRevoked = false,
   offset = 0,
-  page = 5 // by default, assume a user has max five GTs for a given network
+  page = 5, // by default, assume a user has max five GTs for a given network
 ): Promise<GatewayToken[]> => {
   const addresses = await Promise.all(
     R.range(offset, offset + page).map((index) =>
       getGatewayTokenAddressForOwnerAndGatekeeperNetwork(
         owner,
         gatekeeperNetwork,
-        index
-      )
-    )
+        index,
+      ),
+    ),
   );
 
   const rawAccounts = await connection.getMultipleAccountsInfo(
     addresses,
-    SOLANA_COMMITMENT
+    SOLANA_COMMITMENT,
   );
 
   return (
@@ -147,14 +147,14 @@ export const findGatewayTokensForOwnerAndNetwork = async (
       ])
       // filter out null accounts
       .filter(
-        (tuple): tuple is [AccountInfo<Buffer>, PublicKey] => tuple[0] !== null
+        (tuple): tuple is [AccountInfo<Buffer>, PublicKey] => tuple[0] !== null,
       )
       // convert to GatewayToken
       .map(([account, gatewayTokenAddress]) =>
         dataToGatewayToken(
           GatewayTokenData.fromAccount(account.data),
-          gatewayTokenAddress
-        )
+          gatewayTokenAddress,
+        ),
       )
       // Filter out revoked GTs if requested
       .filter((gt) => gt.state !== State.REVOKED || includeRevoked)
@@ -175,13 +175,13 @@ export const findGatewayToken = async (
   connection: Connection,
   owner: PublicKey,
   gatekeeperNetwork: PublicKey,
-  includeRevoked = false
+  includeRevoked = false,
 ): Promise<GatewayToken | null> => {
   const gatewayTokens = await findGatewayTokensForOwnerAndNetwork(
     connection,
     owner,
     gatekeeperNetwork,
-    includeRevoked
+    includeRevoked,
   );
 
   return gatewayTokens.length > 0 ? gatewayTokens[0] : null;
@@ -199,19 +199,19 @@ export const onGatewayTokenChange = (
   connection: Connection,
   gatewayTokenAddress: PublicKey,
   callback: (gatewayToken: GatewayToken) => void,
-  commitment: Commitment = SOLANA_COMMITMENT
+  commitment: Commitment = SOLANA_COMMITMENT,
 ): number => {
   const accountCallback = (accountInfo: AccountInfo<Buffer>) => {
     const gatewayToken = dataToGatewayToken(
       GatewayTokenData.fromAccount(accountInfo.data),
-      gatewayTokenAddress
+      gatewayTokenAddress,
     );
     callback(gatewayToken);
   };
   return connection.onAccountChange(
     gatewayTokenAddress,
     accountCallback,
-    commitment
+    commitment,
   );
 };
 
@@ -231,20 +231,20 @@ export const onGatewayToken = (
   gatekeeperNetwork: PublicKey,
   callback: (gatewayToken: GatewayToken) => void,
   commitment: Commitment = SOLANA_COMMITMENT,
-  seed = 0
+  seed = 0,
 ): number => {
   const gatewayTokenAddress =
     getGatewayTokenAddressForOwnerAndGatekeeperNetwork(
       owner,
       gatekeeperNetwork,
-      seed
+      seed,
     );
 
   return onGatewayTokenChange(
     connection,
     gatewayTokenAddress,
     callback,
-    commitment
+    commitment,
   );
 };
 
@@ -255,18 +255,18 @@ export const onGatewayToken = (
  */
 export const getGatewayToken = async (
   connection: Connection,
-  gatewayTokenAddress: PublicKey
+  gatewayTokenAddress: PublicKey,
 ): Promise<GatewayToken | null> => {
   const account = await connection.getAccountInfo(
     gatewayTokenAddress,
-    SOLANA_COMMITMENT
+    SOLANA_COMMITMENT,
   );
 
   if (!account) return null;
 
   return dataToGatewayToken(
     GatewayTokenData.fromAccount(account.data),
-    gatewayTokenAddress
+    gatewayTokenAddress,
   );
 };
 
@@ -279,13 +279,13 @@ export const getGatewayToken = async (
 export const featureExists = async (
   connection: Connection,
   feature: NetworkFeature,
-  network: PublicKey
+  network: PublicKey,
 ): Promise<boolean> => {
   const featureAccountAddress = getFeatureAccountAddress(feature, network);
 
   const account = await connection.getAccountInfo(
     featureAccountAddress,
-    SOLANA_COMMITMENT
+    SOLANA_COMMITMENT,
   );
 
   return account != null && PROGRAM_ID.equals(account.owner);

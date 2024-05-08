@@ -5,12 +5,13 @@ import {
   PublicKey,
   Transaction,
 } from "@solana/web3.js";
-import { expireToken, findGatewayToken, getGatewayToken } from "../src";
+import { expireToken, getGatewayToken } from "../src";
 import * as os from "os";
 
 const gatewayToken = new PublicKey(process.argv[2]);
 const keypair = Keypair.fromSecretKey(
-  Buffer.from(require(os.homedir() + "/.config/solana/id.json"))
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  Buffer.from(require(os.homedir() + "/.config/solana/id.json")),
 );
 
 (async () => {
@@ -28,12 +29,12 @@ const keypair = Keypair.fromSecretKey(
   const instruction = expireToken(
     gatewayToken,
     keypair.publicKey,
-    token.gatekeeperNetwork
+    token.gatekeeperNetwork,
   );
 
   const tx = await connection.sendTransaction(
     new Transaction().add(instruction),
-    [keypair]
+    [keypair],
   );
 
   console.log(tx);

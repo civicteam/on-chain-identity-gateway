@@ -1,14 +1,15 @@
 import { Connection, Keypair, PublicKey } from "@solana/web3.js";
 import { SOLANA_COMMITMENT } from "../src/util/constants";
 import { airdropTo } from "../src/util";
-import { GatekeeperNetworkService } from "../src/service/GatekeeperNetworkService";
-import { GatekeeperService } from "../src/service/GatekeeperService";
+import { GatekeeperNetworkService } from "../src/service/gatekeeper-network-service";
+import { GatekeeperService } from "../src/service/gatekeeper-service";
 import { homedir } from "os";
 import * as path from "path";
 import { argv } from "yargs";
 /**
  * Usage: ts-node ./scripts/testGatewayTokenStates.ts
  */
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const mySecretKey = require(path.join(
   homedir(),
   ".config",

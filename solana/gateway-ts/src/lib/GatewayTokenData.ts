@@ -34,7 +34,7 @@ export class GatewayTokenData extends Assignable {
   static empty(owner?: PublicKey): GatewayTokenData {
     return new GatewayTokenData({
       owner: AssignablePublicKey.fromPublicKey(
-        owner || Keypair.generate().publicKey
+        owner || Keypair.generate().publicKey,
       ),
     });
   }

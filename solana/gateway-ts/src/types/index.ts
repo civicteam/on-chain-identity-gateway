@@ -20,7 +20,7 @@ export class GatewayToken {
     readonly state: State,
     readonly publicKey: PublicKey,
     readonly programId: PublicKey,
-    readonly expiryTime?: number
+    readonly expiryTime?: number,
   ) {}
 
   isValid(): boolean {
@@ -34,7 +34,7 @@ export class GatewayToken {
 
   static fromAccount(
     accountInfo: AccountInfo<Buffer>,
-    key: PublicKey
+    key: PublicKey,
   ): GatewayToken {
     const parsedData = GatewayTokenData.fromAccount(accountInfo.data);
     return dataToGatewayToken(parsedData, key);
@@ -54,7 +54,7 @@ export class GatewayToken {
       state,
       this.publicKey,
       this.programId,
-      expiryTime || this.expiryTime
+      expiryTime || this.expiryTime,
     );
   }
 }
