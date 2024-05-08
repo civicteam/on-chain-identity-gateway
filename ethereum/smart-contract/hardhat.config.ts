@@ -10,12 +10,14 @@ import '@openzeppelin/hardhat-upgrades';
 import 'hardhat-contract-sizer';
 import './config/tasks';
 import {defaultPath, networks} from "./config/networks";
+import {deterministicDeployment} from "./config/deterministic-deployment";
 
 dotenv.config();
 
 module.exports = {
   defaultNetwork: 'hardhat',
   networks,
+  deterministicDeployment,
   solidity: {
     version: '0.8.19',
     settings: {

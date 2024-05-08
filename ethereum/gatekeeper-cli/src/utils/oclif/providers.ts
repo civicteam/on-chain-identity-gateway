@@ -149,6 +149,14 @@ export const networks = {
     url: 'https://base.llamarpc.com',
     chainId: 8453,
   },
+  oasisSapphireTestnet: {
+    url: 'https://testnet.sapphire.oasis.dev',
+    chainId: 23295,
+  },
+  oasisSapphire: {
+    url: 'https://sapphire.oasis.io',
+    chainId: 23294,
+  }
 }
 
 class ExtendedInfuraProvider extends InfuraProvider {
