@@ -1,4 +1,4 @@
-import { BigNumber, BigNumberish, Overrides } from "ethers";
+import { BigNumberish, Overrides } from "ethers";
 
 import { getExpirationTime } from "../utils/time";
 import {
@@ -6,11 +6,12 @@ import {
   Options,
   ReadOnlyOperation,
   TokenData,
+  TokenState,
+
 } from "../utils/types";
 import { Charge, ChargeType, NULL_CHARGE } from "../utils/charge";
 import { NULL_ADDRESS } from "../utils/constants";
 import { omit } from "ramda";
-import { PayableOverrides } from "@ethersproject/contracts";
 
 /**
  * The main API of the Ethereum Gateway client library.
@@ -42,12 +43,12 @@ export class GatewayTsInternal<
    * @param charge
    * @private
    */
-  private payableOverrides(charge: Charge): PayableOverrides {
+  private payableOverrides(charge: Charge): Overrides {
     const value =
       charge.chargeType === ChargeType.ETH ? charge.value : undefined;
     return {
       ...this.overrides,
-      value,
+      value: value as BigNumberish,
     };
   }
 
@@ -68,8 +69,8 @@ export class GatewayTsInternal<
     owner: string,
     network: bigint,
     onlyActive: boolean = false
-  ): Promise<BigNumber> {
-    const tokenIds: BigNumber[] =
+  ): Promise<bigint> {
+    const tokenIds: bigint[] =
       await this.gatewayTokenContract.getTokenIdsByOwnerAndNetwork(
         owner,
         network,
@@ -102,7 +103,7 @@ export class GatewayTsInternal<
     return this.gatewayTokenContract.renameNetwork(
       network,
       name,
-      this.overrides
+    this.overrides
     );
   }
 
@@ -185,8 +186,8 @@ export class GatewayTsInternal<
   issue(
     owner: string,
     network: bigint,
-    expiry: BigNumberish = 0,
-    bitmask: BigNumberish = 0,
+    expiry: bigint = BigInt(0),
+    bitmask: bigint = BigInt(0),
     charge: Charge = NULL_CHARGE
   ): Promise<O> {
     const expirationTime = expiry > 0 ? getExpirationTime(expiry) : 0;
@@ -224,14 +225,14 @@ export class GatewayTsInternal<
   async refresh(
     owner: string,
     network: bigint,
-    expiry?: number | BigNumber,
+    expiry?: number | BigNumberish,
     charge: Charge = NULL_CHARGE
   ): Promise<O> {
     const tokenId = await this.checkedGetTokenId(owner, network);
     const expirationTime = getExpirationTime(expiry);
     return this.gatewayTokenContract.setExpiration(
-      tokenId,
-      expirationTime,
+      tokenId as BigNumberish,
+      expirationTime as BigNumberish,
       charge,
       this.payableOverrides(charge)
     );
@@ -240,7 +241,7 @@ export class GatewayTsInternal<
   async setBitmask(
     owner: string,
     network: bigint,
-    bitmask: number | BigNumber
+    bitmask: number | BigNumberish
   ): Promise<O> {
     const tokenId = await this.checkedGetTokenId(owner, network);
     return this.gatewayTokenContract.setBitmask(
@@ -271,7 +272,7 @@ export class GatewayTsInternal<
       tokenId,
       bitmask: rawData.bitmask,
       expiration: rawData.expiration,
-      state: rawData.state,
+      state: Number(rawData.state) as TokenState ,
     };
   }
 
@@ -279,7 +280,7 @@ export class GatewayTsInternal<
     owner: string,
     network: bigint,
     onlyActive: boolean = false
-  ): Promise<BigNumber[]> {
+  ): Promise<BigNumberish[]> {
     return this.gatewayTokenContract.getTokenIdsByOwnerAndNetwork(
       owner,
       network,

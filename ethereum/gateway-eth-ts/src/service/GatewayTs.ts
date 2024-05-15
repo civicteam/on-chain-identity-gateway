@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import { Provider } from "@ethersproject/providers";
+import { Provider, Wallet } from "ethers";
 import {
   GatewayToken,
   GatewayToken__factory,
@@ -7,7 +7,6 @@ import {
 } from "../contracts/typechain-types";
 import { GatewayTsInternal } from "./GatewayTsInternal";
 import { ForwarderOptions, GatewayTsForwarder } from "./GatewayTsForwarder";
-import { Wallet } from "ethers";
 import { ContractTransaction } from "ethers";
 import {
   onGatewayTokenChange,

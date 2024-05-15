@@ -1,8 +1,8 @@
 import {
-  BaseProvider,
-  getDefaultProvider,
+  Provider,
   TransactionReceipt,
-} from "@ethersproject/providers";
+  getDefaultProvider,
+} from "ethers";
 import { TokenState } from "../utils";
 import * as assert from "assert";
 import * as dotenv from "dotenv";
@@ -13,10 +13,8 @@ import {
   gatekeeperWallet,
   TEST_GATEWAY_TOKEN_ADDRESS,
 } from "./testUtils";
-import { PopulatedTransaction } from "ethers/lib/ethers";
 import { GatewayTsForwarder } from "./GatewayTsForwarder";
-import { ethers, Wallet } from "ethers";
-import { BigNumber } from "ethers";
+import { ContractTransaction, ContractTransactionReceipt, ethers, Wallet } from "ethers";
 import {
   approveERC20Charge,
   approveInternalERC20Charge,
@@ -28,7 +26,7 @@ dotenv.config();
 
 describe("GatewayTS Forwarder", function () {
   let gateway: GatewayTsForwarder;
-  let provider: BaseProvider;
+  let provider: Provider;
 
   let gatekeeper: Wallet;
   let relayer: Wallet;
@@ -36,15 +34,15 @@ describe("GatewayTS Forwarder", function () {
   const sampleWalletAddress = Wallet.createRandom().address;
 
   const relay = async (
-    fn: () => Promise<PopulatedTransaction>
+    fn: () => Promise<ContractTransaction>
   ): Promise<TransactionReceipt> => {
     const populatedTx = await fn();
     return (await relayer.sendTransaction(populatedTx)).wait();
   };
 
   const estimateGas = async (
-    fn: () => Promise<PopulatedTransaction>
-  ): Promise<BigNumber> => {
+    fn: () => Promise<ContractTransaction>
+  ): Promise<bigint> => {
     const populatedTx = await fn();
     const serialized = JSON.stringify(populatedTx);
 
@@ -62,7 +60,7 @@ describe("GatewayTS Forwarder", function () {
   };
 
   const relaySerialized = async (
-    fn: () => Promise<PopulatedTransaction>
+    fn: () => Promise<ContractTransaction>
   ): Promise<TransactionReceipt> => {
     const populatedTx = await fn();
     const serialized = JSON.stringify(populatedTx);
@@ -85,7 +83,7 @@ describe("GatewayTS Forwarder", function () {
 
   // address of the erc20 token used for testing (obtainable from the output of yarn pretest)
   const ERC20_TOKEN = "0x32CC358eb763B345f565fcf84f2B31a52d6a93D6";
-  const erc20Balance = (address: string): Promise<BigNumber> => {
+  const erc20Balance = (address: string): Promise<bigint> => {
     // check erc20 balance
     const contract = new ethers.Contract(
       ERC20_TOKEN,
@@ -132,26 +130,26 @@ describe("GatewayTS Forwarder", function () {
   });
 
   it("should issue a token with an eth charge", async () => {
-    const gatekeeperBalanceBefore = await gatekeeper.getBalance();
+    const gatekeeperBalanceBefore = await provider.getBalance(gatekeeper);
 
     const wallet = Wallet.createRandom().address;
-    const chargeValue = BigNumber.from(1000);
+    const chargeValue = BigInt(1000);
     const charge = makeWeiCharge(chargeValue, gatekeeper.address);
     await relaySerialized(() =>
       gateway.issue(wallet, gatekeeperNetwork, undefined, undefined, charge)
     );
 
-    const gatekeeperBalanceAfter = await gatekeeper.getBalance();
+    const gatekeeperBalanceAfter = await provider.getBalance(gatekeeper);
 
     assert.equal(
-      chargeValue.toNumber(),
-      gatekeeperBalanceAfter.sub(gatekeeperBalanceBefore).toNumber()
+      chargeValue,
+      gatekeeperBalanceAfter - gatekeeperBalanceBefore
     );
   });
 
   it("should issue a token with an ERC20 charge", async () => {
     const wallet = Wallet.createRandom().address;
-    const chargeValue = BigNumber.from(1000);
+    const chargeValue = BigInt(1000);
 
     const charge = makeERC20Charge(
       chargeValue,
@@ -189,14 +187,14 @@ describe("GatewayTS Forwarder", function () {
 
     // the gatekeeper's balance has gone up
     assert.equal(
-      chargeValue.toNumber(),
-      gatekeeperBalanceAfter.sub(gatekeeperBalanceBefore).toNumber()
+      chargeValue,
+      gatekeeperBalanceAfter - gatekeeperBalanceBefore
     );
 
     // the payer's balance has gone down
     assert.equal(
-      chargeValue.toNumber(),
-      payerBalanceBefore.sub(payerBalanceAfter).toNumber()
+      chargeValue,
+      payerBalanceBefore - payerBalanceAfter
     );
   });
 
@@ -233,28 +231,28 @@ describe("GatewayTS Forwarder", function () {
 
     token = await gateway.getToken(sampleWalletAddress, gatekeeperNetwork);
 
-    assert.equal(BigNumber.from(token.expiration).gt(originalExpiry), true);
+    assert.equal(token.expiration > originalExpiry, true);
   });
 
   it("Test refresh with an eth charge", async () => {
-    const gatekeeperBalanceBefore = await gatekeeper.getBalance();
+    const gatekeeperBalanceBefore = await provider.getBalance(gatekeeper);;
 
     const token = await gateway.getToken(
       sampleWalletAddress,
       gatekeeperNetwork
     );
-    const chargeValue = BigNumber.from(1000);
+    const chargeValue = BigInt(1000);
     const charge = makeWeiCharge(chargeValue, gatekeeper.address);
 
     await relay(() =>
       gateway.refresh(sampleWalletAddress, gatekeeperNetwork, 1000, charge)
     );
 
-    const gatekeeperBalanceAfter = await gatekeeper.getBalance();
+    const gatekeeperBalanceAfter = await provider.getBalance(gatekeeper);;
 
     assert.equal(
-      chargeValue.toNumber(),
-      gatekeeperBalanceAfter.sub(gatekeeperBalanceBefore).toNumber()
+      chargeValue,
+      gatekeeperBalanceAfter - gatekeeperBalanceBefore
     );
   });
 
@@ -276,6 +274,6 @@ describe("GatewayTS Forwarder", function () {
       gateway.issue(sampleWalletAddress, gatekeeperNetwork)
     );
 
-    assert.ok(estimatedGasWithHighLimit.gt(estimatedGasWithNormalLimit));
+    assert.ok(estimatedGasWithHighLimit > estimatedGasWithNormalLimit);
   });
 });

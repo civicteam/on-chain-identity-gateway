@@ -1,3 +1,3 @@
-import { utils } from "ethers";
+import { encodeBytes32String } from "ethers";
 export const toBytes32 = (text: string): string =>
-  utils.formatBytes32String(text);
+  encodeBytes32String(text);

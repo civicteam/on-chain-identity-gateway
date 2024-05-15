@@ -1,5 +1,4 @@
-import { Provider } from "@ethersproject/providers";
-import { Wallet } from "ethers";
+import { Wallet, Provider } from "ethers";
 
 export const isProvider = (
   providerOrWallet: Provider | Wallet

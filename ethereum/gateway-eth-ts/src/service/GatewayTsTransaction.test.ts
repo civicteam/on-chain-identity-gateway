@@ -1,8 +1,3 @@
-import {
-  BaseProvider,
-  getDefaultProvider,
-  TransactionReceipt,
-} from "@ethersproject/providers";
 import { TokenState } from "../utils";
 import * as assert from "assert";
 import * as dotenv from "dotenv";
@@ -13,13 +8,13 @@ import {
   TEST_GATEWAY_TOKEN_ADDRESS,
 } from "./testUtils";
 import { GatewayTsForwarder } from "./GatewayTsForwarder";
-import { Wallet } from "ethers";
+import { getDefaultProvider, Provider, Wallet } from "ethers";
 
 dotenv.config();
 
 describe("GatewayTS Transaction", function () {
   let gateway: GatewayTsForwarder;
-  let provider: BaseProvider;
+  let provider: Provider;
 
   let gatekeeper: Wallet;
 

@@ -1,9 +1,4 @@
-import {
-  BaseProvider,
-  getDefaultProvider,
-  Network,
-} from "@ethersproject/providers";
-import { BigNumber, Wallet } from "ethers";
+import { Wallet, Provider, getDefaultProvider, Network, HDNodeWallet } from "ethers";
 import { TokenData, TokenState } from "../utils";
 import * as assert from "assert";
 import * as dotenv from "dotenv";
@@ -21,7 +16,7 @@ const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 describe("GatewayTS", function () {
   this.timeout(5_000);
   let gateway: GatewayTs;
-  let provider: BaseProvider;
+  let provider: Provider;
   let network: Network;
   let gatekeeper: Wallet;
 
@@ -50,7 +45,8 @@ describe("GatewayTS", function () {
   });
 
   it("should issue a token", async () => {
-    await (await gateway.issue(sampleWalletAddress, gatekeeperNetwork)).wait();
+    const tx = await gateway.issue(sampleWalletAddress, gatekeeperNetwork);
+    await tx
 
     const token = await gateway.getToken(
       sampleWalletAddress,
@@ -64,12 +60,9 @@ describe("GatewayTS", function () {
   it("should tolerate multiple tokens", async () => {
     const walletWithMultipleTokens = Wallet.createRandom().address;
 
-    await (
-      await gateway.issue(walletWithMultipleTokens, gatekeeperNetwork)
-    ).wait();
-    await (
-      await gateway.issue(walletWithMultipleTokens, gatekeeperNetwork)
-    ).wait();
+    const tx = await gateway.issue(walletWithMultipleTokens, gatekeeperNetwork);
+    const sentTx = await provider.sendTransaction(tx);
+    await provider.waitForTransaction(sentTx.hash);
 
     // should fail
     const shouldFail = gateway.checkedGetTokenId(
@@ -95,17 +88,18 @@ describe("GatewayTS", function () {
 
   it("should issue a token with additional parameters", async () => {
     const address = Wallet.createRandom().address;
-    const expiry = BigNumber.from(100);
-    const expectedExpiry = BigNumber.from(Math.floor(Date.now() / 1000 + 100));
-    const mask = BigNumber.from(1);
-    await (
-      await gateway.issue(address, gatekeeperNetwork, expiry, mask)
-    ).wait();
+    const expiry = BigInt(100);
+    const expectedExpiry = BigInt(Math.floor(Date.now() / 1000 + 100));
+    const mask = BigInt(1);
+
+    const tx = await gateway.issue(address, gatekeeperNetwork, expiry, mask)
+    const sentTx = await provider.sendTransaction(tx);
+    await provider.waitForTransaction(sentTx.hash);
 
     const token = await gateway.getToken(address, gatekeeperNetwork);
 
-    assert.equal(token.expiration.toNumber(), expectedExpiry.toNumber());
-    assert.equal(token.bitmask.toNumber(), mask.toNumber());
+    assert.equal(token.expiration, expectedExpiry);
+    assert.equal(token.bitmask, mask);
   });
 
   it("Verify gateway tokens for multiple addresses", async () => {
@@ -122,13 +116,13 @@ describe("GatewayTS", function () {
     let expiredTokenAddress: string;
     before("issue a token with a short-lived expiry", async () => {
       expiredTokenAddress = Wallet.createRandom().address;
-      const expiry = BigNumber.from(1);
-      const expectedExpiry = BigNumber.from(
+      const expiry = BigInt(1);
+      const expectedExpiry = BigInt(
         Math.floor(Date.now() / 1000 + 100)
       );
-      await (
-        await gateway.issue(expiredTokenAddress, gatekeeperNetwork, expiry)
-      ).wait();
+      const tx = await gateway.issue(expiredTokenAddress, gatekeeperNetwork, expiry);
+      const sentTx = await provider.sendTransaction(tx);
+      await provider.waitForTransaction(sentTx.hash);
 
       // wait for the token to expire
       await sleep(101);
@@ -193,7 +187,7 @@ describe("GatewayTS", function () {
       sampleWalletAddress,
       gatekeeperNetwork
     );
-    const targetBitmask = BigNumber.from("0");
+    const targetBitmask = BigInt("0");
     assert.deepEqual(token.bitmask, targetBitmask);
   }).timeout(10_000);
 
@@ -227,7 +221,7 @@ describe("GatewayTS", function () {
 
     token = await gateway.getToken(sampleWalletAddress, gatekeeperNetwork);
 
-    assert.equal(BigNumber.from(token.expiration).gt(originalExpiry), true);
+    assert.equal(token.expiration > originalExpiry, true);
   });
 
   it("Test subscribe", async () => {

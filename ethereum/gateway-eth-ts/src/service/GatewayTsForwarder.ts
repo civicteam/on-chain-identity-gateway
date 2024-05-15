@@ -1,10 +1,11 @@
 import {
+  Provider,
   Wallet,
-  Contract,
   Overrides,
-  PopulatedTransaction,
+  ContractTransaction,
+  BaseContract,
   BigNumberish,
-  BigNumber,
+  Signer,
 } from "ethers";
 import { IForwarder, GatewayToken } from "../contracts/typechain-types";
 import { GatewayTsInternal } from "./GatewayTsInternal";
@@ -16,8 +17,9 @@ import {
 } from "../utils/types";
 import { mapObjIndexed, pick } from "ramda";
 import { signMetaTxRequest } from "../utils/metatx";
-import { Provider } from "@ethersproject/providers";
 import { Charge, ChargeType } from "../utils/charge";
+import { TypedDataSigner } from "@ethersproject/abstract-signer";
+import { TypedContractMethod } from "../contracts/typechain-types/common";
 
 // This is the default gas limit used by the GatewayTs forwarder
 // if not overridden.
@@ -29,7 +31,7 @@ import { Charge, ChargeType } from "../utils/charge";
 const DEFAULT_GAS_LIMIT = 500_000;
 
 export type ForwarderOptions = Omit<Overrides, "gasLimit"> & {
-  gasLimit?: BigNumber | number;
+  gasLimit?: BigNumberish;
 };
 
 // This is essentially the GatewayToken contract type, but with the write operations converted to returning PopulatedTransactions.
@@ -39,7 +41,7 @@ export type ForwarderOptions = Omit<Overrides, "gasLimit"> & {
 // This requires the passed-in contract object to be reconstructed to match this type in the constructor of
 // GatewayTsForwarder.
 type MappedGatewayToken = ReadOnlyOperation &
-  Pick<GatewayToken["populateTransaction"], WriteOps>;
+  Pick<GatewayToken, WriteOps>;
 
 type InferArgs<T> = T extends (...t: [...infer Arg]) => any ? Arg : never;
 
@@ -51,13 +53,13 @@ type InferArgs<T> = T extends (...t: [...infer Arg]) => any ? Arg : never;
 const toMetaTx =
   (
     forwarderContract: IForwarder,
-    toContract: Contract,
-    wallet: Wallet,
-    defaultGasLimit: number | BigNumber
+    toContract: BaseContract,
+    wallet: Signer,
+    defaultGasLimit: number | BigNumberish
   ) =>
-  <TFunc extends (...args: any[]) => Promise<PopulatedTransaction>>(
-    fn: TFunc
-  ): ((...args: InferArgs<TFunc>) => Promise<PopulatedTransaction>) =>
+  (
+    fn: (...args: any[]) => Promise<ContractTransaction>
+  ): ((...args: any[]) => Promise<ContractTransaction>) =>
   async (...args) => {
     if (!wallet) {
       throw new Error("A wallet is required to sign the meta transaction");
@@ -68,8 +70,8 @@ const toMetaTx =
       wallet,
       forwarderContract,
       {
-        from: wallet.address,
-        to: toContract.address,
+        from: await wallet.getAddress(),
+        to: await toContract.getAddress(),
         data: populatedTransaction.data,
         // if there is a value, add it to the request
         // the forwarder passes the value in the request to the target contract
@@ -80,8 +82,8 @@ const toMetaTx =
         gas: populatedTransaction.gasLimit || defaultGasLimit,
       }
     );
-    const populatedForwardedTransaction: PopulatedTransaction =
-      await forwarderContract.populateTransaction.execute(request, signature);
+    const populatedForwardedTransaction: ContractTransaction =
+      await forwarderContract.execute.populateTransaction(request, signature);
     // ethers will set the from address on the populated transaction to the current wallet address (i.e the gatekeeper)
     // we don't want this, as the tx will be sent by some other relayer, so remove it.
     delete populatedForwardedTransaction.from;
@@ -93,31 +95,30 @@ const toMetaTx =
 // and sent by any public key.
 export class GatewayTsForwarder extends GatewayTsInternal<
   MappedGatewayToken,
-  PopulatedTransaction
+  ContractTransaction
 > {
   constructor(
-    // ethers.js requires a Wallet instead of Signer for the _signTypedData function, until v6
-    providerOrWallet: Provider | Wallet,
+    providerOrWallet: Provider | Signer,
     gatewayTokenContract: GatewayToken,
     forwarderContract: IForwarder,
     options: ForwarderOptions
   ) {
-    const wallet =
-      "_signTypedData" in providerOrWallet ? providerOrWallet : undefined;
+    const signer =
+      "signTypedData" in providerOrWallet ? providerOrWallet : undefined;
     const toMetaTxFn = toMetaTx(
       forwarderContract,
       gatewayTokenContract,
-      wallet,
+      signer,
       options.gasLimit || DEFAULT_GAS_LIMIT
     );
 
     // construct a new mappedGatewayToken object comprising write operations that return PopulatedTransactions
     // and read operations that don't. See the description of MappedGatewayToken above for more details.
     const raw: ReadOnlyOperation = pick(readOnlyOpNames, gatewayTokenContract);
-    const mapped: Pick<GatewayToken["populateTransaction"], WriteOps> =
+    const mapped: Pick<GatewayToken, WriteOps> =
       mapObjIndexed(
         toMetaTxFn,
-        pick(mappedOpNames, gatewayTokenContract.populateTransaction)
+        pick(mappedOpNames, gatewayTokenContract)
       );
     const mappedGatewayToken = {
       ...mapped,
@@ -129,14 +130,14 @@ export class GatewayTsForwarder extends GatewayTsInternal<
   async issue(
     owner: string,
     network: bigint,
-    expiry?: BigNumberish,
-    bitmask?: BigNumberish,
+    expiry?: bigint,
+    bitmask?: bigint,
     charge?: Charge
-  ): Promise<PopulatedTransaction> {
+  ): Promise<ContractTransaction> {
     const tx = await super.issue(owner, network, expiry, bitmask, charge);
 
     if (charge?.chargeType === ChargeType.ETH) {
-      tx.value = charge.value;
+      tx.value = charge.value as bigint;
     }
     return tx;
   }
@@ -144,13 +145,13 @@ export class GatewayTsForwarder extends GatewayTsInternal<
   async refresh(
     owner: string,
     network: bigint,
-    expiry?: number | BigNumber,
+    expiry?: BigNumberish,
     charge?: Charge
-  ): Promise<PopulatedTransaction> {
-    const tx = await super.refresh(owner, network, expiry, charge);
+  ): Promise<ContractTransaction> {
+    const tx = await super.refresh(owner, network, expiry as BigNumberish, charge);
 
     if (charge?.chargeType === ChargeType.ETH) {
-      tx.value = charge.value;
+      tx.value = charge.value as bigint;
     }
     return tx;
   }

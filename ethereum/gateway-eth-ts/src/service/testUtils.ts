@@ -1,15 +1,14 @@
-import { Wallet } from "ethers";
-import { Provider } from "@ethersproject/providers";
+import { Wallet, Provider } from "ethers";
 
 export const DEFAULT_MNEMONIC =
   "test test test test test test test test test test test junk";
 
 // During testing, the 0th index is the deployer key, the 2nd index is used as the gatekeeper key
 // See hardhat.config.ts
-export const deployerWallet = (provider: Provider) =>
-  Wallet.fromMnemonic(DEFAULT_MNEMONIC, "m/44'/60'/0'/0/0").connect(provider);
-export const gatekeeperWallet = (provider: Provider) =>
-  Wallet.fromMnemonic(DEFAULT_MNEMONIC, "m/44'/60'/0'/0/2").connect(provider);
+export const deployerWallet = (provider: Provider): Wallet =>
+  new Wallet(Wallet.fromPhrase(DEFAULT_MNEMONIC).derivePath("m/44'/60'/0'/0/0").privateKey).connect(provider);
+export const gatekeeperWallet = (provider: Provider): Wallet =>
+  new Wallet(Wallet.fromPhrase(DEFAULT_MNEMONIC).derivePath("m/44'/60'/0'/0/2").privateKey).connect(provider);
 
 // matches the bootstrapped network in gateway-token
 export const gatekeeperNetwork = 1n;
