@@ -3,4 +3,6 @@
 /* tslint:disable */
 /* eslint-disable */
 export * as extensions from "./extensions";
+export * as presets from "./presets";
+export { ERC20__factory } from "./ERC20__factory";
 export { IERC20__factory } from "./IERC20__factory";

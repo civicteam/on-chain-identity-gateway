@@ -23,6 +23,10 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IAccessControlUpgradeable__factory>;
     getContractFactory(
+      name: "OwnableUpgradeable",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.OwnableUpgradeable__factory>;
+    getContractFactory(
       name: "IERC1822ProxiableUpgradeable",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IERC1822ProxiableUpgradeable__factory>;
@@ -63,6 +67,18 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IERC5267__factory>;
     getContractFactory(
+      name: "ERC20",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ERC20__factory>;
+    getContractFactory(
+      name: "ERC20Burnable",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ERC20Burnable__factory>;
+    getContractFactory(
+      name: "IERC20Metadata",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IERC20Metadata__factory>;
+    getContractFactory(
       name: "IERC20Permit",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IERC20Permit__factory>;
@@ -70,6 +86,10 @@ declare module "hardhat/types/runtime" {
       name: "IERC20",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IERC20__factory>;
+    getContractFactory(
+      name: "ERC20PresetFixedSupply",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ERC20PresetFixedSupply__factory>;
     getContractFactory(
       name: "EIP712",
       signerOrOptions?: ethers.Signer | FactoryOptions
@@ -210,6 +230,58 @@ declare module "hardhat/types/runtime" {
       name: "TokenBitMask",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.TokenBitMask__factory>;
+    getContractFactory(
+      name: "DummyBrokenERC20",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.DummyBrokenERC20__factory>;
+    getContractFactory(
+      name: "DummyBrokenEthRecipient",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.DummyBrokenEthRecipient__factory>;
+    getContractFactory(
+      name: "DummyERC20",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.DummyERC20__factory>;
+    getContractFactory(
+      name: "ERC2771Test",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ERC2771Test__factory>;
+    getContractFactory(
+      name: "GatewayTokenClientERC2771Test",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.GatewayTokenClientERC2771Test__factory>;
+    getContractFactory(
+      name: "GatewayTokenClientERC2771UpgradeableTest",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.GatewayTokenClientERC2771UpgradeableTest__factory>;
+    getContractFactory(
+      name: "GatewayTokenClientTest",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.GatewayTokenClientTest__factory>;
+    getContractFactory(
+      name: "GatewayTokenInternalsTest",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.GatewayTokenInternalsTest__factory>;
+    getContractFactory(
+      name: "GatewayTokenUpgradeTest",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.GatewayTokenUpgradeTest__factory>;
+    getContractFactory(
+      name: "StubMultisig",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.StubMultisig__factory>;
+    getContractFactory(
+      name: "GatewayTokenV0",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.GatewayTokenV0__factory>;
+    getContractFactory(
+      name: "IERC721ExpirableV0",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IERC721ExpirableV0__factory>;
+    getContractFactory(
+      name: "IGatewayTokenV0",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IGatewayTokenV0__factory>;
 
     getContractAt(
       name: "AccessControlUpgradeable",
@@ -221,6 +293,11 @@ declare module "hardhat/types/runtime" {
       address: string | ethers.Addressable,
       signer?: ethers.Signer
     ): Promise<Contracts.IAccessControlUpgradeable>;
+    getContractAt(
+      name: "OwnableUpgradeable",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.OwnableUpgradeable>;
     getContractAt(
       name: "IERC1822ProxiableUpgradeable",
       address: string | ethers.Addressable,
@@ -272,6 +349,21 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.IERC5267>;
     getContractAt(
+      name: "ERC20",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ERC20>;
+    getContractAt(
+      name: "ERC20Burnable",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ERC20Burnable>;
+    getContractAt(
+      name: "IERC20Metadata",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IERC20Metadata>;
+    getContractAt(
       name: "IERC20Permit",
       address: string | ethers.Addressable,
       signer?: ethers.Signer
@@ -281,6 +373,11 @@ declare module "hardhat/types/runtime" {
       address: string | ethers.Addressable,
       signer?: ethers.Signer
     ): Promise<Contracts.IERC20>;
+    getContractAt(
+      name: "ERC20PresetFixedSupply",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ERC20PresetFixedSupply>;
     getContractAt(
       name: "EIP712",
       address: string | ethers.Addressable,
@@ -456,6 +553,71 @@ declare module "hardhat/types/runtime" {
       address: string | ethers.Addressable,
       signer?: ethers.Signer
     ): Promise<Contracts.TokenBitMask>;
+    getContractAt(
+      name: "DummyBrokenERC20",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.DummyBrokenERC20>;
+    getContractAt(
+      name: "DummyBrokenEthRecipient",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.DummyBrokenEthRecipient>;
+    getContractAt(
+      name: "DummyERC20",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.DummyERC20>;
+    getContractAt(
+      name: "ERC2771Test",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ERC2771Test>;
+    getContractAt(
+      name: "GatewayTokenClientERC2771Test",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.GatewayTokenClientERC2771Test>;
+    getContractAt(
+      name: "GatewayTokenClientERC2771UpgradeableTest",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.GatewayTokenClientERC2771UpgradeableTest>;
+    getContractAt(
+      name: "GatewayTokenClientTest",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.GatewayTokenClientTest>;
+    getContractAt(
+      name: "GatewayTokenInternalsTest",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.GatewayTokenInternalsTest>;
+    getContractAt(
+      name: "GatewayTokenUpgradeTest",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.GatewayTokenUpgradeTest>;
+    getContractAt(
+      name: "StubMultisig",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.StubMultisig>;
+    getContractAt(
+      name: "GatewayTokenV0",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.GatewayTokenV0>;
+    getContractAt(
+      name: "IERC721ExpirableV0",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IERC721ExpirableV0>;
+    getContractAt(
+      name: "IGatewayTokenV0",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IGatewayTokenV0>;
 
     deployContract(
       name: "AccessControlUpgradeable",
@@ -465,6 +627,10 @@ declare module "hardhat/types/runtime" {
       name: "IAccessControlUpgradeable",
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.IAccessControlUpgradeable>;
+    deployContract(
+      name: "OwnableUpgradeable",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.OwnableUpgradeable>;
     deployContract(
       name: "IERC1822ProxiableUpgradeable",
       signerOrOptions?: ethers.Signer | DeployContractOptions
@@ -506,6 +672,18 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.IERC5267>;
     deployContract(
+      name: "ERC20",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.ERC20>;
+    deployContract(
+      name: "ERC20Burnable",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.ERC20Burnable>;
+    deployContract(
+      name: "IERC20Metadata",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.IERC20Metadata>;
+    deployContract(
       name: "IERC20Permit",
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.IERC20Permit>;
@@ -513,6 +691,10 @@ declare module "hardhat/types/runtime" {
       name: "IERC20",
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.IERC20>;
+    deployContract(
+      name: "ERC20PresetFixedSupply",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.ERC20PresetFixedSupply>;
     deployContract(
       name: "EIP712",
       signerOrOptions?: ethers.Signer | DeployContractOptions
@@ -653,6 +835,58 @@ declare module "hardhat/types/runtime" {
       name: "TokenBitMask",
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.TokenBitMask>;
+    deployContract(
+      name: "DummyBrokenERC20",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.DummyBrokenERC20>;
+    deployContract(
+      name: "DummyBrokenEthRecipient",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.DummyBrokenEthRecipient>;
+    deployContract(
+      name: "DummyERC20",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.DummyERC20>;
+    deployContract(
+      name: "ERC2771Test",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.ERC2771Test>;
+    deployContract(
+      name: "GatewayTokenClientERC2771Test",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.GatewayTokenClientERC2771Test>;
+    deployContract(
+      name: "GatewayTokenClientERC2771UpgradeableTest",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.GatewayTokenClientERC2771UpgradeableTest>;
+    deployContract(
+      name: "GatewayTokenClientTest",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.GatewayTokenClientTest>;
+    deployContract(
+      name: "GatewayTokenInternalsTest",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.GatewayTokenInternalsTest>;
+    deployContract(
+      name: "GatewayTokenUpgradeTest",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.GatewayTokenUpgradeTest>;
+    deployContract(
+      name: "StubMultisig",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.StubMultisig>;
+    deployContract(
+      name: "GatewayTokenV0",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.GatewayTokenV0>;
+    deployContract(
+      name: "IERC721ExpirableV0",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.IERC721ExpirableV0>;
+    deployContract(
+      name: "IGatewayTokenV0",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.IGatewayTokenV0>;
 
     deployContract(
       name: "AccessControlUpgradeable",
@@ -664,6 +898,11 @@ declare module "hardhat/types/runtime" {
       args: any[],
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.IAccessControlUpgradeable>;
+    deployContract(
+      name: "OwnableUpgradeable",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.OwnableUpgradeable>;
     deployContract(
       name: "IERC1822ProxiableUpgradeable",
       args: any[],
@@ -715,6 +954,21 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.IERC5267>;
     deployContract(
+      name: "ERC20",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.ERC20>;
+    deployContract(
+      name: "ERC20Burnable",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.ERC20Burnable>;
+    deployContract(
+      name: "IERC20Metadata",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.IERC20Metadata>;
+    deployContract(
       name: "IERC20Permit",
       args: any[],
       signerOrOptions?: ethers.Signer | DeployContractOptions
@@ -724,6 +978,11 @@ declare module "hardhat/types/runtime" {
       args: any[],
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.IERC20>;
+    deployContract(
+      name: "ERC20PresetFixedSupply",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.ERC20PresetFixedSupply>;
     deployContract(
       name: "EIP712",
       args: any[],
@@ -899,6 +1158,71 @@ declare module "hardhat/types/runtime" {
       args: any[],
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.TokenBitMask>;
+    deployContract(
+      name: "DummyBrokenERC20",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.DummyBrokenERC20>;
+    deployContract(
+      name: "DummyBrokenEthRecipient",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.DummyBrokenEthRecipient>;
+    deployContract(
+      name: "DummyERC20",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.DummyERC20>;
+    deployContract(
+      name: "ERC2771Test",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.ERC2771Test>;
+    deployContract(
+      name: "GatewayTokenClientERC2771Test",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.GatewayTokenClientERC2771Test>;
+    deployContract(
+      name: "GatewayTokenClientERC2771UpgradeableTest",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.GatewayTokenClientERC2771UpgradeableTest>;
+    deployContract(
+      name: "GatewayTokenClientTest",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.GatewayTokenClientTest>;
+    deployContract(
+      name: "GatewayTokenInternalsTest",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.GatewayTokenInternalsTest>;
+    deployContract(
+      name: "GatewayTokenUpgradeTest",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.GatewayTokenUpgradeTest>;
+    deployContract(
+      name: "StubMultisig",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.StubMultisig>;
+    deployContract(
+      name: "GatewayTokenV0",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.GatewayTokenV0>;
+    deployContract(
+      name: "IERC721ExpirableV0",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.IERC721ExpirableV0>;
+    deployContract(
+      name: "IGatewayTokenV0",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.IGatewayTokenV0>;
 
     // default types
     getContractFactory(

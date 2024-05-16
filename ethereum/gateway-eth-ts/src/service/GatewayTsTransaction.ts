@@ -9,8 +9,7 @@ import {
 } from "../utils/types";
 import { pick } from "ramda";
 
-type MappedGatewayToken = ReadOnlyOperation &
-  Pick<GatewayToken, WriteOps>;
+type MappedGatewayToken = ReadOnlyOperation & Pick<GatewayToken, WriteOps>;
 
 // A GatewayToken API that returns an PopulatedTransaction, rather than
 // a transaction directly on the GatewayToken contract. Use this for relaying with relayers that provide their own
@@ -23,12 +22,19 @@ export class GatewayTsTransaction extends GatewayTsInternal<
     // construct a new mappedGatewayToken object comprising write operations that return ContractTransactions
     // and read operations that don't. See the description of MappedGatewayToken above for more details.
     const raw: ReadOnlyOperation = pick(readOnlyOpNames, gatewayTokenContract);
-    const mapped: Pick<GatewayToken, WriteOps> = pick(
-      mappedOpNames,
-      gatewayTokenContract
-    );
+    // const mapped: Pick<GatewayToken, WriteOps> = pick(
+    //   mappedOpNames,
+    //   gatewayTokenContract
+    // );
+
+    const entries = mappedOpNames.map((name) => {
+        const wrappedFn = gatewayTokenContract[name].populateTransaction.bind(gatewayTokenContract);
+        return [name, wrappedFn];
+    })
+    const mappedOps = Object.fromEntries(entries);
+
     const mappedGatewayToken = {
-      ...mapped,
+      ...mappedOps,
       ...raw,
     };
     super(mappedGatewayToken, options);

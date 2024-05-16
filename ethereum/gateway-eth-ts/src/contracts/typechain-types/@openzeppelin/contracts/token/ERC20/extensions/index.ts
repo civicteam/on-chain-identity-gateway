@@ -2,4 +2,6 @@
 // @ts-nocheck
 /* tslint:disable */
 /* eslint-disable */
+export type { ERC20Burnable } from "./ERC20Burnable";
+export type { IERC20Metadata } from "./IERC20Metadata";
 export type { IERC20Permit } from "./IERC20Permit";

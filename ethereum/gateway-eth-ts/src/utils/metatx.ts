@@ -2,10 +2,7 @@ import { BaseContract, BigNumberish, Contract, Signer } from "ethers";
 
 import { IForwarder } from "../contracts/typechain-types";
 import { EIP712Message, EIP712TypedData } from "eth-sig-util";
-import {
-  TypedDataField,
-  TypedDataSigner,
-} from "@ethersproject/abstract-signer";
+import { TypedDataField } from "@ethersproject/abstract-signer";
 
 type Input = {
   from: string;
@@ -76,8 +73,13 @@ const buildTypedData = async (
   forwarder: BaseContract,
   request: EIP712Message
 ): Promise<EIP712TypedData> => {
-  const chainId = await forwarder.runner.provider?.getNetwork().then((n) => n.chainId);
-  const typeData = getMetaTxTypeData(Number(chainId), await forwarder.getAddress());
+  const chainId = await forwarder.runner.provider
+    ?.getNetwork()
+    .then((n) => n.chainId);
+  const typeData = getMetaTxTypeData(
+    Number(chainId),
+    await forwarder.getAddress()
+  );
   return { ...typeData, message: request };
 };
 

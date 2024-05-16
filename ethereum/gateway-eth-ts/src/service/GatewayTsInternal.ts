@@ -7,7 +7,6 @@ import {
   ReadOnlyOperation,
   TokenData,
   TokenState,
-
 } from "../utils/types";
 import { Charge, ChargeType, NULL_CHARGE } from "../utils/charge";
 import { NULL_ADDRESS } from "../utils/constants";
@@ -48,7 +47,7 @@ export class GatewayTsInternal<
       charge.chargeType === ChargeType.ETH ? charge.value : undefined;
     return {
       ...this.overrides,
-      value: value as BigNumberish,
+      value: value,
     };
   }
 
@@ -103,7 +102,7 @@ export class GatewayTsInternal<
     return this.gatewayTokenContract.renameNetwork(
       network,
       name,
-    this.overrides
+      this.overrides
     );
   }
 
@@ -272,7 +271,7 @@ export class GatewayTsInternal<
       tokenId,
       bitmask: rawData.bitmask,
       expiration: rawData.expiration,
-      state: Number(rawData.state) as TokenState ,
+      state: Number(rawData.state) as TokenState,
     };
   }
 

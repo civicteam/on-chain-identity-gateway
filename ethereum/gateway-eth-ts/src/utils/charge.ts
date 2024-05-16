@@ -91,7 +91,7 @@ export const approveInternalERC20Charge = (
   return chargeContract.setApproval.populateTransaction(
     gatewayContractAddress,
     charge.token,
-    charge.value as BigNumberish,
+    charge.value,
     network
   );
 };

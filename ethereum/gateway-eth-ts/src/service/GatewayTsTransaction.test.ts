@@ -8,15 +8,16 @@ import {
   TEST_GATEWAY_TOKEN_ADDRESS,
 } from "./testUtils";
 import { GatewayTsForwarder } from "./GatewayTsForwarder";
-import { getDefaultProvider, Provider, Wallet } from "ethers";
+import { getDefaultProvider, Provider, Signer, Wallet } from "ethers";
 
 dotenv.config();
 
 describe("GatewayTS Transaction", function () {
+  this.timeout(15_000);
   let gateway: GatewayTsForwarder;
   let provider: Provider;
 
-  let gatekeeper: Wallet;
+  let gatekeeper: Signer;
 
   const sampleWalletAddress = Wallet.createRandom().address;
 
@@ -27,8 +28,6 @@ describe("GatewayTS Transaction", function () {
 
     // use the deployer account here as the relayer, as they are guaranteed to be funded by hardhat on localnet startup
     gatekeeper = gatekeeperWallet(provider);
-
-    console.log("Gatekeeper:", gatekeeper.address);
 
     gateway = new GatewayTs(
       gatekeeper,
@@ -41,6 +40,8 @@ describe("GatewayTS Transaction", function () {
       sampleWalletAddress,
       gatekeeperNetwork
     );
+
+    console.log("Transaction:", transaction);
 
     const txReceipt = await (
       await gatekeeper.sendTransaction(transaction)

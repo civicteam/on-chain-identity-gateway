@@ -1,11 +1,11 @@
 import {
   Provider,
-  Wallet,
   Overrides,
   ContractTransaction,
-  BaseContract,
   BigNumberish,
   Signer,
+  Addressable,
+  ContractMethodArgs,
 } from "ethers";
 import { IForwarder, GatewayToken } from "../contracts/typechain-types";
 import { GatewayTsInternal } from "./GatewayTsInternal";
@@ -15,10 +15,9 @@ import {
   ReadOnlyOperation,
   readOnlyOpNames,
 } from "../utils/types";
-import { mapObjIndexed, pick } from "ramda";
+import { pick } from "ramda";
 import { signMetaTxRequest } from "../utils/metatx";
 import { Charge, ChargeType } from "../utils/charge";
-import { TypedDataSigner } from "@ethersproject/abstract-signer";
 import { TypedContractMethod } from "../contracts/typechain-types/common";
 
 // This is the default gas limit used by the GatewayTs forwarder
@@ -40,10 +39,7 @@ export type ForwarderOptions = Omit<Overrides, "gasLimit"> & {
 // So this type changes that, by only converting the types for the write operations.
 // This requires the passed-in contract object to be reconstructed to match this type in the constructor of
 // GatewayTsForwarder.
-type MappedGatewayToken = ReadOnlyOperation &
-  Pick<GatewayToken, WriteOps>;
-
-type InferArgs<T> = T extends (...t: [...infer Arg]) => any ? Arg : never;
+type MappedGatewayToken = ReadOnlyOperation & Pick<GatewayToken, WriteOps>;
 
 // Given an ethers.js contract function that returns a PopulatedTransaction,
 // return a function that:
@@ -53,41 +49,42 @@ type InferArgs<T> = T extends (...t: [...infer Arg]) => any ? Arg : never;
 const toMetaTx =
   (
     forwarderContract: IForwarder,
-    toContract: BaseContract,
+    toContract: Addressable,
     wallet: Signer,
     defaultGasLimit: number | BigNumberish
   ) =>
-  (
-    fn: (...args: any[]) => Promise<ContractTransaction>
-  ): ((...args: any[]) => Promise<ContractTransaction>) =>
-  async (...args) => {
-    if (!wallet) {
-      throw new Error("A wallet is required to sign the meta transaction");
-    }
+  <TArgs extends any[], TReturn>(
+    method: TypedContractMethod<TArgs, TReturn>
+  ) => {
+    return async (
+      ...args: ContractMethodArgs<TArgs>
+    ): Promise<ContractTransaction> => {
+      const populatedTransaction: ContractTransaction =
+        await method.populateTransaction(...args);
 
-    const populatedTransaction = await fn(...args);
-    const { request, signature } = await signMetaTxRequest(
-      wallet,
-      forwarderContract,
-      {
-        from: await wallet.getAddress(),
-        to: await toContract.getAddress(),
-        data: populatedTransaction.data,
-        // if there is a value, add it to the request
-        // the forwarder passes the value in the request to the target contract
-        // so if it is not included here, it would be zero, even if the outer transaction had a value
-        ...(populatedTransaction.value
-          ? { value: populatedTransaction.value }
-          : {}),
-        gas: populatedTransaction.gasLimit || defaultGasLimit,
-      }
-    );
-    const populatedForwardedTransaction: ContractTransaction =
-      await forwarderContract.execute.populateTransaction(request, signature);
-    // ethers will set the from address on the populated transaction to the current wallet address (i.e the gatekeeper)
-    // we don't want this, as the tx will be sent by some other relayer, so remove it.
-    delete populatedForwardedTransaction.from;
-    return populatedForwardedTransaction;
+      const { request, signature } = await signMetaTxRequest(
+        wallet,
+        forwarderContract,
+        {
+          from: await wallet.getAddress(),
+          to: await toContract.getAddress(),
+          data: populatedTransaction.data,
+          // if there is a value, add it to the request
+          // the forwarder passes the value in the request to the target contract
+          // so if it is not included here, it would be zero, even if the outer transaction had a value
+          ...(populatedTransaction.value
+            ? { value: populatedTransaction.value }
+            : {}),
+          gas: populatedTransaction.gasLimit || defaultGasLimit,
+        }
+      );
+      const populatedForwardedTransaction: ContractTransaction =
+        await forwarderContract.execute.populateTransaction(request, signature);
+      // ethers will set the from address on the populated transaction to the current wallet address (i.e the gatekeeper)
+      // we don't want this, as the tx will be sent by some other relayer, so remove it.
+      delete populatedForwardedTransaction.from;
+      return populatedForwardedTransaction;
+    };
   };
 
 // A GatewayToken API that returns an unsigned metatransaction pointing to the Forwarder contract, rather than
@@ -115,11 +112,14 @@ export class GatewayTsForwarder extends GatewayTsInternal<
     // construct a new mappedGatewayToken object comprising write operations that return PopulatedTransactions
     // and read operations that don't. See the description of MappedGatewayToken above for more details.
     const raw: ReadOnlyOperation = pick(readOnlyOpNames, gatewayTokenContract);
-    const mapped: Pick<GatewayToken, WriteOps> =
-      mapObjIndexed(
-        toMetaTxFn,
-        pick(mappedOpNames, gatewayTokenContract)
-      );
+    const wrappedFns = mappedOpNames.map((name) => {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+      const wrappedFn = toMetaTxFn(gatewayTokenContract[name]);
+      return [name, wrappedFn];
+    });
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    const mapped: Pick<GatewayToken, WriteOps> = Object.fromEntries(wrappedFns);
+
     const mappedGatewayToken = {
       ...mapped,
       ...raw,
@@ -139,6 +139,7 @@ export class GatewayTsForwarder extends GatewayTsInternal<
     if (charge?.chargeType === ChargeType.ETH) {
       tx.value = charge.value as bigint;
     }
+
     return tx;
   }
 
@@ -148,7 +149,7 @@ export class GatewayTsForwarder extends GatewayTsInternal<
     expiry?: BigNumberish,
     charge?: Charge
   ): Promise<ContractTransaction> {
-    const tx = await super.refresh(owner, network, expiry as BigNumberish, charge);
+    const tx = await super.refresh(owner, network, expiry, charge);
 
     if (charge?.chargeType === ChargeType.ETH) {
       tx.value = charge.value as bigint;
