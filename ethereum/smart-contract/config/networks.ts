@@ -242,5 +242,10 @@ export const networks = {
         url: 'https://sapphire.oasis.io',
         accounts: liveAccounts,
         chainId: 23294,
+    },
+    cotiDevnet: {
+        url: "https://devnet.coti.io",
+        accounts: liveAccounts,
+        chainId: 13068200,
     }
 };

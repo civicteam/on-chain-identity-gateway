@@ -156,6 +156,10 @@ export const networks = {
   oasisSapphire: {
     url: 'https://sapphire.oasis.io',
     chainId: 23294,
+  },
+  cotiDevnet: {
+    url: "https://devnet.coti.io",
+    chainId: 13068200,
   }
 }
 
