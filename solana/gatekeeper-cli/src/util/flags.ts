@@ -10,6 +10,21 @@ const readKey = async (file: string): Promise<Keypair> => Keypair.fromSecretKey(
     new Uint8Array(JSON.parse(fs.readFileSync(file).toString("utf-8")) as number[])
 );
 
+export const prioFeeFlag = Flags.build<number>({
+  char: "f",
+  // eslint-disable-next-line @typescript-eslint/require-await
+  parse: async (prioFee: string) => Number.parseInt(prioFee, 10),
+  default: 0,
+  description:
+    "The priority fee in lamports",
+});
+
+export const skipPreflightFlag = Flags.boolean({
+  default: false,
+  description:
+    "Skip preflight check",
+});
+
 export const gatekeeperKeyFlag = Flags.build<Keypair>({
   char: "g",
   parse: readKey,
