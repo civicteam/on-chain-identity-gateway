@@ -2,7 +2,7 @@ import { Command, Flags } from "@oclif/core";
 import { Keypair } from "@solana/web3.js";
 
 import { airdropTo, GatekeeperNetworkService } from "@identity.com/solana-gatekeeper-lib";
-import {airdropFlag, clusterFlag, gatekeeperNetworkKeyFlag} from "../util/flags";
+import {airdropFlag, clusterFlag, gatekeeperNetworkKeyFlag, prioFeeFlag, skipPreflightFlag} from "../util/flags";
 import {
   NetworkFeature,
   UserTokenExpiry,
@@ -39,6 +39,8 @@ export default class AddNetworkFeature extends Command {
     gatekeeperNetworkKey: gatekeeperNetworkKeyFlag(),
     cluster: clusterFlag(),
     airdrop: airdropFlag,
+    priorityFeeLamports: prioFeeFlag(),
+    skipPreflight: skipPreflightFlag,
   };
 
   static args = [
@@ -108,14 +110,14 @@ export default class AddNetworkFeature extends Command {
 
     if (featureOperation === "add" && !hasNetworkFeature) {
       await networkService
-        .addNetworkFeature("find", networkFeature)
-        .then((t) => t.send())
+        .addNetworkFeature("find", networkFeature, flags.priorityFeeLamports ? { priorityFeeMicroLamports: flags.priorityFeeLamports } : undefined)
+        .then((t) => t.send(flags.skipPreflight ? {skipPreflight: true}: {}))
         .then((t) => t.confirm());
     } else if (featureOperation === "remove" && hasNetworkFeature) {
       // remove case
       await networkService
-        .removeNetworkFeature("find", networkFeature)
-        .then((t) => t.send())
+        .removeNetworkFeature("find", networkFeature, flags.priorityFeeLamports ? { priorityFeeMicroLamports: flags.priorityFeeLamports } : undefined)
+        .then((t) => t.send(flags.skipPreflight ? {skipPreflight: true}: {}))
         .then((t) => t.confirm());
     } else {
       this.log(
