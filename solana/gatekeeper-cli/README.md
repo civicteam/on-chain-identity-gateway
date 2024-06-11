@@ -19,7 +19,7 @@ $ npm install -g @identity.com/solana-gatekeeper-cli
 $ gateway COMMAND
 running command...
 $ gateway (-v|--version|version)
-@identity.com/solana-gatekeeper-cli/0.0.2 darwin-arm64 node-v18.16.0
+@identity.com/solana-gatekeeper-cli/0.0.2 darwin-x64 node-v20.12.0
 $ gateway --help [COMMAND]
 USAGE
   $ gateway COMMAND
@@ -107,7 +107,7 @@ OPTIONS
 
 EXAMPLE
   $ gateway burn EzZgkwaDrgycsiyGeCVRXXRcieE1fxhGMp829qwj5TMv
-  Revoked
+  Burned
 ```
 
 ## `gateway freeze GATEWAYTOKEN`
