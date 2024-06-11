@@ -5,7 +5,7 @@ import assert = require('assert');
 describe('Check ethers provider', function () {
   let provider: BaseProvider
   const mainnetNetworkID = 1
-  const goerliNetworkID = 5
+  const sepoliaNetworkID = 11155111;
 
   it('Try connect to mainnet ethers provider, check network ID', async () => {
     provider = getProvider('ethereum')
@@ -14,11 +14,11 @@ describe('Check ethers provider', function () {
     assert.equal(networkId, mainnetNetworkID)
   })
 
-  it('Try connect to goerli ethers provider, check network ID', async () => {
-    provider = getProvider('goerli')
+  it('Try connect to sepolia ethers provider, check network ID', async () => {
+    provider = getProvider('sepolia')
     const networkId = (await provider.getNetwork()).chainId
 
-    assert.equal(networkId, goerliNetworkID)
+    assert.equal(networkId, sepoliaNetworkID)
   })
 
   it('Try connect to localhost provider, check connection URL', () => {

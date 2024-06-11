@@ -33,11 +33,11 @@ export INFURA_API_KEY=your-api-key
 
 ## Add a gatekeeper
 
-This command will add yourself as a gatekeeper to the test gatekeeper network on Goerli, using the
+This command will add yourself as a gatekeeper to the test gatekeeper network on Sepolia, using the
 built-in test network authority key.
 
 ```shell
-gateway-eth add-gatekeeper -c goerli <your address>
+gateway-eth add-gatekeeper -c sepolia <your address>
 ```
 
 To use a gatekeeper other than the test gatekeeper network, set the network using the -n flag.
@@ -48,7 +48,7 @@ To default to a given network, set the `DEFAULT_GATEKEEPER_NETWORK` environment 
 Once you are a gatekeeper, you can issue passes.
 
 ```shell
-gateway-eth issue -c goerli <pass recipient address>
+gateway-eth issue -c sepolia <pass recipient address>
 ```
 
 ## Listen to pass changes
@@ -56,7 +56,7 @@ gateway-eth issue -c goerli <pass recipient address>
 TIP: Set the DEFAULT_CHAIN environment variable to avoid having to specify the chain with every command.
 
 ```shell
-export DEFAULT_CHAIN=goerli
+export DEFAULT_CHAIN=sepolia
 
 gateway-eth listen <owner>
 ```
@@ -68,7 +68,7 @@ To create a gatekeeper network, find an unused ID, and register it with a name.
 NOTE: Consult with identity.com about listing the gatekeeper network, in order to avoid collisions.
 
 ```shell
-gateway-eth create-gatekeeper-network -c goerli <id> <name>
+gateway-eth create-gatekeeper-network -c sepolia <id> <name>
 ```
 
 # Usage
@@ -77,8 +77,8 @@ gateway-eth create-gatekeeper-network -c goerli <id> <name>
 $ npm install -g @identity.com/gateway-eth-cli
 $ gateway-eth COMMAND
 running command...
-$ gateway-eth (--version)
-@identity.com/gateway-eth-cli/0.2.3 darwin-arm64 node-v20.10.0
+$ gateway-eth (-v|--version|version)
+@identity.com/gateway-eth-cli/0.2.3 darwin-x64 node-v20.12.0
 $ gateway-eth --help [COMMAND]
 USAGE
   $ gateway-eth COMMAND
@@ -104,7 +104,6 @@ USAGE
 * [`gateway-eth rename-gatekeeper-network ID NAME`](#gateway-eth-rename-gatekeeper-network-id-name)
 * [`gateway-eth revoke ADDRESS`](#gateway-eth-revoke-address)
 * [`gateway-eth unfreeze ADDRESS`](#gateway-eth-unfreeze-address)
-* [`gateway-eth verify ADDRESS`](#gateway-eth-verify-address)
 
 ## `gateway-eth add-gatekeeper ADDRESS`
 
@@ -112,50 +111,41 @@ Add a gatekeeper to a gatekeeper network
 
 ```
 USAGE
-  $ gateway-eth add-gatekeeper [ADDRESS] [-h] [-p <value>] [-t <value>] [-n <value>] [-c
-    localhost|ethereum|sepolia|goerli|polygonMumbai|polygonAmoy|polygon|auroraTestnet|aurora|optimismGoerli|optimism|pal
-    mTestnet|palm|arbitrumGoerli|arbitrumSepolia|arbitrum|celo|celoAlfajores|avalancheCChain|avalancheCChainFuji|starkne
-    t|starknetGoerli|xdc|xdcApothem|bsc|cronos|fantom|fantomTestnet|gnosis|moonbeam|moonriver|polygonZkEVMTestnet|polygo
-    nZkEVM|baseSepolia|base] [-f <value>] [-g <value>] [-w <value>]
+  $ gateway-eth add-gatekeeper ADDRESS
 
 ARGUMENTS
   ADDRESS  Gatekeeper address to add to the gatekeeper network
 
-FLAGS
-  -c, --chain=<option>
+OPTIONS
+  -c, --chain=localhost|ethereum|sepolia|polygonAmoy|polygon|auroraTestnet|aurora|optimismSepolia|optimism|palmTestnet|p
+  alm|arbitrumSepolia|arbitrum|celo|celoAlfajores|avalancheCChain|avalancheCChainFuji|starknet|starknetGoerli|xdc|xdcApo
+  them|bsc|cronos|fantom|fantomTestnet|gnosis|moonbeam|moonriver|polygonZkEVMTestnet|polygonZkEVM|baseSepolia|base
       [default: [object Object]] Specify target chain to work with (or set DEFAULT_CHAIN environment variable)
-      <options: localhost|ethereum|sepolia|goerli|polygonMumbai|polygonAmoy|polygon|auroraTestnet|aurora|optimismGoerli|op
-      timism|palmTestnet|palm|arbitrumGoerli|arbitrumSepolia|arbitrum|celo|celoAlfajores|avalancheCChain|avalancheCChainFu
-      ji|starknet|starknetGoerli|xdc|xdcApothem|bsc|cronos|fantom|fantomTestnet|gnosis|moonbeam|moonriver|polygonZkEVMTest
-      net|polygonZkEVM|baseSepolia|base>
 
-  -f, --fees=<value>
+  -f, --fees=fees
       Gas Price level to execute transaction with. For example: instant, fast, standard, slow
 
-  -g, --gasLimit=<value>
+  -g, --gasLimit=gasLimit
       Gas limit to set for the transaction. Required only for chains/providers that do not support eth_estimateGas
 
   -h, --help
       Show CLI help.
 
-  -n, --gatekeeperNetwork=<value>
+  -n, --gatekeeperNetwork=gatekeeperNetwork
       [default: 1] Gatekeeper network. Defaults to the test Gatekeeper Network
 
-  -p, --privateKey=<value>
+  -p, --privateKey=privateKey
       [default: 0xf1ddf80d2b5d038bc2ab7ae9a26e017d2252218dc687ab72d45f84bfbee2957d] The ethereum address private key for
       signing messages (or set PRIVATE_KEY environment variable)
 
-  -t, --gatewayTokenAddress=<value>
+  -t, --gatewayTokenAddress=gatewayTokenAddress
       [default: 0xF65b6396dF6B7e2D8a6270E3AB6c7BB08BAEF22E] GatewayToken address to target (or set GATEWAY_TOKEN_ADDRESS
       environment variable)
 
-  -w, --confirmations=<value>
-      [default: 1] The amount of blocks to wait for mined transaction
+  -w, --confirmations=confirmations
+      [default: [object Object]] The amount of blocks to wait for mined transaction
 
-DESCRIPTION
-  Add a gatekeeper to a gatekeeper network
-
-EXAMPLES
+EXAMPLE
   $ gateway-eth add-gatekeeper 0x893F4Be53274353CD3379C87C8fd1cb4f8458F94 -n 123
 ```
 
@@ -167,50 +157,41 @@ Add a network authority to a GatewayToken contract
 
 ```
 USAGE
-  $ gateway-eth add-network-authority [ADDRESS] [-h] [-p <value>] [-t <value>] [-n <value>] [-c
-    localhost|ethereum|sepolia|goerli|polygonMumbai|polygonAmoy|polygon|auroraTestnet|aurora|optimismGoerli|optimism|pal
-    mTestnet|palm|arbitrumGoerli|arbitrumSepolia|arbitrum|celo|celoAlfajores|avalancheCChain|avalancheCChainFuji|starkne
-    t|starknetGoerli|xdc|xdcApothem|bsc|cronos|fantom|fantomTestnet|gnosis|moonbeam|moonriver|polygonZkEVMTestnet|polygo
-    nZkEVM|baseSepolia|base] [-f <value>] [-g <value>] [-w <value>]
+  $ gateway-eth add-network-authority ADDRESS
 
 ARGUMENTS
   ADDRESS  Network authority address to add to the gatekeeper network
 
-FLAGS
-  -c, --chain=<option>
+OPTIONS
+  -c, --chain=localhost|ethereum|sepolia|polygonAmoy|polygon|auroraTestnet|aurora|optimismSepolia|optimism|palmTestnet|p
+  alm|arbitrumSepolia|arbitrum|celo|celoAlfajores|avalancheCChain|avalancheCChainFuji|starknet|starknetGoerli|xdc|xdcApo
+  them|bsc|cronos|fantom|fantomTestnet|gnosis|moonbeam|moonriver|polygonZkEVMTestnet|polygonZkEVM|baseSepolia|base
       [default: [object Object]] Specify target chain to work with (or set DEFAULT_CHAIN environment variable)
-      <options: localhost|ethereum|sepolia|goerli|polygonMumbai|polygonAmoy|polygon|auroraTestnet|aurora|optimismGoerli|op
-      timism|palmTestnet|palm|arbitrumGoerli|arbitrumSepolia|arbitrum|celo|celoAlfajores|avalancheCChain|avalancheCChainFu
-      ji|starknet|starknetGoerli|xdc|xdcApothem|bsc|cronos|fantom|fantomTestnet|gnosis|moonbeam|moonriver|polygonZkEVMTest
-      net|polygonZkEVM|baseSepolia|base>
 
-  -f, --fees=<value>
+  -f, --fees=fees
       Gas Price level to execute transaction with. For example: instant, fast, standard, slow
 
-  -g, --gasLimit=<value>
+  -g, --gasLimit=gasLimit
       Gas limit to set for the transaction. Required only for chains/providers that do not support eth_estimateGas
 
   -h, --help
       Show CLI help.
 
-  -n, --gatekeeperNetwork=<value>
+  -n, --gatekeeperNetwork=gatekeeperNetwork
       [default: 1] Gatekeeper network. Defaults to the test Gatekeeper Network
 
-  -p, --privateKey=<value>
+  -p, --privateKey=privateKey
       [default: 0xf1ddf80d2b5d038bc2ab7ae9a26e017d2252218dc687ab72d45f84bfbee2957d] The ethereum address private key for
       signing messages (or set PRIVATE_KEY environment variable)
 
-  -t, --gatewayTokenAddress=<value>
+  -t, --gatewayTokenAddress=gatewayTokenAddress
       [default: 0xF65b6396dF6B7e2D8a6270E3AB6c7BB08BAEF22E] GatewayToken address to target (or set GATEWAY_TOKEN_ADDRESS
       environment variable)
 
-  -w, --confirmations=<value>
-      [default: 1] The amount of blocks to wait for mined transaction
+  -w, --confirmations=confirmations
+      [default: [object Object]] The amount of blocks to wait for mined transaction
 
-DESCRIPTION
-  Add a network authority to a GatewayToken contract
-
-EXAMPLES
+EXAMPLE
   $ gateway-eth add-network-authority 0x893F4Be53274353CD3379C87C8fd1cb4f8458F94 -n 123
 ```
 
@@ -222,50 +203,41 @@ Burn existing gateway token
 
 ```
 USAGE
-  $ gateway-eth burn [ADDRESS] [-h] [-p <value>] [-t <value>] [-n <value>] [-c
-    localhost|ethereum|sepolia|goerli|polygonMumbai|polygonAmoy|polygon|auroraTestnet|aurora|optimismGoerli|optimism|pal
-    mTestnet|palm|arbitrumGoerli|arbitrumSepolia|arbitrum|celo|celoAlfajores|avalancheCChain|avalancheCChainFuji|starkne
-    t|starknetGoerli|xdc|xdcApothem|bsc|cronos|fantom|fantomTestnet|gnosis|moonbeam|moonriver|polygonZkEVMTestnet|polygo
-    nZkEVM|baseSepolia|base] [-f <value>] [-g <value>] [-w <value>]
+  $ gateway-eth burn ADDRESS
 
 ARGUMENTS
   ADDRESS  Token owner address
 
-FLAGS
-  -c, --chain=<option>
+OPTIONS
+  -c, --chain=localhost|ethereum|sepolia|polygonAmoy|polygon|auroraTestnet|aurora|optimismSepolia|optimism|palmTestnet|p
+  alm|arbitrumSepolia|arbitrum|celo|celoAlfajores|avalancheCChain|avalancheCChainFuji|starknet|starknetGoerli|xdc|xdcApo
+  them|bsc|cronos|fantom|fantomTestnet|gnosis|moonbeam|moonriver|polygonZkEVMTestnet|polygonZkEVM|baseSepolia|base
       [default: [object Object]] Specify target chain to work with (or set DEFAULT_CHAIN environment variable)
-      <options: localhost|ethereum|sepolia|goerli|polygonMumbai|polygonAmoy|polygon|auroraTestnet|aurora|optimismGoerli|op
-      timism|palmTestnet|palm|arbitrumGoerli|arbitrumSepolia|arbitrum|celo|celoAlfajores|avalancheCChain|avalancheCChainFu
-      ji|starknet|starknetGoerli|xdc|xdcApothem|bsc|cronos|fantom|fantomTestnet|gnosis|moonbeam|moonriver|polygonZkEVMTest
-      net|polygonZkEVM|baseSepolia|base>
 
-  -f, --fees=<value>
+  -f, --fees=fees
       Gas Price level to execute transaction with. For example: instant, fast, standard, slow
 
-  -g, --gasLimit=<value>
+  -g, --gasLimit=gasLimit
       Gas limit to set for the transaction. Required only for chains/providers that do not support eth_estimateGas
 
   -h, --help
       Show CLI help.
 
-  -n, --gatekeeperNetwork=<value>
+  -n, --gatekeeperNetwork=gatekeeperNetwork
       [default: 1] Gatekeeper network. Defaults to the test Gatekeeper Network
 
-  -p, --privateKey=<value>
+  -p, --privateKey=privateKey
       [default: 0xf1ddf80d2b5d038bc2ab7ae9a26e017d2252218dc687ab72d45f84bfbee2957d] The ethereum address private key for
       signing messages (or set PRIVATE_KEY environment variable)
 
-  -t, --gatewayTokenAddress=<value>
+  -t, --gatewayTokenAddress=gatewayTokenAddress
       [default: 0xF65b6396dF6B7e2D8a6270E3AB6c7BB08BAEF22E] GatewayToken address to target (or set GATEWAY_TOKEN_ADDRESS
       environment variable)
 
-  -w, --confirmations=<value>
-      [default: 1] The amount of blocks to wait for mined transaction
+  -w, --confirmations=confirmations
+      [default: [object Object]] The amount of blocks to wait for mined transaction
 
-DESCRIPTION
-  Burn existing gateway token
-
-EXAMPLES
+EXAMPLE
   $ gateway-eth burn 0x893F4Be53274353CD3379C87C8fd1cb4f8458F94 -n 123
 ```
 
@@ -277,48 +249,39 @@ Create a new gatekeeper network
 
 ```
 USAGE
-  $ gateway-eth create-gatekeeper-network [ID] [NAME] [-h] [-p <value>] [-c
-    localhost|ethereum|sepolia|goerli|polygonMumbai|polygonAmoy|polygon|auroraTestnet|aurora|optimismGoerli|optimism|pal
-    mTestnet|palm|arbitrumGoerli|arbitrumSepolia|arbitrum|celo|celoAlfajores|avalancheCChain|avalancheCChainFuji|starkne
-    t|starknetGoerli|xdc|xdcApothem|bsc|cronos|fantom|fantomTestnet|gnosis|moonbeam|moonriver|polygonZkEVMTestnet|polygo
-    nZkEVM|baseSepolia|base] [-t <value>] [-f <value>] [-g <value>] [-w <value>]
+  $ gateway-eth create-gatekeeper-network ID NAME
 
 ARGUMENTS
   ID    ID of the new network
   NAME  Name of the new network
 
-FLAGS
-  -c, --chain=<option>
+OPTIONS
+  -c, --chain=localhost|ethereum|sepolia|polygonAmoy|polygon|auroraTestnet|aurora|optimismSepolia|optimism|palmTestnet|p
+  alm|arbitrumSepolia|arbitrum|celo|celoAlfajores|avalancheCChain|avalancheCChainFuji|starknet|starknetGoerli|xdc|xdcApo
+  them|bsc|cronos|fantom|fantomTestnet|gnosis|moonbeam|moonriver|polygonZkEVMTestnet|polygonZkEVM|baseSepolia|base
       [default: [object Object]] Specify target chain to work with (or set DEFAULT_CHAIN environment variable)
-      <options: localhost|ethereum|sepolia|goerli|polygonMumbai|polygonAmoy|polygon|auroraTestnet|aurora|optimismGoerli|op
-      timism|palmTestnet|palm|arbitrumGoerli|arbitrumSepolia|arbitrum|celo|celoAlfajores|avalancheCChain|avalancheCChainFu
-      ji|starknet|starknetGoerli|xdc|xdcApothem|bsc|cronos|fantom|fantomTestnet|gnosis|moonbeam|moonriver|polygonZkEVMTest
-      net|polygonZkEVM|baseSepolia|base>
 
-  -f, --fees=<value>
+  -f, --fees=fees
       Gas Price level to execute transaction with. For example: instant, fast, standard, slow
 
-  -g, --gasLimit=<value>
+  -g, --gasLimit=gasLimit
       Gas limit to set for the transaction. Required only for chains/providers that do not support eth_estimateGas
 
   -h, --help
       Show CLI help.
 
-  -p, --privateKey=<value>
+  -p, --privateKey=privateKey
       [default: 0xf1ddf80d2b5d038bc2ab7ae9a26e017d2252218dc687ab72d45f84bfbee2957d] The ethereum address private key for
       signing messages (or set PRIVATE_KEY environment variable)
 
-  -t, --gatewayTokenAddress=<value>
+  -t, --gatewayTokenAddress=gatewayTokenAddress
       [default: 0xF65b6396dF6B7e2D8a6270E3AB6c7BB08BAEF22E] GatewayToken address to target (or set GATEWAY_TOKEN_ADDRESS
       environment variable)
 
-  -w, --confirmations=<value>
-      [default: 1] The amount of blocks to wait for mined transaction
+  -w, --confirmations=confirmations
+      [default: [object Object]] The amount of blocks to wait for mined transaction
 
-DESCRIPTION
-  Create a new gatekeeper network
-
-EXAMPLES
+EXAMPLE
   $ gateway-eth create-gatekeeper-network <number> <name>
 ```
 
@@ -330,50 +293,41 @@ Freeze existing gateway token
 
 ```
 USAGE
-  $ gateway-eth freeze [ADDRESS] [-h] [-p <value>] [-t <value>] [-n <value>] [-c
-    localhost|ethereum|sepolia|goerli|polygonMumbai|polygonAmoy|polygon|auroraTestnet|aurora|optimismGoerli|optimism|pal
-    mTestnet|palm|arbitrumGoerli|arbitrumSepolia|arbitrum|celo|celoAlfajores|avalancheCChain|avalancheCChainFuji|starkne
-    t|starknetGoerli|xdc|xdcApothem|bsc|cronos|fantom|fantomTestnet|gnosis|moonbeam|moonriver|polygonZkEVMTestnet|polygo
-    nZkEVM|baseSepolia|base] [-f <value>] [-g <value>] [-w <value>]
+  $ gateway-eth freeze ADDRESS
 
 ARGUMENTS
   ADDRESS  Token owner address
 
-FLAGS
-  -c, --chain=<option>
+OPTIONS
+  -c, --chain=localhost|ethereum|sepolia|polygonAmoy|polygon|auroraTestnet|aurora|optimismSepolia|optimism|palmTestnet|p
+  alm|arbitrumSepolia|arbitrum|celo|celoAlfajores|avalancheCChain|avalancheCChainFuji|starknet|starknetGoerli|xdc|xdcApo
+  them|bsc|cronos|fantom|fantomTestnet|gnosis|moonbeam|moonriver|polygonZkEVMTestnet|polygonZkEVM|baseSepolia|base
       [default: [object Object]] Specify target chain to work with (or set DEFAULT_CHAIN environment variable)
-      <options: localhost|ethereum|sepolia|goerli|polygonMumbai|polygonAmoy|polygon|auroraTestnet|aurora|optimismGoerli|op
-      timism|palmTestnet|palm|arbitrumGoerli|arbitrumSepolia|arbitrum|celo|celoAlfajores|avalancheCChain|avalancheCChainFu
-      ji|starknet|starknetGoerli|xdc|xdcApothem|bsc|cronos|fantom|fantomTestnet|gnosis|moonbeam|moonriver|polygonZkEVMTest
-      net|polygonZkEVM|baseSepolia|base>
 
-  -f, --fees=<value>
+  -f, --fees=fees
       Gas Price level to execute transaction with. For example: instant, fast, standard, slow
 
-  -g, --gasLimit=<value>
+  -g, --gasLimit=gasLimit
       Gas limit to set for the transaction. Required only for chains/providers that do not support eth_estimateGas
 
   -h, --help
       Show CLI help.
 
-  -n, --gatekeeperNetwork=<value>
+  -n, --gatekeeperNetwork=gatekeeperNetwork
       [default: 1] Gatekeeper network. Defaults to the test Gatekeeper Network
 
-  -p, --privateKey=<value>
+  -p, --privateKey=privateKey
       [default: 0xf1ddf80d2b5d038bc2ab7ae9a26e017d2252218dc687ab72d45f84bfbee2957d] The ethereum address private key for
       signing messages (or set PRIVATE_KEY environment variable)
 
-  -t, --gatewayTokenAddress=<value>
+  -t, --gatewayTokenAddress=gatewayTokenAddress
       [default: 0xF65b6396dF6B7e2D8a6270E3AB6c7BB08BAEF22E] GatewayToken address to target (or set GATEWAY_TOKEN_ADDRESS
       environment variable)
 
-  -w, --confirmations=<value>
-      [default: 1] The amount of blocks to wait for mined transaction
+  -w, --confirmations=confirmations
+      [default: [object Object]] The amount of blocks to wait for mined transaction
 
-DESCRIPTION
-  Freeze existing gateway token
-
-EXAMPLES
+EXAMPLE
   $ gateway-eth freeze 0x893F4Be53274353CD3379C87C8fd1cb4f8458F94 -n 123
 ```
 
@@ -385,34 +339,25 @@ Check if a gatekeeper network exists
 
 ```
 USAGE
-  $ gateway-eth get-gatekeeper-network [ID] [-h] [-c
-    localhost|ethereum|sepolia|goerli|polygonMumbai|polygonAmoy|polygon|auroraTestnet|aurora|optimismGoerli|optimism|pal
-    mTestnet|palm|arbitrumGoerli|arbitrumSepolia|arbitrum|celo|celoAlfajores|avalancheCChain|avalancheCChainFuji|starkne
-    t|starknetGoerli|xdc|xdcApothem|bsc|cronos|fantom|fantomTestnet|gnosis|moonbeam|moonriver|polygonZkEVMTestnet|polygo
-    nZkEVM|baseSepolia|base] [-t <value>]
+  $ gateway-eth get-gatekeeper-network ID
 
 ARGUMENTS
   ID  ID of the network
 
-FLAGS
-  -c, --chain=<option>
+OPTIONS
+  -c, --chain=localhost|ethereum|sepolia|polygonAmoy|polygon|auroraTestnet|aurora|optimismSepolia|optimism|palmTestnet|p
+  alm|arbitrumSepolia|arbitrum|celo|celoAlfajores|avalancheCChain|avalancheCChainFuji|starknet|starknetGoerli|xdc|xdcApo
+  them|bsc|cronos|fantom|fantomTestnet|gnosis|moonbeam|moonriver|polygonZkEVMTestnet|polygonZkEVM|baseSepolia|base
       [default: [object Object]] Specify target chain to work with (or set DEFAULT_CHAIN environment variable)
-      <options: localhost|ethereum|sepolia|goerli|polygonMumbai|polygonAmoy|polygon|auroraTestnet|aurora|optimismGoerli|op
-      timism|palmTestnet|palm|arbitrumGoerli|arbitrumSepolia|arbitrum|celo|celoAlfajores|avalancheCChain|avalancheCChainFu
-      ji|starknet|starknetGoerli|xdc|xdcApothem|bsc|cronos|fantom|fantomTestnet|gnosis|moonbeam|moonriver|polygonZkEVMTest
-      net|polygonZkEVM|baseSepolia|base>
 
   -h, --help
       Show CLI help.
 
-  -t, --gatewayTokenAddress=<value>
+  -t, --gatewayTokenAddress=gatewayTokenAddress
       [default: 0xF65b6396dF6B7e2D8a6270E3AB6c7BB08BAEF22E] GatewayToken address to target (or set GATEWAY_TOKEN_ADDRESS
       environment variable)
 
-DESCRIPTION
-  Check if a gatekeeper network exists
-
-EXAMPLES
+EXAMPLE
   $ gateway-eth get-gatekeeper-network <number>
 ```
 
@@ -424,40 +369,31 @@ Get existing gateway token
 
 ```
 USAGE
-  $ gateway-eth get-token [ADDRESS] [-h] [-t <value>] [-n <value>] [-c
-    localhost|ethereum|sepolia|goerli|polygonMumbai|polygonAmoy|polygon|auroraTestnet|aurora|optimismGoerli|optimism|pal
-    mTestnet|palm|arbitrumGoerli|arbitrumSepolia|arbitrum|celo|celoAlfajores|avalancheCChain|avalancheCChainFuji|starkne
-    t|starknetGoerli|xdc|xdcApothem|bsc|cronos|fantom|fantomTestnet|gnosis|moonbeam|moonriver|polygonZkEVMTestnet|polygo
-    nZkEVM|baseSepolia|base]
+  $ gateway-eth get-token ADDRESS
 
 ARGUMENTS
   ADDRESS  Token owner address
 
-FLAGS
-  -c, --chain=<option>
+OPTIONS
+  -c, --chain=localhost|ethereum|sepolia|polygonAmoy|polygon|auroraTestnet|aurora|optimismSepolia|optimism|palmTestnet|p
+  alm|arbitrumSepolia|arbitrum|celo|celoAlfajores|avalancheCChain|avalancheCChainFuji|starknet|starknetGoerli|xdc|xdcApo
+  them|bsc|cronos|fantom|fantomTestnet|gnosis|moonbeam|moonriver|polygonZkEVMTestnet|polygonZkEVM|baseSepolia|base
       [default: [object Object]] Specify target chain to work with (or set DEFAULT_CHAIN environment variable)
-      <options: localhost|ethereum|sepolia|goerli|polygonMumbai|polygonAmoy|polygon|auroraTestnet|aurora|optimismGoerli|op
-      timism|palmTestnet|palm|arbitrumGoerli|arbitrumSepolia|arbitrum|celo|celoAlfajores|avalancheCChain|avalancheCChainFu
-      ji|starknet|starknetGoerli|xdc|xdcApothem|bsc|cronos|fantom|fantomTestnet|gnosis|moonbeam|moonriver|polygonZkEVMTest
-      net|polygonZkEVM|baseSepolia|base>
 
   -h, --help
       Show CLI help.
 
-  -n, --gatekeeperNetwork=<value>
+  -n, --gatekeeperNetwork=gatekeeperNetwork
       [default: 1] Gatekeeper network. Defaults to the test Gatekeeper Network
 
-  -t, --gatewayTokenAddress=<value>
+  -t, --gatewayTokenAddress=gatewayTokenAddress
       [default: 0xF65b6396dF6B7e2D8a6270E3AB6c7BB08BAEF22E] GatewayToken address to target (or set GATEWAY_TOKEN_ADDRESS
       environment variable)
-
-DESCRIPTION
-  Get existing gateway token
 
 ALIASES
   $ gateway-eth verify
 
-EXAMPLES
+EXAMPLE
   $ gateway-eth get 0x893F4Be53274353CD3379C87C8fd1cb4f8458F94 -n 123
 ```
 
@@ -469,16 +405,13 @@ Display help for gateway-eth.
 
 ```
 USAGE
-  $ gateway-eth help [COMMAND] [-n]
+  $ gateway-eth help [COMMAND]
 
 ARGUMENTS
   COMMAND  Command to show help for.
 
-FLAGS
+OPTIONS
   -n, --nested-commands  Include all nested commands in the output.
-
-DESCRIPTION
-  Display help for gateway-eth.
 ```
 
 _See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v5.1.20/src/commands/help.ts)_
@@ -489,37 +422,28 @@ Check if a gatekeeper is added to a network
 
 ```
 USAGE
-  $ gateway-eth is-gatekeeper [GATEKEEPERADDRESS] [-h] [-c
-    localhost|ethereum|sepolia|goerli|polygonMumbai|polygonAmoy|polygon|auroraTestnet|aurora|optimismGoerli|optimism|pal
-    mTestnet|palm|arbitrumGoerli|arbitrumSepolia|arbitrum|celo|celoAlfajores|avalancheCChain|avalancheCChainFuji|starkne
-    t|starknetGoerli|xdc|xdcApothem|bsc|cronos|fantom|fantomTestnet|gnosis|moonbeam|moonriver|polygonZkEVMTestnet|polygo
-    nZkEVM|baseSepolia|base] [-t <value>] [-n <value>]
+  $ gateway-eth is-gatekeeper GATEKEEPERADDRESS
 
 ARGUMENTS
   GATEKEEPERADDRESS  Address of the Gatekeeper Authority
 
-FLAGS
-  -c, --chain=<option>
+OPTIONS
+  -c, --chain=localhost|ethereum|sepolia|polygonAmoy|polygon|auroraTestnet|aurora|optimismSepolia|optimism|palmTestnet|p
+  alm|arbitrumSepolia|arbitrum|celo|celoAlfajores|avalancheCChain|avalancheCChainFuji|starknet|starknetGoerli|xdc|xdcApo
+  them|bsc|cronos|fantom|fantomTestnet|gnosis|moonbeam|moonriver|polygonZkEVMTestnet|polygonZkEVM|baseSepolia|base
       [default: [object Object]] Specify target chain to work with (or set DEFAULT_CHAIN environment variable)
-      <options: localhost|ethereum|sepolia|goerli|polygonMumbai|polygonAmoy|polygon|auroraTestnet|aurora|optimismGoerli|op
-      timism|palmTestnet|palm|arbitrumGoerli|arbitrumSepolia|arbitrum|celo|celoAlfajores|avalancheCChain|avalancheCChainFu
-      ji|starknet|starknetGoerli|xdc|xdcApothem|bsc|cronos|fantom|fantomTestnet|gnosis|moonbeam|moonriver|polygonZkEVMTest
-      net|polygonZkEVM|baseSepolia|base>
 
   -h, --help
       Show CLI help.
 
-  -n, --gatekeeperNetwork=<value>
+  -n, --gatekeeperNetwork=gatekeeperNetwork
       [default: 1] Gatekeeper network. Defaults to the test Gatekeeper Network
 
-  -t, --gatewayTokenAddress=<value>
+  -t, --gatewayTokenAddress=gatewayTokenAddress
       [default: 0xF65b6396dF6B7e2D8a6270E3AB6c7BB08BAEF22E] GatewayToken address to target (or set GATEWAY_TOKEN_ADDRESS
       environment variable)
 
-DESCRIPTION
-  Check if a gatekeeper is added to a network
-
-EXAMPLES
+EXAMPLE
   $ gateway-eth is-gatekeeper -n <slot id> <gatekeeper address>
 ```
 
@@ -531,63 +455,54 @@ Issue a new gateway token for a given owner address and gatekeeper network
 
 ```
 USAGE
-  $ gateway-eth issue [ADDRESS] [EXPIRY] [-h] [-p <value>] [-t <value>] [-n <value>] [-c
-    localhost|ethereum|sepolia|goerli|polygonMumbai|polygonAmoy|polygon|auroraTestnet|aurora|optimismGoerli|optimism|pal
-    mTestnet|palm|arbitrumGoerli|arbitrumSepolia|arbitrum|celo|celoAlfajores|avalancheCChain|avalancheCChainFuji|starkne
-    t|starknetGoerli|xdc|xdcApothem|bsc|cronos|fantom|fantomTestnet|gnosis|moonbeam|moonriver|polygonZkEVMTestnet|polygo
-    nZkEVM|baseSepolia|base] [-f <value>] [-w <value>] [-g <value>] [-b <value>] [-u <value>] [-x <value>] [-a <value>]
+  $ gateway-eth issue ADDRESS [EXPIRY]
 
 ARGUMENTS
   ADDRESS  Token owner address
   EXPIRY   [default: [object Object]] Expiry timestamp for the issued token
 
-FLAGS
-  -a, --charge=<value>
+OPTIONS
+  -a, --charge=charge
       Charge in native tokens for the transaction
 
-  -b, --bitmask=<value>
+  -b, --bitmask=bitmask
       [default: [object Object]] Bitmask constraints to link with newly minting token
 
-  -c, --chain=<option>
+  -c, --chain=localhost|ethereum|sepolia|polygonAmoy|polygon|auroraTestnet|aurora|optimismSepolia|optimism|palmTestnet|p
+  alm|arbitrumSepolia|arbitrum|celo|celoAlfajores|avalancheCChain|avalancheCChainFuji|starknet|starknetGoerli|xdc|xdcApo
+  them|bsc|cronos|fantom|fantomTestnet|gnosis|moonbeam|moonriver|polygonZkEVMTestnet|polygonZkEVM|baseSepolia|base
       [default: [object Object]] Specify target chain to work with (or set DEFAULT_CHAIN environment variable)
-      <options: localhost|ethereum|sepolia|goerli|polygonMumbai|polygonAmoy|polygon|auroraTestnet|aurora|optimismGoerli|op
-      timism|palmTestnet|palm|arbitrumGoerli|arbitrumSepolia|arbitrum|celo|celoAlfajores|avalancheCChain|avalancheCChainFu
-      ji|starknet|starknetGoerli|xdc|xdcApothem|bsc|cronos|fantom|fantomTestnet|gnosis|moonbeam|moonriver|polygonZkEVMTest
-      net|polygonZkEVM|baseSepolia|base>
 
-  -f, --fees=<value>
+  -f, --fees=fees
       Gas Price level to execute transaction with. For example: instant, fast, standard, slow
 
-  -g, --gasLimit=<value>
+  -g, --gasLimit=gasLimit
       Gas limit to set for the transaction. Required only for chains/providers that do not support eth_estimateGas
 
   -h, --help
       Show CLI help.
 
-  -n, --gatekeeperNetwork=<value>
+  -n, --gatekeeperNetwork=gatekeeperNetwork
       [default: 1] Gatekeeper network. Defaults to the test Gatekeeper Network
 
-  -p, --privateKey=<value>
+  -p, --privateKey=privateKey
       [default: 0xf1ddf80d2b5d038bc2ab7ae9a26e017d2252218dc687ab72d45f84bfbee2957d] The ethereum address private key for
       signing messages (or set PRIVATE_KEY environment variable)
 
-  -t, --gatewayTokenAddress=<value>
+  -t, --gatewayTokenAddress=gatewayTokenAddress
       [default: 0xF65b6396dF6B7e2D8a6270E3AB6c7BB08BAEF22E] GatewayToken address to target (or set GATEWAY_TOKEN_ADDRESS
       environment variable)
 
-  -u, --uri=<value>
+  -u, --uri=uri
       TokenURI to link with the issued token
 
-  -w, --confirmations=<value>
-      [default: 1] The amount of blocks to wait for mined transaction
+  -w, --confirmations=confirmations
+      [default: [object Object]] The amount of blocks to wait for mined transaction
 
-  -x, --forwarder=<value>
+  -x, --forwarder=forwarder
       Forward the transaction to the forwarder contract
 
-DESCRIPTION
-  Issue a new gateway token for a given owner address and gatekeeper network
-
-EXAMPLES
+EXAMPLE
   $ gateway-eth issue 0x893F4Be53274353CD3379C87C8fd1cb4f8458F94 -n 123
 ```
 
@@ -599,37 +514,28 @@ Listen to changes on a gateway token
 
 ```
 USAGE
-  $ gateway-eth listen [ADDRESS] [-h] [-t <value>] [-n <value>] [-c
-    localhost|ethereum|sepolia|goerli|polygonMumbai|polygonAmoy|polygon|auroraTestnet|aurora|optimismGoerli|optimism|pal
-    mTestnet|palm|arbitrumGoerli|arbitrumSepolia|arbitrum|celo|celoAlfajores|avalancheCChain|avalancheCChainFuji|starkne
-    t|starknetGoerli|xdc|xdcApothem|bsc|cronos|fantom|fantomTestnet|gnosis|moonbeam|moonriver|polygonZkEVMTestnet|polygo
-    nZkEVM|baseSepolia|base]
+  $ gateway-eth listen ADDRESS
 
 ARGUMENTS
   ADDRESS  Token owner address
 
-FLAGS
-  -c, --chain=<option>
+OPTIONS
+  -c, --chain=localhost|ethereum|sepolia|polygonAmoy|polygon|auroraTestnet|aurora|optimismSepolia|optimism|palmTestnet|p
+  alm|arbitrumSepolia|arbitrum|celo|celoAlfajores|avalancheCChain|avalancheCChainFuji|starknet|starknetGoerli|xdc|xdcApo
+  them|bsc|cronos|fantom|fantomTestnet|gnosis|moonbeam|moonriver|polygonZkEVMTestnet|polygonZkEVM|baseSepolia|base
       [default: [object Object]] Specify target chain to work with (or set DEFAULT_CHAIN environment variable)
-      <options: localhost|ethereum|sepolia|goerli|polygonMumbai|polygonAmoy|polygon|auroraTestnet|aurora|optimismGoerli|op
-      timism|palmTestnet|palm|arbitrumGoerli|arbitrumSepolia|arbitrum|celo|celoAlfajores|avalancheCChain|avalancheCChainFu
-      ji|starknet|starknetGoerli|xdc|xdcApothem|bsc|cronos|fantom|fantomTestnet|gnosis|moonbeam|moonriver|polygonZkEVMTest
-      net|polygonZkEVM|baseSepolia|base>
 
   -h, --help
       Show CLI help.
 
-  -n, --gatekeeperNetwork=<value>
+  -n, --gatekeeperNetwork=gatekeeperNetwork
       [default: 1] Gatekeeper network. Defaults to the test Gatekeeper Network
 
-  -t, --gatewayTokenAddress=<value>
+  -t, --gatewayTokenAddress=gatewayTokenAddress
       [default: 0xF65b6396dF6B7e2D8a6270E3AB6c7BB08BAEF22E] GatewayToken address to target (or set GATEWAY_TOKEN_ADDRESS
       environment variable)
 
-DESCRIPTION
-  Listen to changes on a gateway token
-
-EXAMPLES
+EXAMPLE
   $ gateway-eth listen 0x893F4Be53274353CD3379C87C8fd1cb4f8458F94 -n 123
 ```
 
@@ -641,51 +547,42 @@ Refresh existing gateway token for Ethereum address
 
 ```
 USAGE
-  $ gateway-eth refresh [ADDRESS] [EXPIRY] [-h] [-p <value>] [-t <value>] [-n <value>] [-c
-    localhost|ethereum|sepolia|goerli|polygonMumbai|polygonAmoy|polygon|auroraTestnet|aurora|optimismGoerli|optimism|pal
-    mTestnet|palm|arbitrumGoerli|arbitrumSepolia|arbitrum|celo|celoAlfajores|avalancheCChain|avalancheCChainFuji|starkne
-    t|starknetGoerli|xdc|xdcApothem|bsc|cronos|fantom|fantomTestnet|gnosis|moonbeam|moonriver|polygonZkEVMTestnet|polygo
-    nZkEVM|baseSepolia|base] [-f <value>] [-g <value>] [-w <value>]
+  $ gateway-eth refresh ADDRESS [EXPIRY]
 
 ARGUMENTS
   ADDRESS  Token owner address
   EXPIRY   [default: [object Object]] Expiry timestamp for newly issued token
 
-FLAGS
-  -c, --chain=<option>
+OPTIONS
+  -c, --chain=localhost|ethereum|sepolia|polygonAmoy|polygon|auroraTestnet|aurora|optimismSepolia|optimism|palmTestnet|p
+  alm|arbitrumSepolia|arbitrum|celo|celoAlfajores|avalancheCChain|avalancheCChainFuji|starknet|starknetGoerli|xdc|xdcApo
+  them|bsc|cronos|fantom|fantomTestnet|gnosis|moonbeam|moonriver|polygonZkEVMTestnet|polygonZkEVM|baseSepolia|base
       [default: [object Object]] Specify target chain to work with (or set DEFAULT_CHAIN environment variable)
-      <options: localhost|ethereum|sepolia|goerli|polygonMumbai|polygonAmoy|polygon|auroraTestnet|aurora|optimismGoerli|op
-      timism|palmTestnet|palm|arbitrumGoerli|arbitrumSepolia|arbitrum|celo|celoAlfajores|avalancheCChain|avalancheCChainFu
-      ji|starknet|starknetGoerli|xdc|xdcApothem|bsc|cronos|fantom|fantomTestnet|gnosis|moonbeam|moonriver|polygonZkEVMTest
-      net|polygonZkEVM|baseSepolia|base>
 
-  -f, --fees=<value>
+  -f, --fees=fees
       Gas Price level to execute transaction with. For example: instant, fast, standard, slow
 
-  -g, --gasLimit=<value>
+  -g, --gasLimit=gasLimit
       Gas limit to set for the transaction. Required only for chains/providers that do not support eth_estimateGas
 
   -h, --help
       Show CLI help.
 
-  -n, --gatekeeperNetwork=<value>
+  -n, --gatekeeperNetwork=gatekeeperNetwork
       [default: 1] Gatekeeper network. Defaults to the test Gatekeeper Network
 
-  -p, --privateKey=<value>
+  -p, --privateKey=privateKey
       [default: 0xf1ddf80d2b5d038bc2ab7ae9a26e017d2252218dc687ab72d45f84bfbee2957d] The ethereum address private key for
       signing messages (or set PRIVATE_KEY environment variable)
 
-  -t, --gatewayTokenAddress=<value>
+  -t, --gatewayTokenAddress=gatewayTokenAddress
       [default: 0xF65b6396dF6B7e2D8a6270E3AB6c7BB08BAEF22E] GatewayToken address to target (or set GATEWAY_TOKEN_ADDRESS
       environment variable)
 
-  -w, --confirmations=<value>
-      [default: 1] The amount of blocks to wait for mined transaction
+  -w, --confirmations=confirmations
+      [default: [object Object]] The amount of blocks to wait for mined transaction
 
-DESCRIPTION
-  Refresh existing gateway token for Ethereum address
-
-EXAMPLES
+EXAMPLE
   $ gateway-eth refresh 0x893F4Be53274353CD3379C87C8fd1cb4f8458F94 60 -n 123
 ```
 
@@ -697,50 +594,41 @@ Remove a gatekeeper from a gatekeeper network
 
 ```
 USAGE
-  $ gateway-eth remove-gatekeeper [ADDRESS] [-h] [-p <value>] [-t <value>] [-n <value>] [-c
-    localhost|ethereum|sepolia|goerli|polygonMumbai|polygonAmoy|polygon|auroraTestnet|aurora|optimismGoerli|optimism|pal
-    mTestnet|palm|arbitrumGoerli|arbitrumSepolia|arbitrum|celo|celoAlfajores|avalancheCChain|avalancheCChainFuji|starkne
-    t|starknetGoerli|xdc|xdcApothem|bsc|cronos|fantom|fantomTestnet|gnosis|moonbeam|moonriver|polygonZkEVMTestnet|polygo
-    nZkEVM|baseSepolia|base] [-f <value>] [-g <value>] [-w <value>]
+  $ gateway-eth remove-gatekeeper ADDRESS
 
 ARGUMENTS
   ADDRESS  Gatekeeper address to remove from the gatekeeper network
 
-FLAGS
-  -c, --chain=<option>
+OPTIONS
+  -c, --chain=localhost|ethereum|sepolia|polygonAmoy|polygon|auroraTestnet|aurora|optimismSepolia|optimism|palmTestnet|p
+  alm|arbitrumSepolia|arbitrum|celo|celoAlfajores|avalancheCChain|avalancheCChainFuji|starknet|starknetGoerli|xdc|xdcApo
+  them|bsc|cronos|fantom|fantomTestnet|gnosis|moonbeam|moonriver|polygonZkEVMTestnet|polygonZkEVM|baseSepolia|base
       [default: [object Object]] Specify target chain to work with (or set DEFAULT_CHAIN environment variable)
-      <options: localhost|ethereum|sepolia|goerli|polygonMumbai|polygonAmoy|polygon|auroraTestnet|aurora|optimismGoerli|op
-      timism|palmTestnet|palm|arbitrumGoerli|arbitrumSepolia|arbitrum|celo|celoAlfajores|avalancheCChain|avalancheCChainFu
-      ji|starknet|starknetGoerli|xdc|xdcApothem|bsc|cronos|fantom|fantomTestnet|gnosis|moonbeam|moonriver|polygonZkEVMTest
-      net|polygonZkEVM|baseSepolia|base>
 
-  -f, --fees=<value>
+  -f, --fees=fees
       Gas Price level to execute transaction with. For example: instant, fast, standard, slow
 
-  -g, --gasLimit=<value>
+  -g, --gasLimit=gasLimit
       Gas limit to set for the transaction. Required only for chains/providers that do not support eth_estimateGas
 
   -h, --help
       Show CLI help.
 
-  -n, --gatekeeperNetwork=<value>
+  -n, --gatekeeperNetwork=gatekeeperNetwork
       [default: 1] Gatekeeper network. Defaults to the test Gatekeeper Network
 
-  -p, --privateKey=<value>
+  -p, --privateKey=privateKey
       [default: 0xf1ddf80d2b5d038bc2ab7ae9a26e017d2252218dc687ab72d45f84bfbee2957d] The ethereum address private key for
       signing messages (or set PRIVATE_KEY environment variable)
 
-  -t, --gatewayTokenAddress=<value>
+  -t, --gatewayTokenAddress=gatewayTokenAddress
       [default: 0xF65b6396dF6B7e2D8a6270E3AB6c7BB08BAEF22E] GatewayToken address to target (or set GATEWAY_TOKEN_ADDRESS
       environment variable)
 
-  -w, --confirmations=<value>
-      [default: 1] The amount of blocks to wait for mined transaction
+  -w, --confirmations=confirmations
+      [default: [object Object]] The amount of blocks to wait for mined transaction
 
-DESCRIPTION
-  Remove a gatekeeper from a gatekeeper network
-
-EXAMPLES
+EXAMPLE
   $ gateway-eth remove-gatekeeper 0x893F4Be53274353CD3379C87C8fd1cb4f8458F94 -n 123
 ```
 
@@ -752,50 +640,41 @@ Remove a network authority from a gatekeeper network
 
 ```
 USAGE
-  $ gateway-eth remove-network-authority [ADDRESS] [-h] [-p <value>] [-t <value>] [-n <value>] [-c
-    localhost|ethereum|sepolia|goerli|polygonMumbai|polygonAmoy|polygon|auroraTestnet|aurora|optimismGoerli|optimism|pal
-    mTestnet|palm|arbitrumGoerli|arbitrumSepolia|arbitrum|celo|celoAlfajores|avalancheCChain|avalancheCChainFuji|starkne
-    t|starknetGoerli|xdc|xdcApothem|bsc|cronos|fantom|fantomTestnet|gnosis|moonbeam|moonriver|polygonZkEVMTestnet|polygo
-    nZkEVM|baseSepolia|base] [-f <value>] [-g <value>] [-w <value>]
+  $ gateway-eth remove-network-authority ADDRESS
 
 ARGUMENTS
   ADDRESS  Network authority address to add to the gatekeeper network
 
-FLAGS
-  -c, --chain=<option>
+OPTIONS
+  -c, --chain=localhost|ethereum|sepolia|polygonAmoy|polygon|auroraTestnet|aurora|optimismSepolia|optimism|palmTestnet|p
+  alm|arbitrumSepolia|arbitrum|celo|celoAlfajores|avalancheCChain|avalancheCChainFuji|starknet|starknetGoerli|xdc|xdcApo
+  them|bsc|cronos|fantom|fantomTestnet|gnosis|moonbeam|moonriver|polygonZkEVMTestnet|polygonZkEVM|baseSepolia|base
       [default: [object Object]] Specify target chain to work with (or set DEFAULT_CHAIN environment variable)
-      <options: localhost|ethereum|sepolia|goerli|polygonMumbai|polygonAmoy|polygon|auroraTestnet|aurora|optimismGoerli|op
-      timism|palmTestnet|palm|arbitrumGoerli|arbitrumSepolia|arbitrum|celo|celoAlfajores|avalancheCChain|avalancheCChainFu
-      ji|starknet|starknetGoerli|xdc|xdcApothem|bsc|cronos|fantom|fantomTestnet|gnosis|moonbeam|moonriver|polygonZkEVMTest
-      net|polygonZkEVM|baseSepolia|base>
 
-  -f, --fees=<value>
+  -f, --fees=fees
       Gas Price level to execute transaction with. For example: instant, fast, standard, slow
 
-  -g, --gasLimit=<value>
+  -g, --gasLimit=gasLimit
       Gas limit to set for the transaction. Required only for chains/providers that do not support eth_estimateGas
 
   -h, --help
       Show CLI help.
 
-  -n, --gatekeeperNetwork=<value>
+  -n, --gatekeeperNetwork=gatekeeperNetwork
       [default: 1] Gatekeeper network. Defaults to the test Gatekeeper Network
 
-  -p, --privateKey=<value>
+  -p, --privateKey=privateKey
       [default: 0xf1ddf80d2b5d038bc2ab7ae9a26e017d2252218dc687ab72d45f84bfbee2957d] The ethereum address private key for
       signing messages (or set PRIVATE_KEY environment variable)
 
-  -t, --gatewayTokenAddress=<value>
+  -t, --gatewayTokenAddress=gatewayTokenAddress
       [default: 0xF65b6396dF6B7e2D8a6270E3AB6c7BB08BAEF22E] GatewayToken address to target (or set GATEWAY_TOKEN_ADDRESS
       environment variable)
 
-  -w, --confirmations=<value>
-      [default: 1] The amount of blocks to wait for mined transaction
+  -w, --confirmations=confirmations
+      [default: [object Object]] The amount of blocks to wait for mined transaction
 
-DESCRIPTION
-  Remove a network authority from a gatekeeper network
-
-EXAMPLES
+EXAMPLE
   $ gateway-eth remove-network-authority 0x893F4Be53274353CD3379C87C8fd1cb4f8458F94 -n 123
 ```
 
@@ -807,48 +686,39 @@ Rename a gatekeeper network
 
 ```
 USAGE
-  $ gateway-eth rename-gatekeeper-network [ID] [NAME] [-h] [-p <value>] [-c
-    localhost|ethereum|sepolia|goerli|polygonMumbai|polygonAmoy|polygon|auroraTestnet|aurora|optimismGoerli|optimism|pal
-    mTestnet|palm|arbitrumGoerli|arbitrumSepolia|arbitrum|celo|celoAlfajores|avalancheCChain|avalancheCChainFuji|starkne
-    t|starknetGoerli|xdc|xdcApothem|bsc|cronos|fantom|fantomTestnet|gnosis|moonbeam|moonriver|polygonZkEVMTestnet|polygo
-    nZkEVM|baseSepolia|base] [-t <value>] [-f <value>] [-g <value>] [-w <value>]
+  $ gateway-eth rename-gatekeeper-network ID NAME
 
 ARGUMENTS
   ID    ID of the new network
   NAME  New name of the new network
 
-FLAGS
-  -c, --chain=<option>
+OPTIONS
+  -c, --chain=localhost|ethereum|sepolia|polygonAmoy|polygon|auroraTestnet|aurora|optimismSepolia|optimism|palmTestnet|p
+  alm|arbitrumSepolia|arbitrum|celo|celoAlfajores|avalancheCChain|avalancheCChainFuji|starknet|starknetGoerli|xdc|xdcApo
+  them|bsc|cronos|fantom|fantomTestnet|gnosis|moonbeam|moonriver|polygonZkEVMTestnet|polygonZkEVM|baseSepolia|base
       [default: [object Object]] Specify target chain to work with (or set DEFAULT_CHAIN environment variable)
-      <options: localhost|ethereum|sepolia|goerli|polygonMumbai|polygonAmoy|polygon|auroraTestnet|aurora|optimismGoerli|op
-      timism|palmTestnet|palm|arbitrumGoerli|arbitrumSepolia|arbitrum|celo|celoAlfajores|avalancheCChain|avalancheCChainFu
-      ji|starknet|starknetGoerli|xdc|xdcApothem|bsc|cronos|fantom|fantomTestnet|gnosis|moonbeam|moonriver|polygonZkEVMTest
-      net|polygonZkEVM|baseSepolia|base>
 
-  -f, --fees=<value>
+  -f, --fees=fees
       Gas Price level to execute transaction with. For example: instant, fast, standard, slow
 
-  -g, --gasLimit=<value>
+  -g, --gasLimit=gasLimit
       Gas limit to set for the transaction. Required only for chains/providers that do not support eth_estimateGas
 
   -h, --help
       Show CLI help.
 
-  -p, --privateKey=<value>
+  -p, --privateKey=privateKey
       [default: 0xf1ddf80d2b5d038bc2ab7ae9a26e017d2252218dc687ab72d45f84bfbee2957d] The ethereum address private key for
       signing messages (or set PRIVATE_KEY environment variable)
 
-  -t, --gatewayTokenAddress=<value>
+  -t, --gatewayTokenAddress=gatewayTokenAddress
       [default: 0xF65b6396dF6B7e2D8a6270E3AB6c7BB08BAEF22E] GatewayToken address to target (or set GATEWAY_TOKEN_ADDRESS
       environment variable)
 
-  -w, --confirmations=<value>
-      [default: 1] The amount of blocks to wait for mined transaction
+  -w, --confirmations=confirmations
+      [default: [object Object]] The amount of blocks to wait for mined transaction
 
-DESCRIPTION
-  Rename a gatekeeper network
-
-EXAMPLES
+EXAMPLE
   $ gateway-eth rename-gatekeeper-network <name> <number>
 ```
 
@@ -860,50 +730,41 @@ Revoke existing gateway token
 
 ```
 USAGE
-  $ gateway-eth revoke [ADDRESS] [-h] [-p <value>] [-t <value>] [-n <value>] [-c
-    localhost|ethereum|sepolia|goerli|polygonMumbai|polygonAmoy|polygon|auroraTestnet|aurora|optimismGoerli|optimism|pal
-    mTestnet|palm|arbitrumGoerli|arbitrumSepolia|arbitrum|celo|celoAlfajores|avalancheCChain|avalancheCChainFuji|starkne
-    t|starknetGoerli|xdc|xdcApothem|bsc|cronos|fantom|fantomTestnet|gnosis|moonbeam|moonriver|polygonZkEVMTestnet|polygo
-    nZkEVM|baseSepolia|base] [-f <value>] [-g <value>] [-w <value>]
+  $ gateway-eth revoke ADDRESS
 
 ARGUMENTS
   ADDRESS  Token owner address
 
-FLAGS
-  -c, --chain=<option>
+OPTIONS
+  -c, --chain=localhost|ethereum|sepolia|polygonAmoy|polygon|auroraTestnet|aurora|optimismSepolia|optimism|palmTestnet|p
+  alm|arbitrumSepolia|arbitrum|celo|celoAlfajores|avalancheCChain|avalancheCChainFuji|starknet|starknetGoerli|xdc|xdcApo
+  them|bsc|cronos|fantom|fantomTestnet|gnosis|moonbeam|moonriver|polygonZkEVMTestnet|polygonZkEVM|baseSepolia|base
       [default: [object Object]] Specify target chain to work with (or set DEFAULT_CHAIN environment variable)
-      <options: localhost|ethereum|sepolia|goerli|polygonMumbai|polygonAmoy|polygon|auroraTestnet|aurora|optimismGoerli|op
-      timism|palmTestnet|palm|arbitrumGoerli|arbitrumSepolia|arbitrum|celo|celoAlfajores|avalancheCChain|avalancheCChainFu
-      ji|starknet|starknetGoerli|xdc|xdcApothem|bsc|cronos|fantom|fantomTestnet|gnosis|moonbeam|moonriver|polygonZkEVMTest
-      net|polygonZkEVM|baseSepolia|base>
 
-  -f, --fees=<value>
+  -f, --fees=fees
       Gas Price level to execute transaction with. For example: instant, fast, standard, slow
 
-  -g, --gasLimit=<value>
+  -g, --gasLimit=gasLimit
       Gas limit to set for the transaction. Required only for chains/providers that do not support eth_estimateGas
 
   -h, --help
       Show CLI help.
 
-  -n, --gatekeeperNetwork=<value>
+  -n, --gatekeeperNetwork=gatekeeperNetwork
       [default: 1] Gatekeeper network. Defaults to the test Gatekeeper Network
 
-  -p, --privateKey=<value>
+  -p, --privateKey=privateKey
       [default: 0xf1ddf80d2b5d038bc2ab7ae9a26e017d2252218dc687ab72d45f84bfbee2957d] The ethereum address private key for
       signing messages (or set PRIVATE_KEY environment variable)
 
-  -t, --gatewayTokenAddress=<value>
+  -t, --gatewayTokenAddress=gatewayTokenAddress
       [default: 0xF65b6396dF6B7e2D8a6270E3AB6c7BB08BAEF22E] GatewayToken address to target (or set GATEWAY_TOKEN_ADDRESS
       environment variable)
 
-  -w, --confirmations=<value>
-      [default: 1] The amount of blocks to wait for mined transaction
+  -w, --confirmations=confirmations
+      [default: [object Object]] The amount of blocks to wait for mined transaction
 
-DESCRIPTION
-  Revoke existing gateway token
-
-EXAMPLES
+EXAMPLE
   $ gateway-eth revoke 0x893F4Be53274353CD3379C87C8fd1cb4f8458F94 -n 123
 ```
 
@@ -915,95 +776,43 @@ Unfreezing existing gateway token
 
 ```
 USAGE
-  $ gateway-eth unfreeze [ADDRESS] [-h] [-p <value>] [-t <value>] [-n <value>] [-c
-    localhost|ethereum|sepolia|goerli|polygonMumbai|polygonAmoy|polygon|auroraTestnet|aurora|optimismGoerli|optimism|pal
-    mTestnet|palm|arbitrumGoerli|arbitrumSepolia|arbitrum|celo|celoAlfajores|avalancheCChain|avalancheCChainFuji|starkne
-    t|starknetGoerli|xdc|xdcApothem|bsc|cronos|fantom|fantomTestnet|gnosis|moonbeam|moonriver|polygonZkEVMTestnet|polygo
-    nZkEVM|baseSepolia|base] [-f <value>] [-g <value>] [-w <value>]
+  $ gateway-eth unfreeze ADDRESS
 
 ARGUMENTS
   ADDRESS  Token owner address
 
-FLAGS
-  -c, --chain=<option>
+OPTIONS
+  -c, --chain=localhost|ethereum|sepolia|polygonAmoy|polygon|auroraTestnet|aurora|optimismSepolia|optimism|palmTestnet|p
+  alm|arbitrumSepolia|arbitrum|celo|celoAlfajores|avalancheCChain|avalancheCChainFuji|starknet|starknetGoerli|xdc|xdcApo
+  them|bsc|cronos|fantom|fantomTestnet|gnosis|moonbeam|moonriver|polygonZkEVMTestnet|polygonZkEVM|baseSepolia|base
       [default: [object Object]] Specify target chain to work with (or set DEFAULT_CHAIN environment variable)
-      <options: localhost|ethereum|sepolia|goerli|polygonMumbai|polygonAmoy|polygon|auroraTestnet|aurora|optimismGoerli|op
-      timism|palmTestnet|palm|arbitrumGoerli|arbitrumSepolia|arbitrum|celo|celoAlfajores|avalancheCChain|avalancheCChainFu
-      ji|starknet|starknetGoerli|xdc|xdcApothem|bsc|cronos|fantom|fantomTestnet|gnosis|moonbeam|moonriver|polygonZkEVMTest
-      net|polygonZkEVM|baseSepolia|base>
 
-  -f, --fees=<value>
+  -f, --fees=fees
       Gas Price level to execute transaction with. For example: instant, fast, standard, slow
 
-  -g, --gasLimit=<value>
+  -g, --gasLimit=gasLimit
       Gas limit to set for the transaction. Required only for chains/providers that do not support eth_estimateGas
 
   -h, --help
       Show CLI help.
 
-  -n, --gatekeeperNetwork=<value>
+  -n, --gatekeeperNetwork=gatekeeperNetwork
       [default: 1] Gatekeeper network. Defaults to the test Gatekeeper Network
 
-  -p, --privateKey=<value>
+  -p, --privateKey=privateKey
       [default: 0xf1ddf80d2b5d038bc2ab7ae9a26e017d2252218dc687ab72d45f84bfbee2957d] The ethereum address private key for
       signing messages (or set PRIVATE_KEY environment variable)
 
-  -t, --gatewayTokenAddress=<value>
+  -t, --gatewayTokenAddress=gatewayTokenAddress
       [default: 0xF65b6396dF6B7e2D8a6270E3AB6c7BB08BAEF22E] GatewayToken address to target (or set GATEWAY_TOKEN_ADDRESS
       environment variable)
 
-  -w, --confirmations=<value>
-      [default: 1] The amount of blocks to wait for mined transaction
+  -w, --confirmations=confirmations
+      [default: [object Object]] The amount of blocks to wait for mined transaction
 
-DESCRIPTION
-  Unfreezing existing gateway token
-
-EXAMPLES
+EXAMPLE
   $ gateway-eth unfreeze 0x893F4Be53274353CD3379C87C8fd1cb4f8458F94 -n 123
 ```
 
 _See code: [dist/commands/unfreeze.ts](https://github.com/identity-com/on-chain-identity-gateway/blob/v0.2.3/dist/commands/unfreeze.ts)_
-
-## `gateway-eth verify ADDRESS`
-
-Get existing gateway token
-
-```
-USAGE
-  $ gateway-eth verify [ADDRESS] [-h] [-t <value>] [-n <value>] [-c
-    localhost|ethereum|sepolia|goerli|polygonMumbai|polygonAmoy|polygon|auroraTestnet|aurora|optimismGoerli|optimism|pal
-    mTestnet|palm|arbitrumGoerli|arbitrumSepolia|arbitrum|celo|celoAlfajores|avalancheCChain|avalancheCChainFuji|starkne
-    t|starknetGoerli|xdc|xdcApothem|bsc|cronos|fantom|fantomTestnet|gnosis|moonbeam|moonriver|polygonZkEVMTestnet|polygo
-    nZkEVM|baseSepolia|base]
-
-ARGUMENTS
-  ADDRESS  Token owner address
-
-FLAGS
-  -c, --chain=<option>
-      [default: [object Object]] Specify target chain to work with (or set DEFAULT_CHAIN environment variable)
-      <options: localhost|ethereum|sepolia|goerli|polygonMumbai|polygonAmoy|polygon|auroraTestnet|aurora|optimismGoerli|op
-      timism|palmTestnet|palm|arbitrumGoerli|arbitrumSepolia|arbitrum|celo|celoAlfajores|avalancheCChain|avalancheCChainFu
-      ji|starknet|starknetGoerli|xdc|xdcApothem|bsc|cronos|fantom|fantomTestnet|gnosis|moonbeam|moonriver|polygonZkEVMTest
-      net|polygonZkEVM|baseSepolia|base>
-
-  -h, --help
-      Show CLI help.
-
-  -n, --gatekeeperNetwork=<value>
-      [default: 1] Gatekeeper network. Defaults to the test Gatekeeper Network
-
-  -t, --gatewayTokenAddress=<value>
-      [default: 0xF65b6396dF6B7e2D8a6270E3AB6c7BB08BAEF22E] GatewayToken address to target (or set GATEWAY_TOKEN_ADDRESS
-      environment variable)
-
-DESCRIPTION
-  Get existing gateway token
-
-ALIASES
-  $ gateway-eth verify
-
-EXAMPLES
-  $ gateway-eth get 0x893F4Be53274353CD3379C87C8fd1cb4f8458F94 -n 123
-```
 <!-- commandsstop -->

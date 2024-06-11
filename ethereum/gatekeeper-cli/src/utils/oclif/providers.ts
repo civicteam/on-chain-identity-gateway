@@ -21,14 +21,6 @@ export const networks = {
     url: 'https://sepolia.infura.io/v3/',
     chainId: 11_155_111,
   },
-  goerli: {
-    url: 'https://goerli.infura.io/v3/',
-    chainId: 5,
-  },
-  polygonMumbai: {
-    url: 'https://polygon-mumbai.infura.io/v3/',
-    chainId: 80_001,
-  },
   polygonAmoy: {
     url: 'https://polygon-amoy.infura.io/v3/',
     chainId: 80_002,
@@ -45,9 +37,9 @@ export const networks = {
     url: 'https://aurora-mainnet.infura.io/v3/',
     chainId: 1_313_161_554,
   },
-  optimismGoerli: {
-    url: 'https://optimism-goerli.infura.io/v3/',
-    chainId: 420,
+  optimismSepolia: {
+    url: 'https://optimism-sepolia.infura.io/v3/',
+    chainId: 11155420,
   },
   optimism: {
     url: 'https://optimism-mainnet.infura.io/v3/',
@@ -60,10 +52,6 @@ export const networks = {
   palm: {
     url: 'https://palm-mainnet.infura.io/v3/',
     chainId: 11_297_108_109,
-  },
-  arbitrumGoerli: {
-    url: 'https://arbitrum-goerli.infura.io/v3/',
-    chainId: 421_613,
   },
   arbitrumSepolia: {
     url: 'https://sepolia-rollup.arbitrum.io/rpc',
