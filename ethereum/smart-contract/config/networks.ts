@@ -35,16 +35,6 @@ export const networks = {
         accounts: liveAccounts,
         chainId: 11155111,
     },
-    goerli: {
-        url: process.env.GOERLI_RPC ??`https://goerli.infura.io/v3/${process.env.INFURA_API_KEY}`,
-        accounts: liveAccounts,
-        chainId: 5,
-    },
-    polygonMumbai: {
-        url: process.env.POLYGONMUMBAI_RPC ??`https://polygon-mumbai.infura.io/v3/${process.env.INFURA_API_KEY}`,
-        accounts: liveAccounts,
-        chainId: 80001,
-    },
     polygonMainnet: {
         url: process.env.POLYGON_RPC ?? `https://polygon-mainnet.infura.io/v3/${process.env.INFURA_API_KEY}`,
         accounts: liveAccounts,
@@ -64,13 +54,6 @@ export const networks = {
         url: process.env.AURORA_RPC ??`https://aurora-mainnet.infura.io/v3/${process.env.INFURA_API_KEY}`,
         accounts: liveAccounts,
         chainId: 1313161554,
-    },
-    optimismGoerli: {
-        url: process.env.OPGOERLI_RPC ??`https://optimism-goerli.infura.io/v3/${process.env.INFURA_API_KEY}`,
-        accounts: liveAccounts,
-        chainId: 420,
-        // optimism goerli deployment is only reliable if a gas price is set - the gas oracles are not reliable
-        gasPrice: 1_000_000_000,
     },
     optimismSepolia: {
         url: process.env.OPSEPOLIA_RPC ??`https://sepolia.optimism.io`,
@@ -93,11 +76,6 @@ export const networks = {
         url: process.env.PALM_RPC ??`https://palm-mainnet.infura.io/v3/${process.env.INFURA_API_KEY}`,
         accounts: liveAccounts,
         chainId: 11297108109,
-    },
-    arbitrumGoerli: {
-        url: process.env.ARBGOERLI_RPC ??`https://arbitrum-goerli.infura.io/v3/${process.env.INFURA_API_KEY}`,
-        accounts: liveAccounts,
-        chainId: 421613,
     },
     arbitrumSepolia: {
         url: process.env.ARBSEPOLIA_RPC ??`https://sepolia-rollup.arbitrum.io/rpc`,
@@ -131,11 +109,6 @@ export const networks = {
     },
     starknetMainnet: {
         url: process.env.STARKNET_RPC ??`https://starknet-mainnet.infura.io/v3/${process.env.INFURA_API_KEY}`,
-        accounts: liveAccounts,
-        chainId: 0, // not documented anywhere
-    },
-    starknetGoerli: {
-        url: process.env.STARKNETGOERLI_RPC ??`https://starknet-goerli.infura.io/v3/${process.env.INFURA_API_KEY}`,
         accounts: liveAccounts,
         chainId: 0, // not documented anywhere
     },
@@ -197,11 +170,6 @@ export const networks = {
         accounts: liveAccounts,
         chainId: 59144,
     },
-    lineaGoerli: {
-        url: process.env.LINEAGOERLI_RPC ?? `https://linea-goerli.infura.io/v3/${process.env.INFURA_API_KEY}`,
-        accounts: liveAccounts,
-        chainId: 59140,
-    },
     gnosis: {
         url: process.env.GNOSIS_RPC ?? 'https://rpc.gnosischain.com',
         accounts: liveAccounts,
@@ -227,11 +195,6 @@ export const networks = {
         url: process.env.ZKSYNC_RPC ?? 'https://mainnet.era.zksync.io',
         accounts: liveAccounts,
         chainId: 324,
-    },
-    zkSyncGoerli: {
-        url: process.env.ZKSYNCGOERLI_RPC ?? 'https://testnet.era.zksync.dev',
-        accounts: liveAccounts,
-        chainId: 280,
     },
     oasisSapphireTestnet: {
         url: 'https://testnet.sapphire.oasis.dev',

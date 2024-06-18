@@ -55,12 +55,10 @@ module.exports = {
   etherscan: {
     apiKey: {
       mainnet: process.env.ETHERSCAN_API_KEY,
-      goerli: process.env.ETHERSCAN_API_KEY,
       polygon: process.env.POLYGONSCAN_API_KEY,
       polygonZkEVM: process.env.POLYGONSCAN_API_KEY,
       polygonZkEVMTestnet: process.env.POLYGONSCAN_API_KEY,
       arbitrumOne: process.env.ARBISCAN_API_KEY,
-      arbitrumGoerli: process.env.ARBISCAN_API_KEY,
       polygonAmoy: process.env.OKLINK_AMOY_API_KEY
     },
     customChains: [

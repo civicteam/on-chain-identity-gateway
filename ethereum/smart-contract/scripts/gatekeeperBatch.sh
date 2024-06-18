@@ -17,7 +17,7 @@ action=$2  # Assign the second argument to action
 # mainnets
 networks=(mainnet polygonMainnet arbitrumMainnet xdc polygonZkEVM fantom)
 # testnets
-#networks=(sepolia goerli polygonMumbai arbitrumGoerli xdcApothem polygonZkEVMTestnet fantomTestnet)
+#networks=(sepolia xdcApothem polygonZkEVMTestnet fantomTestnet)
 gatekeepernetworks=(1 12 13 14 15 16 17 18 20 21 23 25)
 
 # Load completed tasks from batch.temp

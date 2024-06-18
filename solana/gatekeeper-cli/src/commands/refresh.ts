@@ -5,6 +5,8 @@ import {
   clusterFlag,
   gatekeeperKeyFlag,
   gatekeeperNetworkPubkeyFlag,
+  prioFeeFlag,
+  skipPreflightFlag,
 } from "../util/flags";
 import { getTokenUpdateProperties } from "../util/utils";
 
@@ -23,6 +25,8 @@ Refreshed
     gatekeeperNetworkKey: gatekeeperNetworkPubkeyFlag(),
     cluster: clusterFlag(),
     airdrop: airdropFlag,
+    priorityFeeLamports: prioFeeFlag(),
+    skipPreflight: skipPreflightFlag,
   };
 
   static args = [
@@ -60,7 +64,7 @@ Refreshed
         gatewayToken,
         expiry + Math.floor(Date.now() / 1000)
       )
-      .then((t) => t.send())
+      .then((t) => t.send(flags.skipPreflight ? {skipPreflight: true}: {}))
       .then((t) => t.confirm());
 
     this.log("Refreshed");
