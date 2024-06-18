@@ -4,6 +4,8 @@ import {
   clusterFlag,
   gatekeeperKeyFlag,
   gatekeeperNetworkKeyFlag,
+  prioFeeFlag,
+  skipPreflightFlag,
 } from "../util/flags";
 import { Keypair, PublicKey } from "@solana/web3.js";
 import { airdropTo, GatekeeperNetworkService } from "@identity.com/solana-gatekeeper-lib";
@@ -23,6 +25,8 @@ export default class RevokeGatekeeper extends Command {
     gatekeeperNetworkKey: gatekeeperNetworkKeyFlag(),
     cluster: clusterFlag(),
     airdrop: airdropFlag,
+    priorityFeeLamports: prioFeeFlag(),
+    skipPreflight: skipPreflightFlag,
   };
 
   static args = [
@@ -59,8 +63,8 @@ export default class RevokeGatekeeper extends Command {
         gatekeeperNetwork
     );
     const gatekeeperAccount = await networkService
-        .revokeGatekeeper(gatekeeper)
-        .then((t) => t.send())
+        .revokeGatekeeper(gatekeeper, flags.priorityFeeLamports ? { priorityFeeMicroLamports: flags.priorityFeeLamports } : undefined)
+        .then((t) => t.send(flags.skipPreflight ? {skipPreflight: true}: {}))
         .then((t) => t.confirm());
     this.log(
         `Revoked gatekeeper from network. Gatekeeper account: ${
