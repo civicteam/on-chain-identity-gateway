@@ -16,6 +16,7 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
     args: [blockAgeTolerance],
     log: true,
     deterministicDeployment: true,
+    gasLimit: 2_000_000,
   });
 
   const gatewayToken = await deployments.get('GatewayTokenProxy');

@@ -10,14 +10,20 @@ import '@openzeppelin/hardhat-upgrades';
 import 'hardhat-contract-sizer';
 import './config/tasks';
 import {defaultPath, networks} from "./config/networks";
-import {deterministicDeployment} from "./config/deterministic-deployment";
+// import {deterministicDeployment} from "./config/deterministic-deployment";
 
 dotenv.config();
 
 module.exports = {
+// added since coti does not have estimateGas support yet - do not merge into the main branch
+  gasLimit: 1_000_000,
+  estimatedGasLimit: 1_000_000,
   defaultNetwork: 'hardhat',
   networks,
-  deterministicDeployment,
+    // Enable to use Safe Singleton Factory.
+    // Defaults to hardhat deployment contract.
+    // TODO make configurable from network
+  // deterministicDeployment,
   solidity: {
     version: '0.8.19',
     settings: {

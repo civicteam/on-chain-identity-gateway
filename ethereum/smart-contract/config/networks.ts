@@ -207,7 +207,7 @@ export const networks = {
         chainId: 23294,
     },
     cotiDevnet: {
-        url: "https://devnet.coti.io",
+        url: "https://devnet.coti.io/rpc",
         accounts: liveAccounts,
         chainId: 13068200,
     }
