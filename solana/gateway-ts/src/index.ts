@@ -9,7 +9,6 @@ import { GatewayToken, ProgramAccountResponse, State } from "./types";
 import { encode } from "bs58";
 import { PROGRAM_ID, SOLANA_COMMITMENT } from "./lib/constants";
 import { GatewayTokenData } from "./lib/GatewayTokenData";
-import * as R from "ramda";
 import { NetworkFeature } from "./lib/GatewayNetworkData";
 import {
   dataToGatewayToken,
@@ -124,11 +123,11 @@ export const findGatewayTokensForOwnerAndNetwork = async (
   page = 5, // by default, assume a user has max five GTs for a given network
 ): Promise<GatewayToken[]> => {
   const addresses = await Promise.all(
-    R.range(offset, offset + page).map((index) =>
+    Array.from({ length: page }, (_, index) =>
       getGatewayTokenAddressForOwnerAndGatekeeperNetwork(
         owner,
         gatekeeperNetwork,
-        index,
+        index + offset,
       ),
     ),
   );
