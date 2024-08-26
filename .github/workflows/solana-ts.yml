@@ -56,7 +56,7 @@ jobs:
         # This should match rust-toolchain.toml ( actions-rs/toolchain@v1 does not pick it up directly in monorepos )
         rust: ["1.74"]
         node: ["20.x"]
-        solana: ["edge"]
+        solana: ["v1.18.18"]
         os: [ubuntu-latest]
 
     defaults:
