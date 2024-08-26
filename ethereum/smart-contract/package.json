@@ -1,7 +1,7 @@
 {
-  "name": "@identity.com/gateway-protocol-eth",
+  "name": "@civic/gateway-protocol-eth",
   "version": "0.0.5",
-  "description": "Identity.com Gateway Tokens ethereum smart contracts",
+  "description": "Civic Gateway Tokens ethereum smart contracts",
   "directories": {
     "test": "test"
   },

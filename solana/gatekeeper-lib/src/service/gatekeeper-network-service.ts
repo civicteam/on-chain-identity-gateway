@@ -8,7 +8,7 @@ import {
   NetworkFeature,
   removeFeatureFromNetwork,
   revokeGatekeeper,
-} from "@identity.com/solana-gateway-ts";
+} from "@civic/solana-gateway-ts";
 import { SendableDataTransaction, SendableTransaction } from "../util";
 import { HashOrNonce } from "../util/connection";
 import { getOrCreateBlockhashOrNonce } from "../util/transaction";

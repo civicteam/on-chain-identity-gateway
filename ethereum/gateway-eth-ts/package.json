@@ -1,7 +1,7 @@
 {
-  "name": "@identity.com/gateway-eth-ts",
+  "name": "@civic/gateway-eth-ts",
   "version": "0.8.1",
-  "description": "Adapter library for Identity.com gateway token system on Ethereum",
+  "description": "Adapter library for Civic gateway token system on Ethereum",
   "main": "dist/index.js",
   "scripts": {
     "prebuild": "rm -rf dist && yarn copy-contracts",
@@ -14,15 +14,15 @@
     "stop-network": "lsof -t -i:8545 | xargs kill",
     "copy-contracts": "cp -r ../smart-contract/build/contracts/* src/contracts/abi/ && cp -r ../smart-contract/typechain-types src/contracts"
   },
-  "repository": "git@github.com:identity-com/on-chain-identity-gateway.git",
+  "repository": "git@github.com:civicteam/on-chain-identity-gateway.git",
   "author": "Daniel Kelleher",
   "license": "MIT",
-  "bugs": "https://github.com/identity-com/on-chain-identity-gateway/issues",
+  "bugs": "https://github.com/civicteam/on-chain-identity-gateway/issues",
   "files": [
     "/dist",
     "/npm-shrinkwrap.json"
   ],
-  "homepage": "https://github.com/identity-com/on-chain-identity-gateway",
+  "homepage": "https://github.com/civicteam/on-chain-identity-gateway",
   "dependencies": {
     "@ethersproject/abi": "^5.7.0",
     "@ethersproject/abstract-signer": "^5.7.0",

@@ -260,12 +260,12 @@
   resolved "https://registry.yarnpkg.com/@humanwhocodes/object-schema/-/object-schema-1.2.1.tgz#b520529ec21d8e5945a1851dfd1c32e94e39ff45"
   integrity sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==
 
-"@identity.com/solana-gatekeeper-lib@^6.1.1-alpha.0":
+"@civic/solana-gatekeeper-lib@^6.1.1-alpha.0":
   version "6.1.1-alpha.0"
-  resolved "https://registry.yarnpkg.com/@identity.com/solana-gatekeeper-lib/-/solana-gatekeeper-lib-6.1.1-alpha.0.tgz#92d296a0b996f1c45f1e192f3421b164ea33e183"
+  resolved "https://registry.yarnpkg.com/@civic/solana-gatekeeper-lib/-/solana-gatekeeper-lib-6.1.1-alpha.0.tgz#92d296a0b996f1c45f1e192f3421b164ea33e183"
   integrity sha512-k2vktUjRKRobe7boSiKrk/vRnpbDOzkIuKYJsWAcEXTgnmnc+kI5U4+/F2gJ6jQjDdn63tDSUGDLrNvcPYY/4Q==
   dependencies:
-    "@identity.com/solana-gateway-ts" "^0.13.0-alpha.0"
+    "@civic/solana-gateway-ts" "^0.13.0-alpha.0"
     "@solana/buffer-layout" "^4.0.1"
     "@solana/spl-token" "^0.4.3"
     "@solana/web3.js" "^1.91.4"
@@ -274,9 +274,9 @@
     ramda "^0.29.1"
     tslib "^2.6.2"
 
-"@identity.com/solana-gateway-ts@^0.13.0-alpha.0":
+"@civic/solana-gateway-ts@^0.13.0-alpha.0":
   version "0.13.0-alpha.0"
-  resolved "https://registry.yarnpkg.com/@identity.com/solana-gateway-ts/-/solana-gateway-ts-0.13.0-alpha.0.tgz#fa98b3ad29d0828a16e33131414f7070578c796c"
+  resolved "https://registry.yarnpkg.com/@civic/solana-gateway-ts/-/solana-gateway-ts-0.13.0-alpha.0.tgz#fa98b3ad29d0828a16e33131414f7070578c796c"
   integrity sha512-TDm+OrBScKpb2gNUE5S6pUp9BjdmEvt+wXNygCCd/FFt6cjRVmMqygS9t8nj9BPYEEZSPkzZg29t/fCyEyy5eA==
   dependencies:
     "@solana/web3.js" "^1.91.4"

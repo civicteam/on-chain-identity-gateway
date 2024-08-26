@@ -1,4 +1,4 @@
-# NPM Ignore file for @identity.com/gateway-protocol-eth
+# NPM Ignore file for @civic/gateway-protocol-eth
 # Note - only the verifier interface and Gated contract are exported
 # As only those are needed to integrate Gateway
 *
