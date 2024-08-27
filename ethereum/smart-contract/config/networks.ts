@@ -155,13 +155,12 @@ export const networks = {
         chainId: 8453,
     },
     bsc: {
-        url: process.env.BSC_RPC ??'https://bsc-dataseed1.bnbchain.org',
+        url: process.env.BSC_RPC ?? `https://bsc-mainnet.infura.io/v3/${process.env.INFURA_API_KEY}`,
         accounts: liveAccounts,
         chainId: 56,
     },
     bscTestnet: {
-        // url: `https://bnbsmartchain-testnet.infura.io/v3/${process.env.INFURA_API_KEY}`,
-        url: process.env.BSCTESTNET_RPC ?? 'https://bsc-testnet.publicnode.com',
+        url: process.env.BSCTESTNET_RPC ?? `https://bsc-testnet.infura.io/v3/${process.env.INFURA_API_KEY}`,
         accounts: liveAccounts,
         chainId: 97,
     },
@@ -195,5 +194,5 @@ export const networks = {
         url: process.env.ZKSYNC_RPC ?? 'https://mainnet.era.zksync.io',
         accounts: liveAccounts,
         chainId: 324,
-    },
+    }
 };
