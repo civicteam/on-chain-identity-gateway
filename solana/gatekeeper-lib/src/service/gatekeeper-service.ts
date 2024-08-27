@@ -18,7 +18,7 @@ import {
   unfreeze,
   updateExpiry,
   burn,
-} from "@identity.com/solana-gateway-ts";
+} from "@civic/solana-gateway-ts";
 
 import { Action, SendableDataTransaction, SendableTransaction } from "../util";
 import { TransactionHolder } from "../util/connection";

@@ -1,5 +1,5 @@
 import {getSigner} from './signer'
-import {GatewayTs, TokenData} from '@identity.com/gateway-eth-ts'
+import {GatewayTs, TokenData} from '@civic/gateway-eth-ts'
 import {estimateGasPrice} from './gas'
 import {ParsedFlags} from './flags'
 export const makeGatewayTs = async ({

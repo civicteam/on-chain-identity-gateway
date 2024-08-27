@@ -17,7 +17,7 @@
 
 ## Summary
 
-This document describes the Ethereum Virtual Machine (EVM) implementation of the Identity.com Gateway Protocol.
+This document describes the Ethereum Virtual Machine (EVM) implementation of the Civic Gateway Protocol.
 
 The Gateway Protocol is a standard that allows smart contracts to add access control constraints, requiring 
 that a user has a valid Gateway Token (GT) in order to interact with the smart contract.
@@ -190,7 +190,7 @@ Of the upgradeability standards available, the EIP-1822 (UUPS) standard was chos
   and has been added to the OpenZeppelin SDK, which is used by the protocol.
 - It is gas-efficient in comparison to some other standards
 
-The upgrade key (the key used to upgrade the protocol) is set to an Identity.com key on deployment. It can be rotated by a
+The upgrade key (the key used to upgrade the protocol) is set to an Civic key on deployment. It can be rotated by a
 superadmin. The superadmin can also disable upgradeability.
 
 ## Additional Features
@@ -213,9 +213,9 @@ without needing to create a new token type for each combination
 - it allows clients to accept tokens from multiple gatekeeper networks,
 if those tokens share common properties.
 
-The flag namespace is managed by Identity.com. Gatekeepers can set and unset flags on their tokens at any time.
+The flag namespace is managed by Civic. Gatekeepers can set and unset flags on their tokens at any time.
 
-To request a new flag be added to the namespace, please contact identity.com via [www.identity.com](www.identity.com).
+To request a new flag be added to the namespace, please contact civic via [www.civic.com](www.civic.com).
 
 ## Glossary
 

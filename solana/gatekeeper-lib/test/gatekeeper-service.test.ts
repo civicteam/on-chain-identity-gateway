@@ -13,14 +13,14 @@ import {
   TransactionInstruction,
 } from "@solana/web3.js";
 import { PROGRAM_ID } from "../src/util/constants";
-import * as GatewayTs from "@identity.com/solana-gateway-ts";
+import * as GatewayTs from "@civic/solana-gateway-ts";
 import {
   GatewayToken,
   GatewayTokenData,
   GatewayTokenState,
   getGatewayTokenAddressForOwnerAndGatekeeperNetwork,
   State,
-} from "@identity.com/solana-gateway-ts";
+} from "@civic/solana-gateway-ts";
 import {
   GatekeeperService,
   SendableDataTransaction,
@@ -29,7 +29,7 @@ import {
   SimpleGatekeeperService,
   Action,
 } from "../src";
-import { Active } from "@identity.com/solana-gateway-ts/dist/lib/GatewayTokenData";
+import { Active } from "@civic/solana-gateway-ts/dist/lib/GatewayTokenData";
 import { TOKEN_PROGRAM_ID } from "@solana/spl-token";
 
 chai.use(sinonChai);

@@ -10,7 +10,7 @@ import {
   skipPreflightFlag,
 } from "../util/flags";
 import {getConnectionFromEnv, prettyPrint} from "../util/utils";
-import {airdropTo, GatekeeperService} from "@identity.com/solana-gatekeeper-lib";
+import {airdropTo, GatekeeperService} from "@civic/solana-gatekeeper-lib";
 
 export default class Issue extends Command {
   static description = "Issue a gateway token to a wallet";

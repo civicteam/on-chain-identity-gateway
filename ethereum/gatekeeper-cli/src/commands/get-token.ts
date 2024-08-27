@@ -6,7 +6,7 @@ import {
 import {Command, Flags} from '@oclif/core'
 import {addressArg} from '../utils/oclif/args'
 import {makeGatewayTs} from '../utils/oclif/utils'
-import {TokenState} from '@identity.com/gateway-eth-ts'
+import {TokenState} from '@civic/gateway-eth-ts'
 import {BigNumber} from '@ethersproject/bignumber'
 
 export default class GetToken extends Command {

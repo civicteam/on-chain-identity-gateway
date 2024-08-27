@@ -27,7 +27,7 @@ module.exports = {
   },
   contractSizer: {
     runOnCompile: true,
-    strict: true,
+    strict: true
   },
   paths: {
     sources: defaultPath,

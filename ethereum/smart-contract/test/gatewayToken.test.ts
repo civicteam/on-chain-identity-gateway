@@ -276,7 +276,7 @@ describe('GatewayToken', async () => {
     });
   });
 
-  describe('Test executing functions only for Identity.com admin by third-party address', async () => {
+  describe('Test executing functions only for Civic admin by third-party address', async () => {
     it('Try to change admin by Bob, expect revert due to invalid access', async () => {
       await expect(gatewayToken.connect(bob).setSuperAdmin(bob.address)).to.be.revertedWithCustomError(
         gatewayToken,

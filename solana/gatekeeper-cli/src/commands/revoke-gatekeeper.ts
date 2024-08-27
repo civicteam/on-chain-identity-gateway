@@ -8,7 +8,7 @@ import {
   skipPreflightFlag,
 } from "../util/flags";
 import { Keypair, PublicKey } from "@solana/web3.js";
-import { airdropTo, GatekeeperNetworkService } from "@identity.com/solana-gatekeeper-lib";
+import { airdropTo, GatekeeperNetworkService } from "@civic/solana-gatekeeper-lib";
 import { getConnectionFromEnv } from "../util/utils";
 
 export default class RevokeGatekeeper extends Command {
