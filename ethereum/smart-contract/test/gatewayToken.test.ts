@@ -1615,7 +1615,7 @@ describe('GatewayToken', async () => {
         const balance = await alice.getBalance();
         const charge = makeWeiCharge(balance.mul(2));
         const shouldFail = gatewayToken.connect(alice).mint(alice.address, gkn1, 0, 0, charge, { value: charge.value });
-        await expect(shouldFail).to.be.rejectedWith(/Sender doesn't have enough funds/);
+        await expect(shouldFail).to.be.rejectedWith(/sender doesn't have enough funds/);
       });
     });
 
