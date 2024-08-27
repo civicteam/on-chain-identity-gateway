@@ -94,8 +94,12 @@ export const networks = {
     chainId: 51,
   },
   bsc: {
-    url: 'https://bsc.rpc.blxrbdn.com',
+    url: 'https://binance.llamarpc.com',
     chainId: 56,
+  },
+  bscTestnet: {
+    url: 'https://bsc-testnet.public.blastapi.io',
+    chainId: 97,
   },
   cronos: {
     url: 'https://cronos.blockpi.network/v1/rpc/public',
