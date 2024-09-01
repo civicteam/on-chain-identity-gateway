@@ -19,7 +19,7 @@ $ npm install -g @civic/solana-gatekeeper-cli
 $ gateway COMMAND
 running command...
 $ gateway (-v|--version|version)
-@civic/solana-gatekeeper-cli/0.0.2 darwin-x64 node-v20.12.0
+@civic/solana-gatekeeper-cli/0.0.2 darwin-arm64 node-v20.13.1
 $ gateway --help [COMMAND]
 USAGE
   $ gateway COMMAND
