@@ -1,7 +1,4 @@
-import {
-  BaseProvider,
-  getDefaultProvider,
-} from "@ethersproject/providers";
+import { BaseProvider, getDefaultProvider } from "@ethersproject/providers";
 import { TokenState } from "../utils";
 import * as assert from "assert";
 import * as dotenv from "dotenv";
