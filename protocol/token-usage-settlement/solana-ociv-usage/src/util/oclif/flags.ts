@@ -1,4 +1,4 @@
-import { Keypair, PublicKey } from "@solana/web3.js";
+import { Keypair } from "@solana/web3.js";
 import { Flags } from "@oclif/core";
 import { readKey } from "../account";
 import { ExtendedCluster, getClusterUrl } from "../connection";
