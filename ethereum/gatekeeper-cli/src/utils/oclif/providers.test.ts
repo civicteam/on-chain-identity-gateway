@@ -5,7 +5,7 @@ import assert = require('assert');
 describe('Check ethers provider', function () {
   let provider: BaseProvider
   const mainnetNetworkID = 1
-  const sepoliaNetworkID = 11155111;
+  const sepoliaNetworkID = 11_155_111
 
   it('Try connect to mainnet ethers provider, check network ID', async () => {
     provider = getProvider('ethereum')
