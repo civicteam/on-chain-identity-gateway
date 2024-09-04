@@ -1,4 +1,11 @@
-import { Connection, PublicKey } from "@solana/web3.js";
+import {
+  Connection,
+  Keypair,
+  PublicKey,
+  TransactionInstruction,
+  TransactionMessage,
+  VersionedTransaction,
+} from "@solana/web3.js";
 import {
   GATEKEEPER_NONCE_SEED_STRING,
   GATEWAY_TOKEN_ADDRESS_SEED,
@@ -164,4 +171,21 @@ export const getFeatureAccountAddress = (
     [network.toBytes(), Buffer.from(featureName, "utf8")],
     PROGRAM_ID,
   )[0];
+};
+
+export const makeTransaction = async (
+  connection: Connection,
+  instructions: TransactionInstruction[],
+  payer: Keypair,
+  signers: Keypair[] = [],
+): Promise<VersionedTransaction> => {
+  const latestBlockhash = await connection.getLatestBlockhash();
+  const messageV0 = new TransactionMessage({
+    payerKey: payer.publicKey,
+    recentBlockhash: latestBlockhash.blockhash,
+    instructions,
+  }).compileToV0Message();
+  const tx = new VersionedTransaction(messageV0);
+  tx.sign([payer, ...signers]);
+  return tx;
 };

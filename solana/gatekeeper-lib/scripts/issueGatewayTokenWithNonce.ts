@@ -66,6 +66,7 @@ console.log("Issuing gateway token for " + owner.publicKey);
 
   const txSig = await connection.sendRawTransaction(deserializedTx.serialize());
   console.log("txSig", txSig);
-  await connection.confirmTransaction(txSig);
+  const latestBlockhash = await this.connection.getLatestBlockhash();
+  await connection.confirmTransaction({ signature: txSig, ...latestBlockhash });
   console.log("confirmed");
 })().catch((error) => console.error(error));
