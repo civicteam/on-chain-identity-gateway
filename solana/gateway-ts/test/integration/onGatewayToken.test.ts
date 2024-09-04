@@ -1,11 +1,6 @@
 import chai from "chai";
 import chaiSubset from "chai-subset";
-import {
-  Connection,
-  Keypair,
-  LAMPORTS_PER_SOL,
-  Transaction,
-} from "@solana/web3.js";
+import { Connection, Keypair, LAMPORTS_PER_SOL } from "@solana/web3.js";
 import {
   addGatekeeper,
   GatewayToken,

@@ -1,11 +1,5 @@
-import {
-  clusterApiUrl,
-  Connection,
-  Keypair,
-  PublicKey,
-  Transaction,
-} from "@solana/web3.js";
-import {expireToken, getGatewayToken, makeTransaction} from "../src";
+import { clusterApiUrl, Connection, Keypair, PublicKey } from "@solana/web3.js";
+import { expireToken, getGatewayToken, makeTransaction } from "../src";
 import * as os from "os";
 
 const gatewayToken = new PublicKey(process.argv[2]);
