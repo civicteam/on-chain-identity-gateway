@@ -8,7 +8,7 @@ import { toBytes32 } from './utils';
 import { expect } from 'chai';
 import { NULL_CHARGE, randomAddress, randomWallet, ZERO_ADDRESS } from './utils/eth';
 import { signMetaTxRequest } from '../../gateway-eth-ts/src/utils/metatx';
-import { Gated, IForwarder } from '../typechain-types';
+import {IForwarder } from '../typechain-types';
 import { TransactionReceipt } from '@ethersproject/providers';
 
 describe('GatewayToken', async () => {

@@ -1,10 +1,8 @@
 import { HardhatRuntimeEnvironment } from 'hardhat/types';
-import { DeployFunction } from 'hardhat-deploy/types';
-import { deployProxyCreate2 } from '../scripts/util';
-import { ethers, upgrades } from 'hardhat';
+import { ethers } from 'hardhat';
 
-const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
-  const { deployments, getNamedAccounts, upgrades } = hre;
+const func = async function (hre: HardhatRuntimeEnvironment) {
+  const { deployments, upgrades } = hre;
   const gatewayTokenFactoryV0 = await ethers.getContractFactory('GatewayTokenV0');
   const gatewayTokenFactory = await ethers.getContractFactory('GatewayToken');
   const deployedGatewayToken = await deployments.get('GatewayTokenProxy');

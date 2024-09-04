@@ -1,7 +1,6 @@
 import {
   BaseProvider,
   getDefaultProvider,
-  TransactionReceipt,
 } from "@ethersproject/providers";
 import { TokenState } from "../utils";
 import * as assert from "assert";
