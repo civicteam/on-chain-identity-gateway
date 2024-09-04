@@ -36,7 +36,7 @@ const walletAddress = walletAddressString
   const initialState = await getGatewayToken(connection, gatewayTokenAddress);
   console.log("Initial state", initialState);
 
-  await onGatewayToken(
+  onGatewayToken(
     connection,
     walletAddress!,
     gatekeeperNetwork,

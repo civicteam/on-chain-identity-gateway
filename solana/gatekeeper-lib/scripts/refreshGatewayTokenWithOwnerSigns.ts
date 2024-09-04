@@ -13,16 +13,18 @@ import * as path from "path";
 const LAMPORTS_FOR_ISSUANCE = 2_000_000; // The owner needs this much to issue their own token.
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const gatekeeperKey = require(path.join(
-  homedir(),
-  ".config",
-  "solana",
-  "G1y4BUXnbSMsdcXbCTMEdRWW9Th9tU9WfAmgbPDX7rRG.json"
-));
+const gatekeeperKey = require(
+  path.join(
+    homedir(),
+    ".config",
+    "solana",
+    "G1y4BUXnbSMsdcXbCTMEdRWW9Th9tU9WfAmgbPDX7rRG.json",
+  ),
+);
 const gatekeeper = Keypair.fromSecretKey(Buffer.from(gatekeeperKey));
 
 const gatekeeperNetworkKey = new PublicKey(
-  "tgnuXXNMDLK8dy7Xm1TdeGyc95MDym4bvAQCwcW21Bf"
+  "tgnuXXNMDLK8dy7Xm1TdeGyc95MDym4bvAQCwcW21Bf",
 );
 
 const owner = Keypair.generate();
@@ -36,7 +38,7 @@ const gatekeeperService = new GatekeeperService(
   {
     rentPayer: owner.publicKey,
     defaultExpirySeconds: 30,
-  }
+  },
 );
 
 console.log("Refreshing gateway token for " + owner.publicKey);
@@ -46,7 +48,7 @@ console.log("Refreshing gateway token for " + owner.publicKey);
     connection,
     owner.publicKey,
     clusterApiUrl("devnet"),
-    LAMPORTS_FOR_ISSUANCE
+    LAMPORTS_FOR_ISSUANCE,
   );
   let { blockhash } = await connection.getLatestBlockhash(SOLANA_COMMITMENT);
 
@@ -55,13 +57,17 @@ console.log("Refreshing gateway token for " + owner.publicKey);
     owner.publicKey,
     {
       blockhashOrNonce: { recentBlockhash: blockhash },
-    }
+    },
   );
   issueTx.partialSign(owner);
 
   const issueTxSig = await connection.sendRawTransaction(issueTx.serialize());
   console.log("issueTxSig", issueTxSig);
-  await connection.confirmTransaction(issueTxSig);
+  let latestBlockhash = await this.connection.getLatestBlockhash();
+  await connection.confirmTransaction({
+    signature: issueTxSig,
+    ...latestBlockhash,
+  });
   console.log("issue confirmed");
 
   ({ blockhash } = await connection.getLatestBlockhash(SOLANA_COMMITMENT));
@@ -77,7 +83,7 @@ console.log("Refreshing gateway token for " + owner.publicKey);
     {
       blockhashOrNonce: { recentBlockhash: blockhash },
       feePayer: owner.publicKey,
-    }
+    },
   );
 
   // simulate serializing and sending to the frontend (do not verify sigs as not all sigs are present yet).
@@ -90,8 +96,11 @@ console.log("Refreshing gateway token for " + owner.publicKey);
   const deserializedTx = Transaction.from(Buffer.from(serializedTx, "base64"));
   deserializedTx.partialSign(owner);
 
-  const txSig = await connection.sendRawTransaction(deserializedTx.serialize());
-  console.log("txSig", txSig);
-  await connection.confirmTransaction(txSig);
+  const signature = await connection.sendRawTransaction(
+    deserializedTx.serialize(),
+  );
+  latestBlockhash = await this.connection.getLatestBlockhash();
+  console.log("Tx signature", signature);
+  await connection.confirmTransaction({ signature, ...latestBlockhash });
   console.log("confirmed");
 })().catch((error) => console.error(error));

@@ -198,8 +198,9 @@ export class SentTransaction {
     commitment?: Commitment,
     errorCallback?: (error: TransactionError) => void,
   ): Promise<void> {
+    const latestBlockhash = await this.connection.getLatestBlockhash();
     const result = await this.connection.confirmTransaction(
-      this.signature,
+      { signature: this.signature, ...latestBlockhash },
       commitment ? commitment : SOLANA_COMMITMENT,
     );
     if (result.value.err) {

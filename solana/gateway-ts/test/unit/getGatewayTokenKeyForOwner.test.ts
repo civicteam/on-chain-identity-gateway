@@ -5,13 +5,13 @@ import {
   PublicKey,
   Keypair,
   LAMPORTS_PER_SOL,
-  Transaction,
 } from "@solana/web3.js";
 import {
   addGatekeeper,
   getGatekeeperAccountAddress,
   getGatewayTokenAddressForOwnerAndGatekeeperNetwork,
   issue,
+  makeTransaction,
 } from "../../src";
 import { VALIDATOR_URL } from "../constants";
 
@@ -30,7 +30,7 @@ describe("getGatewayTokenKeyForOwner", function () {
     owner = Keypair.generate().publicKey;
     gatekeeperAuthority = Keypair.generate();
     gatekeeperNetwork = Keypair.generate();
-    gatekeeperAccount = await getGatekeeperAccountAddress(
+    gatekeeperAccount = getGatekeeperAccountAddress(
       gatekeeperAuthority.publicKey,
       gatekeeperNetwork.publicKey,
     );
@@ -51,48 +51,53 @@ describe("getGatewayTokenKeyForOwner", function () {
     before(async () => {
       connection = new Connection(VALIDATOR_URL);
       payer = Keypair.generate();
+      const signature = await connection.requestAirdrop(
+        payer.publicKey,
+        LAMPORTS_PER_SOL,
+      );
+      const latestBlockhash = await connection.getLatestBlockhash();
       await connection.confirmTransaction(
-        await connection.requestAirdrop(payer.publicKey, LAMPORTS_PER_SOL),
+        { signature, ...latestBlockhash },
         "confirmed",
       );
     });
 
     it("should add gateway token", async () => {
-      const transaction = await connection.confirmTransaction(
-        await connection.sendTransaction(
-          new Transaction({
-            feePayer: payer.publicKey,
-          })
-            .add(
-              addGatekeeper(
-                payer.publicKey,
-                gatekeeperAccount,
-                gatekeeperAuthority.publicKey,
-                gatekeeperNetwork.publicKey,
-              ),
-            )
-            .add(
-              issue(
-                await getGatewayTokenAddressForOwnerAndGatekeeperNetwork(
-                  owner,
-                  gatekeeperNetwork.publicKey,
-                ),
-                payer.publicKey,
-                gatekeeperAccount,
-                owner,
-                gatekeeperAuthority.publicKey,
-                gatekeeperNetwork.publicKey,
-              ),
-            ),
-          [payer, gatekeeperNetwork, gatekeeperAuthority],
-          {
-            preflightCommitment: "confirmed",
-          },
+      const instructions = [
+        addGatekeeper(
+          payer.publicKey,
+          gatekeeperAccount,
+          gatekeeperAuthority.publicKey,
+          gatekeeperNetwork.publicKey,
         ),
+        issue(
+          getGatewayTokenAddressForOwnerAndGatekeeperNetwork(
+            owner,
+            gatekeeperNetwork.publicKey,
+          ),
+          payer.publicKey,
+          gatekeeperAccount,
+          owner,
+          gatekeeperAuthority.publicKey,
+          gatekeeperNetwork.publicKey,
+        ),
+      ];
+
+      const tx = await makeTransaction(connection, instructions, payer, [
+        gatekeeperNetwork,
+        gatekeeperAuthority,
+      ]);
+
+      const signature = await connection.sendTransaction(tx, {
+        preflightCommitment: "confirmed",
+      });
+      const latestBlockhash = await connection.getLatestBlockhash();
+      const confirmResult = await connection.confirmTransaction(
+        { signature, ...latestBlockhash },
         "confirmed",
       );
 
-      expect(transaction.value.err).to.be.null;
+      expect(confirmResult.value.err).to.be.null;
     });
   });
 });
