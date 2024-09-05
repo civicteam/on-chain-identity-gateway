@@ -126,7 +126,7 @@ describe("onGatewayTokenChange", () => {
       );
 
       // remove the token event listener
-      removeAccountChangeListener(connection, onGatewayTokenChangeId);
+      await removeAccountChangeListener(connection, onGatewayTokenChangeId);
 
       // expect removeAccountChangeListener to have been called
       expect(removeAccountChangeStub.called).to.be.true;

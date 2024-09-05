@@ -5,7 +5,7 @@ CLI to manage OCIV Gateway Tokens
 [![oclif](https://img.shields.io/badge/cli-oclif-brightgreen.svg)](https://oclif.io)
 [![Version](https://img.shields.io/npm/v/ociv.svg)](https://npmjs.org/package/ociv)
 [![Downloads/week](https://img.shields.io/npm/dw/ociv.svg)](https://npmjs.org/package/ociv)
-[![License](https://img.shields.io/npm/l/ociv.svg)](https://github.com/identity-com/ociv/blob/master/package.json)
+[![License](https://img.shields.io/npm/l/ociv.svg)](https://github.com/civicteam/ociv/blob/master/package.json)
 
 <!-- toc -->
 * [gatekeeper-cli](#gatekeeper-cli)
@@ -15,11 +15,11 @@ CLI to manage OCIV Gateway Tokens
 # Usage
 <!-- usage -->
 ```sh-session
-$ npm install -g @identity.com/solana-gatekeeper-cli
+$ npm install -g @civic/solana-gatekeeper-cli
 $ gateway COMMAND
 running command...
 $ gateway (-v|--version|version)
-@identity.com/solana-gatekeeper-cli/0.0.2 darwin-x64 node-v20.12.0
+@civic/solana-gatekeeper-cli/0.0.2 darwin-arm64 node-v20.13.1
 $ gateway --help [COMMAND]
 USAGE
   $ gateway COMMAND
@@ -575,4 +575,4 @@ OPTIONS
 _See code: [@oclif/plugin-version](https://github.com/oclif/plugin-version/blob/v1.1.3/src/commands/version.ts)_
 <!-- commandsstop -->
 Note - if you are looking for the CLI tool,
-it has been moved to [@identity.com/solana-gatekeeper-cli](https://www.npmjs.com/package/@identity.com/solana-gatekeeper-cli)
+it has been moved to [@civic/solana-gatekeeper-cli](https://www.npmjs.com/package/@civic/solana-gatekeeper-cli)

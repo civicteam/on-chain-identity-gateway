@@ -87,7 +87,7 @@ describe("GatewayTS Forwarder", function () {
   };
 
   // address of the erc20 token used for testing (obtainable from the output of yarn pretest)
-  const ERC20_TOKEN = "0x5C341B3429ac43bC81804382ae233dD6c7E9F6Ae";
+  const ERC20_TOKEN = "0x32CC358eb763B345f565fcf84f2B31a52d6a93D6";
   const erc20Balance = (address: string): Promise<bigint> => {
     // check erc20 balance
     const contract = new ethers.Contract(
@@ -133,7 +133,7 @@ describe("GatewayTS Forwarder", function () {
     const gatekeeperBalanceBefore = await provider.getBalance(gatekeeper);
 
     const wallet = Wallet.createRandom().address;
-    const chargeValue = BigInt(1000);
+    const chargeValue = 1000n;
     const charge = makeWeiCharge(chargeValue, await gatekeeper.getAddress());
     await relaySerialized(() =>
       gateway.issue(wallet, gatekeeperNetwork, undefined, undefined, charge)
@@ -146,7 +146,7 @@ describe("GatewayTS Forwarder", function () {
 
   it("should issue a token with an ERC20 charge", async () => {
     const wallet = Wallet.createRandom().address;
-    const chargeValue = BigInt(1000);
+    const chargeValue = 1000n;
 
     const charge = makeERC20Charge(
       chargeValue,

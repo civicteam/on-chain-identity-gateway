@@ -1,11 +1,11 @@
 {
-  "name": "@identity.com/solana-gateway-ts",
-  "version": "0.13.0-alpha.0",
+  "name": "@civic/solana-gateway-ts",
+  "version": "0.13.0",
   "description": "Typescript adapters for interacting with Solana gateway program",
   "main": "dist/index",
   "types": "dist/index",
-  "repository": "git@github.com:identity-com/on-chain-identity-gateway.git",
-  "homepage": "https://www.identity.com",
+  "repository": "git@github.com:civicteam/on-chain-identity-gateway.git",
+  "homepage": "https://www.civic.com",
   "author": "Kevin Colgan <kevin@civic.com>",
   "license": "MIT",
   "scripts": {
@@ -23,8 +23,7 @@
     "async-retry": "^1.3.3",
     "bn.js": "^5.2.1",
     "borsh": "^0.4.0",
-    "bs58": "^5.0.0",
-    "ramda": "^0.29.1"
+    "bs58": "^5.0.0"
   },
   "devDependencies": {
     "@types/chai": "^4.3.14",

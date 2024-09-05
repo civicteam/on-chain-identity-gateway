@@ -90,7 +90,7 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   if (!(await token.isGatekeeper(civicProdGatekeeper, gatekeeperNetwork))) {
     const addCivicProdGatekeeperTx = await (await token.addGatekeeper(civicProdGatekeeper, gatekeeperNetwork)).wait();
     console.log(
-        'added civic prod gatekeeper with ' +
+      'added civic prod gatekeeper with ' +
         civicProdGatekeeper +
         ' address into Gateway Token at ' +
         gatewayToken.address +

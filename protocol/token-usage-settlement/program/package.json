@@ -1,9 +1,9 @@
 {
-  "name": "@identity.com/gateway-usage",
+  "name": "@civic/gateway-usage",
   "description": "Client SDK for the Gateway Usage Solana program",
   "version": "0.0.10",
   "author": "dankelleher @dankelleher",
-  "bugs": "https://github.com/identity-com/on-chain-identity-gateway/issues",
+  "bugs": "https://github.com/civicteam/on-chain-identity-gateway/issues",
   "license": "MIT",
   "dependencies": {
     "@oclif/command": "^1.8.10",

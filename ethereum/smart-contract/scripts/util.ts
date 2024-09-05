@@ -6,7 +6,7 @@ import ERC1967ProxyLatest from '@openzeppelin/upgrades-core/artifacts/@openzeppe
 import ERC1967Proxy from '../artifacts/v0/@openzeppelin/contracts/proxy/ERC1967/ERC1967Proxy.sol/ERC1967Proxy.json';
 import { getInitializerData } from '@openzeppelin/hardhat-upgrades/dist/utils';
 import { IFlagsStorage__factory } from '../typechain-types';
-import {BaseContract, ContractRunner} from "ethers";
+import { BaseContract, ContractRunner } from 'ethers';
 
 // A bug in hardhat leads to undefined entries in the accounts if any are duplicates.
 // This function normalises this by creating defaults for each one

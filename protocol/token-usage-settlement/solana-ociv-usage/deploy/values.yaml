@@ -1,7 +1,7 @@
 jobs:
   - name: solana-ociv-usage
     image:
-      repository: ghcr.io/identity-com/on-chain-identity-gateway/solana-ociv-usage
+      repository: ghcr.io/civicteam/on-chain-identity-gateway/solana-ociv-usage
       tag: latest
       imagePullPolicy: Always
     env:

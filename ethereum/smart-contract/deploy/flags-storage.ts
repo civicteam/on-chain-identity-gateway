@@ -15,16 +15,20 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   const indexArray = [0, 1, 2];
 
   // use the old proxy contract to retain the correct Create2 Address
-  const flagsStorageContract = await deployProxyCreate2(hre, 'FlagsStorage', [deployer],
-      IFlagsStorage__factory.connect,
-      false);
+  const flagsStorageContract = await deployProxyCreate2(
+    hre,
+    'FlagsStorage',
+    [deployer],
+    IFlagsStorage__factory.connect,
+    false,
+  );
 
   // call addFlags function against the proxy
   const flagsAdded = await Promise.all(flagCodes.map((flagCode) => flagsStorageContract.isFlagSupported(flagCode)));
 
   if (!flagsAdded.every((flag) => flag)) {
     let tx = await (await flagsStorageContract.addFlags(flagCodes, indexArray, { from: deployer })).wait();
-    const events = tx?.logs.length
+    const events = tx?.logs.length;
     console.log(`Added ${events} flags into FlagsStorage with ${tx?.gasUsed.toString()} gas`);
   } else {
     console.log('Flags already added.');

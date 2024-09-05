@@ -1,5 +1,6 @@
 import { BigNumberish, Overrides } from "ethers";
 import { GatewayToken } from "../contracts/typechain-types";
+import { TypedContractMethod } from "../contracts/typechain-types/common";
 
 export type Options = Overrides & {
   tolerateMultipleTokens?: boolean;
@@ -51,7 +52,8 @@ export const mappedOpNames = [
   "revoke",
   "burn",
   "setBitmask",
-] as (keyof GatewayToken)[];
+// ] as (keyof GatewayToken)[];
+    ] as (TypedContractMethod)[]
 
 type SubsetMappedWriteOps = Pick<GatewayToken, WriteOps>;
 

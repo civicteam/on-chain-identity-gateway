@@ -1,11 +1,11 @@
 {
-  "name": "@identity.com/solana-gatekeeper-lib",
+  "name": "@civic/solana-gatekeeper-lib",
   "description": "Library to manage Gateway Tokens",
-  "version": "6.1.1-alpha.4",
+  "version": "6.1.1",
   "author": "dankelleher @dankelleher",
-  "bugs": "https://github.com/identity-com/on-chain-identity-gateway/issues",
+  "bugs": "https://github.com/civicteam/on-chain-identity-gateway/issues",
   "dependencies": {
-    "@identity.com/solana-gateway-ts": "^0.13.0-alpha.0",
+    "@civic/solana-gateway-ts": "^0.13.0",
     "@solana/spl-token": "^0.4.3",
     "@solana/web3.js": "^1.91.4",
     "async-retry": "^1.3.3",
@@ -55,10 +55,10 @@
     "/dist",
     "/npm-shrinkwrap.json"
   ],
-  "homepage": "https://www.identity.com",
+  "homepage": "https://www.civic.com",
   "license": "MIT",
   "main": "dist/index.js",
-  "repository": "git@github.com:identity-com/on-chain-identity-gateway.git",
+  "repository": "git@github.com:civicteam/on-chain-identity-gateway.git",
   "scripts": {
     "build": "rm -rf dist && tsc -b",
     "posttest": "yarn lint",

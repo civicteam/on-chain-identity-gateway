@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "allowJs": true,
-    "target": "es5",
+    "target": "es2020",
     "module": "commonjs",
     "strict": true,
     "esModuleInterop": true,
@@ -9,7 +9,7 @@
     "resolveJsonModule": true,
     "noImplicitAny": false
   },
-  "include": ["./scripts", "./test", "./deploy", "./tasks"],
+  "include": ["./scripts", "./test", "./deploy", "./tasks", "./typechain-types"],
   "exclude": ["node_modules"],
   "files": ["./hardhat.config.ts"]
 }

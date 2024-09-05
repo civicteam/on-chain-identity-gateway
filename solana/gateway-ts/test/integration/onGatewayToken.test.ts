@@ -1,17 +1,13 @@
 import chai from "chai";
 import chaiSubset from "chai-subset";
-import {
-  Connection,
-  Keypair,
-  LAMPORTS_PER_SOL,
-  Transaction,
-} from "@solana/web3.js";
+import { Connection, Keypair, LAMPORTS_PER_SOL } from "@solana/web3.js";
 import {
   addGatekeeper,
   GatewayToken,
   getGatekeeperAccountAddress,
   getGatewayTokenAddressForOwnerAndGatekeeperNetwork,
   issue,
+  makeTransaction,
   onGatewayToken,
 } from "../../src";
 import { VALIDATOR_URL } from "../constants";
@@ -41,23 +37,23 @@ describe("onGatewayToken", function () {
       ...(await connection.getLatestBlockhash()),
     });
 
-    // add the gatekeeper to the gatekeeper network
-    const addGatekeeperTx = new Transaction({
-      feePayer: payer.publicKey,
-    }).add(
-      addGatekeeper(
-        payer.publicKey,
-        gatekeeperAccount,
-        gatekeeperAuthority.publicKey,
-        gatekeeperNetwork.publicKey,
-      ),
+    const addGatekeeperTx = await makeTransaction(
+      connection,
+      [
+        addGatekeeper(
+          payer.publicKey,
+          gatekeeperAccount,
+          gatekeeperAuthority.publicKey,
+          gatekeeperNetwork.publicKey,
+        ),
+      ],
+      payer,
+      [gatekeeperNetwork],
     );
+    const signature = await connection.sendTransaction(addGatekeeperTx);
 
     await connection.confirmTransaction({
-      signature: await connection.sendTransaction(addGatekeeperTx, [
-        payer,
-        gatekeeperNetwork,
-      ]),
+      signature,
       ...(await connection.getLatestBlockhash()),
     });
   });
@@ -82,26 +78,28 @@ describe("onGatewayToken", function () {
       owner,
       gatekeeperNetwork.publicKey,
     );
-    const issueGTTransaction = new Transaction({
-      feePayer: payer.publicKey,
-    }).add(
-      issue(
-        gtAddress,
-        payer.publicKey,
-        gatekeeperAccount,
-        owner,
-        gatekeeperAuthority.publicKey,
-        gatekeeperNetwork.publicKey,
-      ),
-    );
 
     console.log("issuing token to address", gtAddress.toBase58());
 
+    const issueGTTransaction = await makeTransaction(
+      connection,
+      [
+        issue(
+          gtAddress,
+          payer.publicKey,
+          gatekeeperAccount,
+          owner,
+          gatekeeperAuthority.publicKey,
+          gatekeeperNetwork.publicKey,
+        ),
+      ],
+      payer,
+      [gatekeeperAuthority],
+    );
+    const signature = await connection.sendTransaction(issueGTTransaction);
+
     await connection.confirmTransaction({
-      signature: await connection.sendTransaction(issueGTTransaction, [
-        payer,
-        gatekeeperAuthority,
-      ]),
+      signature,
       ...(await connection.getLatestBlockhash()),
     });
 

@@ -1,7 +1,7 @@
 version: "2.1"
 services:
   solana-ociv-usage:
-    image: ghcr.io/identity-com/on-chain-identity-gateway/solana-ociv-usage:latest
+    image: ghcr.io/civicteam/on-chain-identity-gateway/solana-ociv-usage:latest
     build: ../
 
 

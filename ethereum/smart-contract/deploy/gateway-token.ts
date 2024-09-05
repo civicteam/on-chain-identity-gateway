@@ -3,7 +3,7 @@ import { DeployFunction } from 'hardhat-deploy/types';
 import { deployProxyCreate2 } from '../scripts/util';
 import { keccak256 } from '@ethersproject/keccak256';
 import { toUtf8Bytes } from '@ethersproject/strings';
-import {ChargeHandler__factory, GatewayToken__factory, IGatewayToken__factory } from '../typechain-types';
+import { ChargeHandler__factory, GatewayToken__factory, IGatewayToken__factory } from '../typechain-types';
 
 const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   const { deployments, getNamedAccounts, ethers } = hre;

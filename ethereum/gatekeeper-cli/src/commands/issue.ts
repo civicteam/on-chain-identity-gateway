@@ -8,7 +8,7 @@ import {
 import {makeGatewayTs} from '../utils/oclif/utils'
 import {addressArg} from '../utils/oclif/args'
 import {BigNumber} from '@ethersproject/bignumber'
-import {makeWeiCharge} from '@identity.com/gateway-eth-ts/dist/utils/charge'
+import {makeWeiCharge} from '@civic/gateway-eth-ts/dist/utils/charge'
 import {Wallet} from '@ethersproject/wallet'
 
 export default class IssueToken extends Command {

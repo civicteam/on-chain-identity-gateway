@@ -1,7 +1,7 @@
 import { HardhatRuntimeEnvironment } from 'hardhat/types';
 import { DeployFunction } from 'hardhat-deploy/types';
 import { getAccounts } from '../scripts/util';
-import {GatewayToken } from '../typechain-types';
+import { GatewayToken } from '../typechain-types';
 import { GatewayToken__factory } from '../../gateway-eth-ts/src/contracts/typechain-types';
 
 /**
@@ -17,6 +17,9 @@ const networks = {
     b1gz9sD7TeH6cagodm4zTcAx6LkZ56Etisvgr6jGFQb: 7,
     uniqobk8oGh4XBLMqM68K8M2zNu3CdYX7q5go7whQiv: 10,
     vaa1QRNEBb1G2XjPohqGWnPsvxWnwwXF67pdjrhDSwM: 11,
+    cidNdd9GGhpgUJRTrto1A1ayN2PKAuaW7pg1rqj6bRD: BigInt(
+      '0x09266570c8755cb9e9d8ea3d75c5251514f0eb45c6f2a86d39ace69e516988ec',
+    ),
   },
   dev: {
     tigoYhp9SpCDoCQmXGj2im5xa3mnjR1zuXrpCJ5ZRmi: 14,
@@ -31,22 +34,23 @@ const addToNetwork = async (
   networkName: string,
   gatekeeper: string,
   contract: GatewayToken,
-  slotId: number,
+  slotId: number | bigint,
 ) => {
   console.log('Creating NETWORK: ' + networkName + ' with slotId: ' + slotId + ' and gatekeeper: ' + gatekeeper);
   if (await contract.getNetwork(slotId)) {
     console.log('network ' + slotId + ' already exists');
   } else {
-    const createNetworkTx = await (await contract.createNetwork(slotId, networkName, false, NULL_ADDRESS)).wait();
+    const tx = await contract.createNetwork(BigInt(slotId), networkName, false, NULL_ADDRESS);
+    const createNetworkTxReceipt = await tx.wait();
     console.log(
       'created network ' +
         networkName +
         ' (' +
         slotId +
         ') on Gateway Token at ' +
-        await contract.getAddress() +
+        (await contract.getAddress()) +
         ' using ' +
-        createNetworkTx?.gasUsed.toString() +
+        createNetworkTxReceipt?.gasUsed.toString() +
         ' gas',
     );
   }
@@ -57,7 +61,7 @@ const addToNetwork = async (
       'added new gatekeeper with ' +
         gatekeeper +
         ' address into Gateway Token at ' +
-        await contract.getAddress() +
+        (await contract.getAddress()) +
         ' using ' +
         addGatekeeperTx?.gasUsed.toString() +
         ' gas',

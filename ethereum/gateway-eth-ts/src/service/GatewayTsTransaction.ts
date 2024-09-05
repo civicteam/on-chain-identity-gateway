@@ -28,9 +28,13 @@ export class GatewayTsTransaction extends GatewayTsInternal<
     // );
 
     const entries = mappedOpNames.map((name) => {
-        const wrappedFn = gatewayTokenContract[name].populateTransaction.bind(gatewayTokenContract);
-        return [name, wrappedFn];
-    })
+      const fn = gatewayTokenContract[name];
+      const wrappedFn =
+        gatewayTokenContract[name].populateTransaction.bind(
+          gatewayTokenContract
+        );
+      return [name, wrappedFn];
+    });
     const mappedOps = Object.fromEntries(entries);
 
     const mappedGatewayToken = {

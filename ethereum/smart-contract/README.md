@@ -1,6 +1,6 @@
-## Identity.com Gateway Tokens on Ethereum blockchain
+## Civic Gateway Tokens on Ethereum blockchain
 
-This repository contains set of Ethereum smart contracts for Identity.com On-chain Identity Gateway token system.
+This repository contains set of Ethereum smart contracts for Civic On-chain Identity Gateway token system.
 
 Gateway tokens allows Ethereum DeFi projects to validate that their users successfully completed KYC, with regulations
 and guidances from FATF, US OFAC, US OCC BSA and others.
@@ -50,7 +50,7 @@ To integrate Gateway in your smart contract:
 First, import the contract dependencies:
 
 ```
-npm install @identity.com/gateway-protocol-eth
+npm install @civic/gateway-protocol-eth
 ```
 
 Then, in your smart contract, inherit the `Gated` contract, and add the `gated` modifier to any function.
@@ -58,7 +58,7 @@ Then, in your smart contract, inherit the `Gated` contract, and add the `gated` 
 The function can only be called by a `msg.sender` that has a valid gateway token.
 
 ```solidity
-import '@identity.com/gateway-protocol-eth/contracts/Gated.sol';
+import '@civic/gateway-protocol-eth/contracts/Gated.sol';
 
 // Your contract
 contract MyContract is Gated {
@@ -72,7 +72,7 @@ If you want more control over the verification process on-chain, you can use the
 contract:
 
 ```solidity
-import "@identity.com/gateway-protocol-eth/contracts/interfaces/IGatewayTokenVerifier.sol";
+import "@civic/gateway-protocol-eth/contracts/interfaces/IGatewayTokenVerifier.sol";
 
 ...
 IGatewayTokenVerifier verifier = IGatewayTokenVerifier(gatewayTokenContract);

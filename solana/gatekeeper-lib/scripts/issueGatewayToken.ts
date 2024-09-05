@@ -37,6 +37,7 @@ const gatekeeperService = new GatekeeperService(
   const serializedTx = issuedToken.transaction.serialize();
   console.log("serializedTx", serializedTx.toString("base64"));
 
-  const txSig = await connection.sendRawTransaction(serializedTx);
-  await connection.confirmTransaction(txSig);
+  const signature = await connection.sendRawTransaction(serializedTx);
+  const latestBlockhash = await this.connection.getLatestBlockhash();
+  await connection.confirmTransaction({ signature, ...latestBlockhash });
 })().catch((error) => console.error(error));

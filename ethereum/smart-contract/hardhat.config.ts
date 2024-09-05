@@ -9,7 +9,7 @@ import '@nomiclabs/hardhat-solhint';
 import '@openzeppelin/hardhat-upgrades';
 import 'hardhat-contract-sizer';
 import './config/tasks';
-import {defaultPath, networks} from "./config/networks";
+import { defaultPath, networks } from './config/networks';
 
 dotenv.config();
 
@@ -57,7 +57,7 @@ module.exports = {
       polygonZkEVM: process.env.POLYGONSCAN_API_KEY,
       polygonZkEVMTestnet: process.env.POLYGONSCAN_API_KEY,
       arbitrumOne: process.env.ARBISCAN_API_KEY,
-      polygonAmoy: process.env.OKLINK_AMOY_API_KEY
+      polygonAmoy: process.env.OKLINK_AMOY_API_KEY,
     },
     customChains: [
       {
@@ -77,12 +77,11 @@ module.exports = {
         chainId: 1442,
       },
       {
-        network: "polygonAmoy",
+        network: 'polygonAmoy',
         chainId: 80002,
         urls: {
-          apiURL:
-              "https://www.oklink.com/api/explorer/v1/contract/verify/async/api/polygonAmoy",
-          browserURL: "https://www.oklink.com/polygonAmoy",
+          apiURL: 'https://www.oklink.com/api/explorer/v1/contract/verify/async/api/polygonAmoy',
+          browserURL: 'https://www.oklink.com/polygonAmoy',
         },
       },
     ],

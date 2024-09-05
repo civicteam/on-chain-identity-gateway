@@ -1,16 +1,16 @@
 {
-  "name": "@identity.com/solana-ociv-usage",
+  "name": "@civic/solana-ociv-usage",
   "version": "0.0.1",
   "description": "Gateway Token Usage Oracle for the Solana Gateway Program",
-  "repository": "identity-com/gatekeeper-lib",
+  "repository": "civicteam/gatekeeper-lib",
   "author": "Martin Riedel @rado0x54",
   "license": "MIT",
-  "bugs": "https://github.com/identity-com/ociv/issues",
+  "bugs": "https://github.com/civicteam/ociv/issues",
   "bin": {
     "gateway-usage": "./bin/run"
   },
   "dependencies": {
-    "@identity.com/gateway-usage": "^0.0.1",
+    "@civic/gateway-usage": "^0.0.1",
     "@oclif/core": "^1.6.3",
     "@oclif/plugin-help": "^5.1.12",
     "@solana/web3.js": "^1.30.2",

@@ -4,7 +4,7 @@ import { deployProxyCreate2 } from '../scripts/util';
 import { GatewayToken__factory } from '../typechain-types';
 
 const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
-  const { deployments, getNamedAccounts, ethers } = hre;
+  const { deployments, getNamedAccounts } = hre;
   const { deployer } = await getNamedAccounts();
 
   // const flagsStorage = await deployments.get('FlagsStorageProxy');

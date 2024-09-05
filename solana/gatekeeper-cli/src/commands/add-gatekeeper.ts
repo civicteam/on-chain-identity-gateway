@@ -1,4 +1,4 @@
-import { airdropTo, GatekeeperNetworkService } from "@identity.com/solana-gatekeeper-lib";
+import { airdropTo, GatekeeperNetworkService } from "@civic/solana-gatekeeper-lib";
 import { Command, Flags } from "@oclif/core";
 import { Keypair, PublicKey } from "@solana/web3.js";
 

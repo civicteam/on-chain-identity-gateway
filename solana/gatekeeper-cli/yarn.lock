@@ -219,6 +219,30 @@
     "@babel/helper-validator-identifier" "^7.19.1"
     to-fast-properties "^2.0.0"
 
+"@civic/solana-gatekeeper-lib@^6.1.1":
+  version "6.1.1"
+  resolved "https://registry.yarnpkg.com/@civic/solana-gatekeeper-lib/-/solana-gatekeeper-lib-6.1.1.tgz#f808140212c3e5b6bd7d44e08caa4f6298ad95f5"
+  integrity sha512-No4HeUSGtTY4a4fLAnuHHQNxbPsBxajlrxfK/7C35/BwvqS6T1R+YkF9V/Zw/IpUB/1UmVZlljMXbScws7JvQw==
+  dependencies:
+    "@civic/solana-gateway-ts" "^0.13.0"
+    "@solana/spl-token" "^0.4.3"
+    "@solana/web3.js" "^1.91.4"
+    async-retry "^1.3.3"
+    borsh "^0.4.0"
+    ramda "^0.29.1"
+    tslib "^2.6.2"
+
+"@civic/solana-gateway-ts@^0.13.0":
+  version "0.13.0"
+  resolved "https://registry.yarnpkg.com/@civic/solana-gateway-ts/-/solana-gateway-ts-0.13.0.tgz#47ec8eb504c532a82253258faeca1218c2364dbf"
+  integrity sha512-YdYwQep/4QupPJJqO/arrcYJoP7BpkxvIlNCejU0MHWnoj0Y9SpgmxUuR7YUnXJePt46Erz1tSKpOo9Kz18hyQ==
+  dependencies:
+    "@solana/web3.js" "^1.91.4"
+    async-retry "^1.3.3"
+    bn.js "^5.2.1"
+    borsh "^0.4.0"
+    bs58 "^5.0.0"
+
 "@cspotcode/source-map-support@^0.8.0":
   version "0.8.1"
   resolved "https://registry.yarnpkg.com/@cspotcode/source-map-support/-/source-map-support-0.8.1.tgz#00629c35a688e05a88b1cda684fb9d5e73f000a1"
@@ -259,32 +283,6 @@
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/@humanwhocodes/object-schema/-/object-schema-1.2.1.tgz#b520529ec21d8e5945a1851dfd1c32e94e39ff45"
   integrity sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==
-
-"@identity.com/solana-gatekeeper-lib@^6.1.1-alpha.0":
-  version "6.1.1-alpha.0"
-  resolved "https://registry.yarnpkg.com/@identity.com/solana-gatekeeper-lib/-/solana-gatekeeper-lib-6.1.1-alpha.0.tgz#92d296a0b996f1c45f1e192f3421b164ea33e183"
-  integrity sha512-k2vktUjRKRobe7boSiKrk/vRnpbDOzkIuKYJsWAcEXTgnmnc+kI5U4+/F2gJ6jQjDdn63tDSUGDLrNvcPYY/4Q==
-  dependencies:
-    "@identity.com/solana-gateway-ts" "^0.13.0-alpha.0"
-    "@solana/buffer-layout" "^4.0.1"
-    "@solana/spl-token" "^0.4.3"
-    "@solana/web3.js" "^1.91.4"
-    async-retry "^1.3.3"
-    borsh "^0.4.0"
-    ramda "^0.29.1"
-    tslib "^2.6.2"
-
-"@identity.com/solana-gateway-ts@^0.13.0-alpha.0":
-  version "0.13.0-alpha.0"
-  resolved "https://registry.yarnpkg.com/@identity.com/solana-gateway-ts/-/solana-gateway-ts-0.13.0-alpha.0.tgz#fa98b3ad29d0828a16e33131414f7070578c796c"
-  integrity sha512-TDm+OrBScKpb2gNUE5S6pUp9BjdmEvt+wXNygCCd/FFt6cjRVmMqygS9t8nj9BPYEEZSPkzZg29t/fCyEyy5eA==
-  dependencies:
-    "@solana/web3.js" "^1.91.4"
-    async-retry "^1.3.3"
-    bn.js "^5.2.1"
-    borsh "^0.4.0"
-    bs58 "^5.0.0"
-    ramda "^0.29.1"
 
 "@isaacs/string-locale-compare@^1.1.0":
   version "1.1.0"

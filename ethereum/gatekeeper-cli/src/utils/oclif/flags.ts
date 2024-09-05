@@ -4,7 +4,7 @@ import {BaseProvider, Provider} from '@ethersproject/providers'
 import {GasPriceKey} from './gas'
 import {getProvider, networks} from './providers'
 import {isAddress} from '@ethersproject/address'
-import {DEFAULT_GATEWAY_TOKEN_ADDRESS} from '@identity.com/gateway-eth-ts'
+import {DEFAULT_GATEWAY_TOKEN_ADDRESS} from '@civic/gateway-eth-ts'
 import {BigNumber} from '@ethersproject/bignumber'
 
 // PRIVATE KEY FOR TEST, DEMO ONLY
