@@ -6,7 +6,7 @@
     "test": "test"
   },
   "scripts": {
-    "task": "hardhat",
+    "task": "hardhat --config config/tasks.ts",
     "analyze": "slither . --config-file slither.config.json",
     "coverage": "NODE_ENV=test hardhat coverage && istanbul check-coverage --statements 97 --branches 90 --functions 95 --lines 93",
     "test": "NODE_ENV=test hardhat test",
@@ -15,7 +15,7 @@
     "upgrade-contracts": "hardhat deploy --tags UpgradeV2 --network $1",
     "local": "STAGE=dev hardhat node --tags TestSetup",
     "local-no-deploy": "STAGE=prod hardhat node --no-deploy",
-    "clean": "rm -rf ./cache/ ./build/",
+    "clean": "rm -rf ./cache/ ./build/ ./typechain-types/",
     "build": "hardhat compile",
     "lint:sol": "solhint --config .solhint.json --max-warnings 0 \"contracts/**/*.sol\"",
     "prettier:write": "prettier --config prettier.config.js --write '**/*.{js,md,sol,ts,json}'",

@@ -5,10 +5,8 @@ import '@nomicfoundation/hardhat-ethers';
 import '@typechain/hardhat';
 import 'hardhat-deploy';
 import '@nomiclabs/hardhat-solhint';
-// import '@nomiclabs/hardhat-etherscan';
 import '@openzeppelin/hardhat-upgrades';
 import 'hardhat-contract-sizer';
-import './config/tasks';
 import { defaultPath, networks } from './config/networks';
 
 dotenv.config();
