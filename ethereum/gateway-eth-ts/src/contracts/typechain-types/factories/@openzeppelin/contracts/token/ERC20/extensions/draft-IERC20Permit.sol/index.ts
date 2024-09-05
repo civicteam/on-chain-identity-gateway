@@ -2,5 +2,4 @@
 // @ts-nocheck
 /* tslint:disable */
 /* eslint-disable */
-import type * as introspection from "./introspection";
-export type { introspection };
+export { IERC20Permit__factory } from "./IERC20Permit__factory";

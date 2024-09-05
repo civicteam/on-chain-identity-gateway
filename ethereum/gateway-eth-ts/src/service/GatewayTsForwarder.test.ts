@@ -232,15 +232,17 @@ describe("GatewayTS Forwarder", function () {
   it("Test refresh with an eth charge", async () => {
     const gatekeeperBalanceBefore = await provider.getBalance(gatekeeper);
 
-    const token = await gateway.getToken(
-      sampleWalletAddress,
-      gatekeeperNetwork
-    );
-    const chargeValue = BigInt(1000);
+    await gateway.getToken(sampleWalletAddress, gatekeeperNetwork);
+    const chargeValue = 1000n;
     const charge = makeWeiCharge(chargeValue, await gatekeeper.getAddress());
 
     await relay(() =>
-      gateway.refresh(sampleWalletAddress, gatekeeperNetwork, 1000, charge)
+      gateway.refresh(
+        sampleWalletAddress,
+        gatekeeperNetwork,
+        chargeValue,
+        charge
+      )
     );
 
     const gatekeeperBalanceAfter = await provider.getBalance(gatekeeper);

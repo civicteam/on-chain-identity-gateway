@@ -8,6 +8,7 @@ import {
   readOnlyOpNames,
 } from "../utils/types";
 import { pick } from "ramda";
+import { TypedContractMethod } from "../contracts/typechain-types/common";
 
 type MappedGatewayToken = ReadOnlyOperation & Pick<GatewayToken, WriteOps>;
 
@@ -27,15 +28,22 @@ export class GatewayTsTransaction extends GatewayTsInternal<
     //   gatewayTokenContract
     // );
 
-    const entries = mappedOpNames.map((name) => {
-      const fn = gatewayTokenContract[name];
-      const wrappedFn =
-        gatewayTokenContract[name].populateTransaction.bind(
-          gatewayTokenContract
-        );
-      return [name, wrappedFn];
-    });
-    const mappedOps = Object.fromEntries(entries);
+    const entries = mappedOpNames.map(
+      (
+        name
+      ): [keyof GatewayToken, TypedContractMethod["populateTransaction"]] => {
+        const fn = gatewayTokenContract[name] as TypedContractMethod<
+          unknown[],
+          unknown
+        >;
+        const wrappedFn = fn.populateTransaction.bind(gatewayTokenContract);
+        return [name, wrappedFn];
+      }
+    );
+    const mappedOps = Object.fromEntries(entries) as Pick<
+      GatewayToken,
+      WriteOps
+    >;
 
     const mappedGatewayToken = {
       ...mappedOps,

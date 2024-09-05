@@ -52,8 +52,7 @@ export const mappedOpNames = [
   "revoke",
   "burn",
   "setBitmask",
-// ] as (keyof GatewayToken)[];
-    ] as (TypedContractMethod)[]
+] as (keyof GatewayToken)[];
 
 type SubsetMappedWriteOps = Pick<GatewayToken, WriteOps>;
 

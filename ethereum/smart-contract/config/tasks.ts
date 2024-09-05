@@ -11,7 +11,6 @@ import { addForwarder } from '../tasks/addForwarder';
 import { execute } from '../tasks/execute';
 import { getBalance } from '../tasks/getBalance';
 import { getFees } from '../tasks/getFees';
-export * from '../hardhat.config';
 
 const defaultPath = './contracts';
 const testContractsPath = './test/contracts';

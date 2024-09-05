@@ -52,18 +52,10 @@ export declare namespace IForwarder {
 }
 
 export interface FlexibleNonceForwarderInterface extends Interface {
-  getFunction(
-    nameOrSignature: "eip712Domain" | "execute" | "getNonce"
-  ): FunctionFragment;
+  getFunction(nameOrSignature: "execute" | "getNonce"): FunctionFragment;
 
-  getEvent(
-    nameOrSignatureOrTopic: "EIP712DomainChanged" | "ForwardResult"
-  ): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "ForwardResult"): EventFragment;
 
-  encodeFunctionData(
-    functionFragment: "eip712Domain",
-    values?: undefined
-  ): string;
   encodeFunctionData(
     functionFragment: "execute",
     values: [IForwarder.ForwardRequestStruct, BytesLike]
@@ -73,22 +65,8 @@ export interface FlexibleNonceForwarderInterface extends Interface {
     values: [AddressLike]
   ): string;
 
-  decodeFunctionResult(
-    functionFragment: "eip712Domain",
-    data: BytesLike
-  ): Result;
   decodeFunctionResult(functionFragment: "execute", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "getNonce", data: BytesLike): Result;
-}
-
-export namespace EIP712DomainChangedEvent {
-  export type InputTuple = [];
-  export type OutputTuple = [];
-  export interface OutputObject {}
-  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
-  export type Filter = TypedDeferredTopicFilter<Event>;
-  export type Log = TypedEventLog<Event>;
-  export type LogDescription = TypedLogDescription<Event>;
 }
 
 export namespace ForwardResultEvent {
@@ -146,22 +124,6 @@ export interface FlexibleNonceForwarder extends BaseContract {
     event?: TCEvent
   ): Promise<this>;
 
-  eip712Domain: TypedContractMethod<
-    [],
-    [
-      [string, string, string, bigint, string, string, bigint[]] & {
-        fields: string;
-        name: string;
-        version: string;
-        chainId: bigint;
-        verifyingContract: string;
-        salt: string;
-        extensions: bigint[];
-      }
-    ],
-    "view"
-  >;
-
   execute: TypedContractMethod<
     [req: IForwarder.ForwardRequestStruct, signature: BytesLike],
     [[boolean, string]],
@@ -175,23 +137,6 @@ export interface FlexibleNonceForwarder extends BaseContract {
   ): T;
 
   getFunction(
-    nameOrSignature: "eip712Domain"
-  ): TypedContractMethod<
-    [],
-    [
-      [string, string, string, bigint, string, string, bigint[]] & {
-        fields: string;
-        name: string;
-        version: string;
-        chainId: bigint;
-        verifyingContract: string;
-        salt: string;
-        extensions: bigint[];
-      }
-    ],
-    "view"
-  >;
-  getFunction(
     nameOrSignature: "execute"
   ): TypedContractMethod<
     [req: IForwarder.ForwardRequestStruct, signature: BytesLike],
@@ -203,13 +148,6 @@ export interface FlexibleNonceForwarder extends BaseContract {
   ): TypedContractMethod<[from: AddressLike], [bigint], "view">;
 
   getEvent(
-    key: "EIP712DomainChanged"
-  ): TypedContractEvent<
-    EIP712DomainChangedEvent.InputTuple,
-    EIP712DomainChangedEvent.OutputTuple,
-    EIP712DomainChangedEvent.OutputObject
-  >;
-  getEvent(
     key: "ForwardResult"
   ): TypedContractEvent<
     ForwardResultEvent.InputTuple,
@@ -218,17 +156,6 @@ export interface FlexibleNonceForwarder extends BaseContract {
   >;
 
   filters: {
-    "EIP712DomainChanged()": TypedContractEvent<
-      EIP712DomainChangedEvent.InputTuple,
-      EIP712DomainChangedEvent.OutputTuple,
-      EIP712DomainChangedEvent.OutputObject
-    >;
-    EIP712DomainChanged: TypedContractEvent<
-      EIP712DomainChangedEvent.InputTuple,
-      EIP712DomainChangedEvent.OutputTuple,
-      EIP712DomainChangedEvent.OutputObject
-    >;
-
     "ForwardResult(bool)": TypedContractEvent<
       ForwardResultEvent.InputTuple,
       ForwardResultEvent.OutputTuple,
