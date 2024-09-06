@@ -4,6 +4,7 @@ import { GatekeeperNetworkService } from "../src";
 import { homedir } from "os";
 import * as path from "path";
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const mySecretKey = require(path.join(
   homedir(),
   ".config",

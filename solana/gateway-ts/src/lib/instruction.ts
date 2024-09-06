@@ -149,7 +149,7 @@ export function addGatekeeper(
   payer: PublicKey,
   gatekeeperAccount: PublicKey,
   gatekeeperAuthority: PublicKey,
-  network: PublicKey
+  network: PublicKey,
 ): TransactionInstruction {
   const keys: AccountMeta[] = [
     { pubkey: payer, isSigner: true, isWritable: true },
@@ -180,7 +180,7 @@ export function revokeGatekeeper(
   funds_to: PublicKey,
   gatekeeperAccount: PublicKey,
   gatekeeperAuthority: PublicKey,
-  network: PublicKey
+  network: PublicKey,
 ): TransactionInstruction {
   const keys: AccountMeta[] = [
     { pubkey: funds_to, isSigner: false, isWritable: true },
@@ -216,7 +216,7 @@ export function issue(
   gatekeeperAuthority: PublicKey,
   gatekeeperNetwork: PublicKey,
   seed?: Uint8Array,
-  expireTime?: number
+  expireTime?: number,
 ): TransactionInstruction {
   const keys: AccountMeta[] = [
     { pubkey: payer, isSigner: true, isWritable: true },
@@ -239,7 +239,7 @@ export function issue(
 const getStateChangeAccountMeta = (
   gatewayTokenAccount: PublicKey,
   gatekeeperAuthority: PublicKey,
-  gatekeeperAccount: PublicKey
+  gatekeeperAccount: PublicKey,
 ): AccountMeta[] => [
   { pubkey: gatewayTokenAccount, isSigner: false, isWritable: true },
   { pubkey: gatekeeperAuthority, isSigner: true, isWritable: false },
@@ -256,12 +256,12 @@ const getStateChangeAccountMeta = (
 export function revoke(
   gatewayTokenAccount: PublicKey,
   gatekeeperAuthority: PublicKey,
-  gatekeeperAccount: PublicKey
+  gatekeeperAccount: PublicKey,
 ): TransactionInstruction {
   const keys: AccountMeta[] = getStateChangeAccountMeta(
     gatewayTokenAccount,
     gatekeeperAuthority,
-    gatekeeperAccount
+    gatekeeperAccount,
   );
   const data = GatewayInstruction.revoke().encode();
   return new TransactionInstruction({
@@ -281,12 +281,12 @@ export function revoke(
 export function freeze(
   gatewayTokenAccount: PublicKey,
   gatekeeperAuthority: PublicKey,
-  gatekeeperAccount: PublicKey
+  gatekeeperAccount: PublicKey,
 ): TransactionInstruction {
   const keys: AccountMeta[] = getStateChangeAccountMeta(
     gatewayTokenAccount,
     gatekeeperAuthority,
-    gatekeeperAccount
+    gatekeeperAccount,
   );
   const data = GatewayInstruction.freeze().encode();
   return new TransactionInstruction({
@@ -306,12 +306,12 @@ export function freeze(
 export function unfreeze(
   gatewayTokenAccount: PublicKey,
   gatekeeperAuthority: PublicKey,
-  gatekeeperAccount: PublicKey
+  gatekeeperAccount: PublicKey,
 ): TransactionInstruction {
   const keys: AccountMeta[] = getStateChangeAccountMeta(
     gatewayTokenAccount,
     gatekeeperAuthority,
-    gatekeeperAccount
+    gatekeeperAccount,
   );
   const data = GatewayInstruction.unfreeze().encode();
   return new TransactionInstruction({
@@ -333,7 +333,7 @@ export function updateExpiry(
   gatewayTokenAccount: PublicKey,
   gatekeeperAuthority: PublicKey,
   gatekeeperAccount: PublicKey,
-  expireTime: number
+  expireTime: number,
 ): TransactionInstruction {
   const keys: AccountMeta[] = [
     { pubkey: gatewayTokenAccount, isSigner: false, isWritable: true },
@@ -358,7 +358,7 @@ export function updateExpiry(
 export async function addFeatureToNetwork(
   payer: PublicKey,
   network: PublicKey,
-  feature: NetworkFeature
+  feature: NetworkFeature,
 ): Promise<TransactionInstruction> {
   const featureAccount = getFeatureAccountAddress(feature, network);
 
@@ -386,7 +386,7 @@ export async function addFeatureToNetwork(
 export async function removeFeatureFromNetwork(
   payer: PublicKey,
   network: PublicKey,
-  feature: NetworkFeature
+  feature: NetworkFeature,
 ): Promise<TransactionInstruction> {
   const featureAccount = getFeatureAccountAddress(feature, network);
 
@@ -414,7 +414,7 @@ export async function removeFeatureFromNetwork(
 export function expireToken(
   gatewayTokenAccount: PublicKey,
   owner: PublicKey,
-  gatekeeperNetwork: PublicKey
+  gatekeeperNetwork: PublicKey,
 ): TransactionInstruction {
   const feature = new NetworkFeature({
     userTokenExpiry: new UserTokenExpiry({}),
@@ -446,13 +446,13 @@ export function burn(
   gatewayTokenAccount: PublicKey,
   gatekeeperAuthority: PublicKey,
   gatekeeperAccount: PublicKey,
-  recipient: PublicKey
+  recipient: PublicKey,
 ): TransactionInstruction {
   const keys: AccountMeta[] = [
     ...getStateChangeAccountMeta(
       gatewayTokenAccount,
       gatekeeperAuthority,
-      gatekeeperAccount
+      gatekeeperAccount,
     ),
     { pubkey: recipient, isSigner: false, isWritable: true },
   ];

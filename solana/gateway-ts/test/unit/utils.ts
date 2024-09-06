@@ -1,5 +1,5 @@
 import sinon from "sinon";
-import { Connection, PublicKey } from "@solana/web3.js";
+import { AccountInfo, PublicKey } from "@solana/web3.js";
 
 import { GatewayTokenData, GatewayTokenState, PROGRAM_ID } from "../../src";
 import { AssignablePublicKey } from "../../src";
@@ -10,10 +10,12 @@ export const getAccountWithState = (
   ownerKey: PublicKey,
   gatekeeperNetworkKey: PublicKey,
   gatekeeperKey: PublicKey,
-  expiry?: number
-): Awaited<ReturnType<Connection["getProgramAccounts"]>> extends (infer U)[]
-  ? U
-  : never => {
+  expiry?: number,
+): {
+  account: AccountInfo<Buffer>;
+  /** the account Pubkey as base-58 encoded string */
+  pubkey: PublicKey;
+} => {
   const gtData = new GatewayTokenData({
     state,
     owner: AssignablePublicKey.fromPublicKey(ownerKey),

@@ -2,9 +2,19 @@
 // @ts-nocheck
 /* tslint:disable */
 /* eslint-disable */
-import { Signer, utils, Contract, ContractFactory, Overrides } from "ethers";
-import type { Provider, TransactionRequest } from "@ethersproject/providers";
-import type { PromiseOrValue } from "../../../common";
+import {
+  Contract,
+  ContractFactory,
+  ContractTransactionResponse,
+  Interface,
+} from "ethers";
+import type {
+  Signer,
+  AddressLike,
+  ContractDeployTransaction,
+  ContractRunner,
+} from "ethers";
+import type { NonPayableOverrides } from "../../../common";
 import type {
   ERC2771Test,
   ERC2771TestInterface,
@@ -148,34 +158,32 @@ export class ERC2771Test__factory extends ContractFactory {
     }
   }
 
-  override deploy(
-    forwarders: PromiseOrValue<string>[],
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ERC2771Test> {
-    return super.deploy(forwarders, overrides || {}) as Promise<ERC2771Test>;
-  }
   override getDeployTransaction(
-    forwarders: PromiseOrValue<string>[],
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): TransactionRequest {
+    forwarders: AddressLike[],
+    overrides?: NonPayableOverrides & { from?: string }
+  ): Promise<ContractDeployTransaction> {
     return super.getDeployTransaction(forwarders, overrides || {});
   }
-  override attach(address: string): ERC2771Test {
-    return super.attach(address) as ERC2771Test;
+  override deploy(
+    forwarders: AddressLike[],
+    overrides?: NonPayableOverrides & { from?: string }
+  ) {
+    return super.deploy(forwarders, overrides || {}) as Promise<
+      ERC2771Test & {
+        deploymentTransaction(): ContractTransactionResponse;
+      }
+    >;
   }
-  override connect(signer: Signer): ERC2771Test__factory {
-    return super.connect(signer) as ERC2771Test__factory;
+  override connect(runner: ContractRunner | null): ERC2771Test__factory {
+    return super.connect(runner) as ERC2771Test__factory;
   }
 
   static readonly bytecode = _bytecode;
   static readonly abi = _abi;
   static createInterface(): ERC2771TestInterface {
-    return new utils.Interface(_abi) as ERC2771TestInterface;
+    return new Interface(_abi) as ERC2771TestInterface;
   }
-  static connect(
-    address: string,
-    signerOrProvider: Signer | Provider
-  ): ERC2771Test {
-    return new Contract(address, _abi, signerOrProvider) as ERC2771Test;
+  static connect(address: string, runner?: ContractRunner | null): ERC2771Test {
+    return new Contract(address, _abi, runner) as unknown as ERC2771Test;
   }
 }

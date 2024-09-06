@@ -1,15 +1,16 @@
 import { HardhatRuntimeEnvironment } from 'hardhat/types';
+import { GatewayToken__factory } from '../typechain-types';
 
 export const addForwarder = async (args: any, hre: HardhatRuntimeEnvironment) => {
-  const { ethers, getNamedAccounts, deployments } = hre;
+  const { ethers, deployments } = hre;
 
-  const { deployer } = await getNamedAccounts();
-  console.log('deployer', deployer);
+  const [deployer] = await ethers.getSigners();
 
   const gatewayToken = await deployments.get('GatewayToken');
 
-  const contract = await ethers.getContractAt('GatewayToken', gatewayToken.address);
-  const transactionReceipt = await contract.connect(deployer).addForwarder(args.forwarder);
+  const contract = GatewayToken__factory.connect(gatewayToken.address, deployer);
+  const txResponse = await contract.connect(deployer).addForwarder(args.forwarder);
+  const txReceipt = await txResponse.wait();
 
   console.log(
     'added new forwarder with ' +
@@ -17,9 +18,7 @@ export const addForwarder = async (args: any, hre: HardhatRuntimeEnvironment) =>
       ' address into Gateway Token at ' +
       gatewayToken.address +
       ' using ' +
-      transactionReceipt.gasUsed.toNumber() +
+      txReceipt?.gasUsed +
       ' gas',
   );
-
-  await transactionReceipt.wait();
 };

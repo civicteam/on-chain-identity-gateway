@@ -16,7 +16,7 @@ require("dotenv/config");
     });
 
     const timerId = timer[Symbol.toPrimitive]();
-    await setTimeout(() => {
+    setTimeout(() => {
         gtLib.unsubscribeOnGatewayTokenChange(timerId);
     }, 30000);
 })();

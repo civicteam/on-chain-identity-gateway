@@ -7,12 +7,11 @@ import {
   Transaction,
 } from "@solana/web3.js";
 import { SOLANA_COMMITMENT } from "../src/util/constants";
-import { airdropTo, GatekeeperService } from "../src";
+import { GatekeeperService } from "../src";
 import { homedir } from "os";
 import * as path from "path";
 
-const LAMPORTS_FOR_ISSUANCE = 2_000_000; // The owner needs this much to issue their own token.
-
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const gatekeeperKey = require(path.join(
   homedir(),
   ".config",
@@ -67,6 +66,7 @@ console.log("Issuing gateway token for " + owner.publicKey);
 
   const txSig = await connection.sendRawTransaction(deserializedTx.serialize());
   console.log("txSig", txSig);
-  await connection.confirmTransaction(txSig);
+  const latestBlockhash = await this.connection.getLatestBlockhash();
+  await connection.confirmTransaction({ signature: txSig, ...latestBlockhash });
   console.log("confirmed");
 })().catch((error) => console.error(error));

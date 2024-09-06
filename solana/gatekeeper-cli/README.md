@@ -5,7 +5,7 @@ CLI to manage OCIV Gateway Tokens
 [![oclif](https://img.shields.io/badge/cli-oclif-brightgreen.svg)](https://oclif.io)
 [![Version](https://img.shields.io/npm/v/ociv.svg)](https://npmjs.org/package/ociv)
 [![Downloads/week](https://img.shields.io/npm/dw/ociv.svg)](https://npmjs.org/package/ociv)
-[![License](https://img.shields.io/npm/l/ociv.svg)](https://github.com/identity-com/ociv/blob/master/package.json)
+[![License](https://img.shields.io/npm/l/ociv.svg)](https://github.com/civicteam/ociv/blob/master/package.json)
 
 <!-- toc -->
 * [gatekeeper-cli](#gatekeeper-cli)
@@ -15,11 +15,11 @@ CLI to manage OCIV Gateway Tokens
 # Usage
 <!-- usage -->
 ```sh-session
-$ npm install -g @identity.com/solana-gatekeeper-cli
+$ npm install -g @civic/solana-gatekeeper-cli
 $ gateway COMMAND
 running command...
 $ gateway (-v|--version|version)
-@identity.com/solana-gatekeeper-cli/0.0.2 darwin-arm64 node-v18.16.0
+@civic/solana-gatekeeper-cli/0.0.2 darwin-arm64 node-v20.13.1
 $ gateway --help [COMMAND]
 USAGE
   $ gateway COMMAND
@@ -66,6 +66,8 @@ OPTIONS
                                                                SOLANA_CLUSTER. To override this property with a specific
                                                                endpoint url, set SOLANA_CLUSTER_URL
 
+  -f, --priorityFeeLamports=priorityFeeLamports                [default: 0] The priority fee in lamports
+
   -g, --gatekeeperKey=gatekeeperKey                            [default: [object Object]] The private key file for the
                                                                gatekeeper authority
 
@@ -73,6 +75,8 @@ OPTIONS
 
   -n, --gatekeeperNetworkKey=gatekeeperNetworkKey              [default: [object Object]] The private key file for the
                                                                gatekeeper authority
+
+  --skipPreflight                                              Skip preflight check
 
 EXAMPLE
   $ gateway add-gatekeeper tgky5YfBseCvqehzsycwCG6rh2udA4w14MxZMnZz9Hp
@@ -97,6 +101,8 @@ OPTIONS
                                                                SOLANA_CLUSTER. To override this property with a specific
                                                                endpoint url, set SOLANA_CLUSTER_URL
 
+  -f, --priorityFeeLamports=priorityFeeLamports                [default: 0] The priority fee in lamports
+
   -g, --gatekeeperKey=gatekeeperKey                            [default: [object Object]] The private key file for the
                                                                gatekeeper authority
 
@@ -105,9 +111,11 @@ OPTIONS
   -n, --gatekeeperNetworkKey=gatekeeperNetworkKey              [default: [object Object]] The public key (in base 58) of
                                                                the gatekeeper network that the gatekeeper belongs to.
 
+  --skipPreflight                                              Skip preflight check
+
 EXAMPLE
   $ gateway burn EzZgkwaDrgycsiyGeCVRXXRcieE1fxhGMp829qwj5TMv
-  Revoked
+  Burned
 ```
 
 ## `gateway freeze GATEWAYTOKEN`
@@ -129,6 +137,8 @@ OPTIONS
                                                                SOLANA_CLUSTER. To override this property with a specific
                                                                endpoint url, set SOLANA_CLUSTER_URL
 
+  -f, --priorityFeeLamports=priorityFeeLamports                [default: 0] The priority fee in lamports
+
   -g, --gatekeeperKey=gatekeeperKey                            [default: [object Object]] The private key file for the
                                                                gatekeeper authority
 
@@ -136,6 +146,8 @@ OPTIONS
 
   -n, --gatekeeperNetworkKey=gatekeeperNetworkKey              [default: [object Object]] The public key (in base 58) of
                                                                the gatekeeper network that the gatekeeper belongs to.
+
+  --skipPreflight                                              Skip preflight check
 
 EXAMPLE
   $ gateway freeze EzZgkwaDrgycsiyGeCVRXXRcieE1fxhGMp829qwj5TMv
@@ -181,6 +193,8 @@ OPTIONS
   -e, --expiry=expiry                                          The expiry time in seconds for the gateway token (default
                                                                none)
 
+  -f, --priorityFeeLamports=priorityFeeLamports                [default: 0] The priority fee in lamports
+
   -g, --gatekeeperKey=gatekeeperKey                            [default: [object Object]] The private key file for the
                                                                gatekeeper authority
 
@@ -188,6 +202,8 @@ OPTIONS
 
   -n, --gatekeeperNetworkKey=gatekeeperNetworkKey              [default: [object Object]] The public key (in base 58) of
                                                                the gatekeeper network that the gatekeeper belongs to.
+
+  --skipPreflight                                              Skip preflight check
 
 EXAMPLE
   $ gateway issue EzZgkwaDrgycsiyGeCVRXXRcieE1fxhGMp829qwj5TMv2QJjjrzdPSrcZUuAH2KrEU61crWz49KnSLSzwjDUnLSV
@@ -212,12 +228,16 @@ OPTIONS
                                                                SOLANA_CLUSTER. To override this property with a specific
                                                                endpoint url, set SOLANA_CLUSTER_URL
 
+  -f, --priorityFeeLamports=priorityFeeLamports                [default: 0] The priority fee in lamports
+
   -h, --help                                                   Show CLI help.
 
   -n, --gatekeeperNetworkKey=gatekeeperNetworkKey              [default: [object Object]] The private key file for the
                                                                gatekeeper authority
 
   -o, --featureOperation=add|remove|get                        [default: get] add, remove, or get a network feature
+
+  --skipPreflight                                              Skip preflight check
 
 EXAMPLE
   $ gateway network-feature userTokenExpiry
@@ -381,6 +401,8 @@ OPTIONS
                                                                SOLANA_CLUSTER. To override this property with a specific
                                                                endpoint url, set SOLANA_CLUSTER_URL
 
+  -f, --priorityFeeLamports=priorityFeeLamports                [default: 0] The priority fee in lamports
+
   -g, --gatekeeperKey=gatekeeperKey                            [default: [object Object]] The private key file for the
                                                                gatekeeper authority
 
@@ -388,6 +410,8 @@ OPTIONS
 
   -n, --gatekeeperNetworkKey=gatekeeperNetworkKey              [default: [object Object]] The public key (in base 58) of
                                                                the gatekeeper network that the gatekeeper belongs to.
+
+  --skipPreflight                                              Skip preflight check
 
 EXAMPLE
   $ gateway refresh EzZgkwaDrgycsiyGeCVRXXRcieE1fxhGMp829qwj5TMv 54000
@@ -413,6 +437,8 @@ OPTIONS
                                                                SOLANA_CLUSTER. To override this property with a specific
                                                                endpoint url, set SOLANA_CLUSTER_URL
 
+  -f, --priorityFeeLamports=priorityFeeLamports                [default: 0] The priority fee in lamports
+
   -g, --gatekeeperKey=gatekeeperKey                            [default: [object Object]] The private key file for the
                                                                gatekeeper authority
 
@@ -420,6 +446,8 @@ OPTIONS
 
   -n, --gatekeeperNetworkKey=gatekeeperNetworkKey              [default: [object Object]] The public key (in base 58) of
                                                                the gatekeeper network that the gatekeeper belongs to.
+
+  --skipPreflight                                              Skip preflight check
 
 EXAMPLE
   $ gateway revoke EzZgkwaDrgycsiyGeCVRXXRcieE1fxhGMp829qwj5TMv
@@ -445,6 +473,8 @@ OPTIONS
                                                                SOLANA_CLUSTER. To override this property with a specific
                                                                endpoint url, set SOLANA_CLUSTER_URL
 
+  -f, --priorityFeeLamports=priorityFeeLamports                [default: 0] The priority fee in lamports
+
   -g, --gatekeeperKey=gatekeeperKey                            [default: [object Object]] The private key file for the
                                                                gatekeeper authority
 
@@ -452,6 +482,8 @@ OPTIONS
 
   -n, --gatekeeperNetworkKey=gatekeeperNetworkKey              [default: [object Object]] The private key file for the
                                                                gatekeeper authority
+
+  --skipPreflight                                              Skip preflight check
 
 EXAMPLE
   $ gateway revoke-gatekeeper tgky5YfBseCvqehzsycwCG6rh2udA4w14MxZMnZz9Hp
@@ -476,6 +508,8 @@ OPTIONS
                                                                SOLANA_CLUSTER. To override this property with a specific
                                                                endpoint url, set SOLANA_CLUSTER_URL
 
+  -f, --priorityFeeLamports=priorityFeeLamports                [default: 0] The priority fee in lamports
+
   -g, --gatekeeperKey=gatekeeperKey                            [default: [object Object]] The private key file for the
                                                                gatekeeper authority
 
@@ -483,6 +517,8 @@ OPTIONS
 
   -n, --gatekeeperNetworkKey=gatekeeperNetworkKey              [default: [object Object]] The public key (in base 58) of
                                                                the gatekeeper network that the gatekeeper belongs to.
+
+  --skipPreflight                                              Skip preflight check
 
 EXAMPLE
   $ gateway unfreeze EzZgkwaDrgycsiyGeCVRXXRcieE1fxhGMp829qwj5TMv
@@ -539,4 +575,4 @@ OPTIONS
 _See code: [@oclif/plugin-version](https://github.com/oclif/plugin-version/blob/v1.1.3/src/commands/version.ts)_
 <!-- commandsstop -->
 Note - if you are looking for the CLI tool,
-it has been moved to [@identity.com/solana-gatekeeper-cli](https://www.npmjs.com/package/@identity.com/solana-gatekeeper-cli)
+it has been moved to [@civic/solana-gatekeeper-cli](https://www.npmjs.com/package/@civic/solana-gatekeeper-cli)

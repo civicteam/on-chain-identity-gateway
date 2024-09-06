@@ -2,9 +2,14 @@
 // @ts-nocheck
 /* tslint:disable */
 /* eslint-disable */
-import { Signer, utils, Contract, ContractFactory, Overrides } from "ethers";
-import type { Provider, TransactionRequest } from "@ethersproject/providers";
-import type { PromiseOrValue } from "../../../common";
+import {
+  Contract,
+  ContractFactory,
+  ContractTransactionResponse,
+  Interface,
+} from "ethers";
+import type { Signer, ContractDeployTransaction, ContractRunner } from "ethers";
+import type { NonPayableOverrides } from "../../../common";
 import type {
   GatewayTokenClientERC2771UpgradeableTest,
   GatewayTokenClientERC2771UpgradeableTestInterface,
@@ -260,44 +265,41 @@ export class GatewayTokenClientERC2771UpgradeableTest__factory extends ContractF
     }
   }
 
-  override deploy(
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<GatewayTokenClientERC2771UpgradeableTest> {
-    return super.deploy(
-      overrides || {}
-    ) as Promise<GatewayTokenClientERC2771UpgradeableTest>;
-  }
   override getDeployTransaction(
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): TransactionRequest {
+    overrides?: NonPayableOverrides & { from?: string }
+  ): Promise<ContractDeployTransaction> {
     return super.getDeployTransaction(overrides || {});
   }
-  override attach(address: string): GatewayTokenClientERC2771UpgradeableTest {
-    return super.attach(address) as GatewayTokenClientERC2771UpgradeableTest;
+  override deploy(overrides?: NonPayableOverrides & { from?: string }) {
+    return super.deploy(overrides || {}) as Promise<
+      GatewayTokenClientERC2771UpgradeableTest & {
+        deploymentTransaction(): ContractTransactionResponse;
+      }
+    >;
   }
   override connect(
-    signer: Signer
+    runner: ContractRunner | null
   ): GatewayTokenClientERC2771UpgradeableTest__factory {
     return super.connect(
-      signer
+      runner
     ) as GatewayTokenClientERC2771UpgradeableTest__factory;
   }
 
   static readonly bytecode = _bytecode;
   static readonly abi = _abi;
   static createInterface(): GatewayTokenClientERC2771UpgradeableTestInterface {
-    return new utils.Interface(
+    return new Interface(
       _abi
     ) as GatewayTokenClientERC2771UpgradeableTestInterface;
   }
   static connect(
     address: string,
-    signerOrProvider: Signer | Provider
+    runner?: ContractRunner | null
   ): GatewayTokenClientERC2771UpgradeableTest {
     return new Contract(
       address,
       _abi,
-      signerOrProvider
-    ) as GatewayTokenClientERC2771UpgradeableTest;
+      runner
+    ) as unknown as GatewayTokenClientERC2771UpgradeableTest;
   }
 }

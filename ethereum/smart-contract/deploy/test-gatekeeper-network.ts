@@ -1,12 +1,14 @@
 import { HardhatRuntimeEnvironment } from 'hardhat/types';
 import { DeployFunction } from 'hardhat-deploy/types';
 import { getAccounts } from '../scripts/util';
+import { GatewayToken__factory } from '../typechain-types';
 
 const NULL_ADDRESS = '0x0000000000000000000000000000000000000000';
 const gatekeeperNetwork = 1;
 // open to all - private key is known
 const testGatekeeper = '0x34bb5808d46a21AaeBf7C1300Ef17213Fe215B91';
 const civicDevGatekeeper = '0x3Afb27942b60d9D4319557A0f3363DC3dA0645B6';
+const civicProdGatekeeper = '0x964617b2d933c6e5c6c1B30681DCAee23Baa9836';
 
 const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   const { deployments, ethers } = hre;
@@ -21,7 +23,7 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
 
   const gatewayToken = await deployments.get('GatewayTokenProxy');
 
-  const token = (await ethers.getContractAt('GatewayToken', gatewayToken.address)).connect(deployerSigner);
+  const token = GatewayToken__factory.connect(gatewayToken.address, deployerSigner);
 
   // check if superadmin
   const isSuperAdmin = await token.isSuperAdmin(deployer);
@@ -41,7 +43,7 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
         ' on Gateway Token at ' +
         gatewayToken.address +
         ' using ' +
-        createNetworkTx.gasUsed.toNumber() +
+        createNetworkTx?.gasUsed.toString() +
         ' gas',
     );
   }
@@ -54,7 +56,7 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
         ' address into Gateway Token at ' +
         gatewayToken.address +
         ' using ' +
-        addGatekeeperTx.gasUsed.toNumber() +
+        addGatekeeperTx?.gasUsed.toString() +
         ' gas',
     );
   } else console.log(`gatekeeper ${gatekeeper} already in network ${gatekeeperNetwork}`);
@@ -67,7 +69,7 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
         ' address into Gateway Token at ' +
         gatewayToken.address +
         ' using ' +
-        addTestGatekeeperTx.gasUsed.toNumber() +
+        addTestGatekeeperTx?.gasUsed.toString() +
         ' gas',
     );
   } else console.log(`gatekeeper ${testGatekeeper} already in network ${gatekeeperNetwork}`);
@@ -80,10 +82,23 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
         ' address into Gateway Token at ' +
         gatewayToken.address +
         ' using ' +
-        addCivicDevGatekeeperTx.gasUsed.toNumber() +
+        addCivicDevGatekeeperTx?.gasUsed.toString() +
         ' gas',
     );
   } else console.log(`gatekeeper ${civicDevGatekeeper} already in network ${gatekeeperNetwork}`);
+
+  if (!(await token.isGatekeeper(civicProdGatekeeper, gatekeeperNetwork))) {
+    const addCivicProdGatekeeperTx = await (await token.addGatekeeper(civicProdGatekeeper, gatekeeperNetwork)).wait();
+    console.log(
+      'added civic prod gatekeeper with ' +
+        civicProdGatekeeper +
+        ' address into Gateway Token at ' +
+        gatewayToken.address +
+        ' using ' +
+        addCivicProdGatekeeperTx?.gasUsed.toString() +
+        ' gas',
+    );
+  } else console.log(`gatekeeper ${civicProdGatekeeper} already in network ${gatekeeperNetwork}`);
 };
 
 export default func;

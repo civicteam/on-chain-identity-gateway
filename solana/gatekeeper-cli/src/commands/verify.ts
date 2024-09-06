@@ -3,7 +3,7 @@ import { PublicKey } from "@solana/web3.js";
 import { clusterFlag, gatekeeperNetworkPubkeyFlag } from "../util/flags";
 import { prettyPrint } from "../util/utils";
 import { getConnectionFromEnv } from "../util/utils";
-import { findGatewayToken } from "@identity.com/solana-gateway-ts";
+import { findGatewayToken } from "@civic/solana-gateway-ts";
 
 export default class Verify extends Command {
   static description = "Verify a gateway token";

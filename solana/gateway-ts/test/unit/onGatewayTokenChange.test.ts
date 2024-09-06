@@ -86,7 +86,7 @@ describe("onGatewayTokenChange", () => {
       const onGatewayTokenChangeId = onGatewayTokenChange(
         connection,
         gatewayTokenKey,
-        callback
+        callback,
       );
 
       // trigger a gateway token change event
@@ -108,7 +108,6 @@ describe("onGatewayTokenChange", () => {
 
   context("when subscribing to gateway token state changes", () => {
     it("should stop listening to gateway state changes", async () => {
-      const gatewayTokenHistory: GatewayToken[] = [];
       const subscriptionId = 1234;
 
       // Add subscription and return subscription id
@@ -123,11 +122,11 @@ describe("onGatewayTokenChange", () => {
       const onGatewayTokenChangeId = onGatewayTokenChange(
         connection,
         gatewayTokenKey,
-        () => {}
+        () => {},
       );
 
       // remove the token event listener
-      removeAccountChangeListener(connection, onGatewayTokenChangeId);
+      await removeAccountChangeListener(connection, onGatewayTokenChangeId);
 
       // expect removeAccountChangeListener to have been called
       expect(removeAccountChangeStub.called).to.be.true;

@@ -1,4 +1,11 @@
-import {Connection, Keypair, PublicKey, Transaction, TransactionInstruction,} from "@solana/web3.js";
+import {
+  ComputeBudgetProgram,
+  Connection,
+  Keypair,
+  PublicKey,
+  Transaction,
+  TransactionInstruction,
+} from "@solana/web3.js";
 import {
   findGatewayToken,
   freeze,
@@ -10,15 +17,19 @@ import {
   revoke,
   unfreeze,
   updateExpiry,
-  burn
-} from "@identity.com/solana-gateway-ts";
+  burn,
+} from "@civic/solana-gateway-ts";
 
-import {Action, SendableDataTransaction, SendableTransaction} from "../util";
-import {TransactionHolder} from "../util/connection";
-import {SOLANA_COMMITMENT} from "../util/constants";
-import {getOrCreateBlockhashOrNonce } from "../util/transaction";
-import {GatekeeperConfig, TransactionOptions} from "../util/types";
-import {generateChargeInstruction} from "../util/charge";
+import { Action, SendableDataTransaction, SendableTransaction } from "../util";
+import { TransactionHolder } from "../util/connection";
+import { CU_LIMIT, SOLANA_COMMITMENT } from "../util/constants";
+import { getOrCreateBlockhashOrNonce } from "../util/transaction";
+import {
+  GatekeeperConfig,
+  RequiredTransactionOptions,
+  TransactionOptions,
+} from "../util/types";
+import { generateChargeInstruction } from "../util/charge";
 
 /**
  * Encapsulates actions performed by a gatekeeper
@@ -31,27 +42,27 @@ export class GatekeeperService {
    * @param gatekeeperAuthority The gatekeeper's key
    * @param config Global default configuration for the gatekeeper
    */
-  // eslint-disable-next-line no-useless-constructor
   constructor(
     private readonly connection: Connection,
     private gatekeeperNetwork: PublicKey,
     private gatekeeperAuthority: Keypair,
-    private config: GatekeeperConfig = {}
+    private config: GatekeeperConfig = {},
   ) {}
 
   private async optionsWithDefaults(
-    options: TransactionOptions = {}
-  ): Promise<Required<TransactionOptions>> {
+    options: TransactionOptions = {},
+  ): Promise<RequiredTransactionOptions> {
     const defaultOptions = {
       feePayer: this.gatekeeperAuthority.publicKey,
       rentPayer: this.gatekeeperAuthority.publicKey,
       commitment: SOLANA_COMMITMENT,
+      priorityFeeMicroLamports: undefined,
       ...this.config,
       ...options,
     };
     const blockhashOrNonce = await getOrCreateBlockhashOrNonce(
       this.connection,
-      defaultOptions.blockhashOrNonce
+      defaultOptions.blockhashOrNonce,
     );
 
     return {
@@ -63,7 +74,7 @@ export class GatekeeperService {
   private gatekeeperAccountAddress() {
     return getGatekeeperAccountAddress(
       this.gatekeeperAuthority.publicKey,
-      this.gatekeeperNetwork
+      this.gatekeeperNetwork,
     );
   }
 
@@ -74,7 +85,7 @@ export class GatekeeperService {
   }
 
   private getGatewayTokenOrError(
-    gatewayTokenAddress: PublicKey
+    gatewayTokenAddress: PublicKey,
   ): Promise<GatewayToken> {
     return getGatewayToken(this.connection, gatewayTokenAddress).then(
       (gatewayToken: GatewayToken | null) => {
@@ -82,50 +93,76 @@ export class GatekeeperService {
           throw new Error(
             `Error retrieving gateway token at address ${
               gatewayToken ? gatewayToken : "null"
-            } `
+            } `,
           );
         return gatewayToken;
-      }
+      },
     );
   }
-  
-  private async getChargeInstruction(action: Action, transactionOptions: TransactionOptions): Promise<TransactionInstruction | undefined> {
+
+  private async getChargeInstruction(
+    action: Action,
+    transactionOptions: TransactionOptions,
+  ): Promise<TransactionInstruction | undefined> {
     if (!this.config.chargeOptions) return undefined;
     return generateChargeInstruction(
       this.config.chargeOptions,
       transactionOptions,
       action,
       this.gatekeeperAuthority.publicKey,
-    )
+    );
   }
-  
-  private async addChargeOption(action: Action, transactionOptions: TransactionOptions, transaction: Transaction): Promise<Transaction> {
-    const chargeInstruction = await this.getChargeInstruction(action, transactionOptions);
+
+  private async addChargeOption(
+    action: Action,
+    transactionOptions: TransactionOptions,
+    transaction: Transaction,
+  ): Promise<Transaction> {
+    const chargeInstruction = await this.getChargeInstruction(
+      action,
+      transactionOptions,
+    );
     if (chargeInstruction) {
       transaction.add(chargeInstruction);
     }
-    
+
     return transaction;
+  }
+
+  private withPriorityFee(): TransactionInstruction[] {
+    if (!this.config.priorityFeeMicroLamports) {
+      return [];
+    }
+
+    return [
+      ComputeBudgetProgram.setComputeUnitLimit({
+        units: CU_LIMIT,
+      }),
+      ComputeBudgetProgram.setComputeUnitPrice({
+        microLamports: this.config.priorityFeeMicroLamports,
+      }),
+    ];
   }
 
   private async issueWithSeed(
     owner: PublicKey,
     seed?: Uint8Array,
-    options?: TransactionOptions
+    options?: TransactionOptions,
   ): Promise<SendableDataTransaction<GatewayToken | null>> {
     const normalizedOptions = await this.optionsWithDefaults(options);
     const gatewayTokenAddress: PublicKey =
       getGatewayTokenAddressForOwnerAndGatekeeperNetwork(
         owner,
-        this.gatekeeperNetwork
+        this.gatekeeperNetwork,
       );
     const gatekeeperAccount: PublicKey = getGatekeeperAccountAddress(
       this.gatekeeperAuthority.publicKey,
-      this.gatekeeperNetwork
+      this.gatekeeperNetwork,
     );
 
     const expireTime = this.getDefaultExpireTime();
     const transaction = new Transaction().add(
+      ...this.withPriorityFee(),
       issue(
         gatewayTokenAddress,
         normalizedOptions.rentPayer,
@@ -134,15 +171,15 @@ export class GatekeeperService {
         this.gatekeeperAuthority.publicKey,
         this.gatekeeperNetwork,
         seed,
-        expireTime
-      )
+        expireTime,
+      ),
     );
-    
+
     await this.addChargeOption(Action.ISSUE, normalizedOptions, transaction);
-    
+
     const hashOrNonce =
       normalizedOptions.blockhashOrNonce ||
-      (await this.connection.getRecentBlockhash());
+      (await this.connection.getLatestBlockhash());
     return new SendableTransaction(this.connection, transaction)
       .withData(() => getGatewayToken(this.connection, gatewayTokenAddress))
       .feePayer(normalizedOptions.feePayer)
@@ -159,7 +196,7 @@ export class GatekeeperService {
    */
   issue(
     recipient: PublicKey,
-    options?: TransactionOptions
+    options?: TransactionOptions,
   ): Promise<SendableDataTransaction<GatewayToken | null>> {
     return this.issueWithSeed(recipient, undefined, options);
   }
@@ -181,8 +218,11 @@ export class GatekeeperService {
     options?: TransactionOptions,
   ): Promise<SendableDataTransaction<GatewayToken>> {
     const normalizedOptions = await this.optionsWithDefaults(options);
-    const transaction = new Transaction().add(instruction);
-    
+    const transaction = new Transaction().add(
+      ...this.withPriorityFee(),
+      instruction,
+    );
+
     await this.addChargeOption(action, normalizedOptions, transaction);
 
     return new SendableTransaction(this.connection, transaction)
@@ -201,21 +241,21 @@ export class GatekeeperService {
    */
   async revoke(
     gatewayTokenKey: PublicKey,
-    options?: TransactionOptions
+    options?: TransactionOptions,
   ): Promise<SendableDataTransaction<GatewayToken>> {
     const gatekeeperAccount = getGatekeeperAccountAddress(
       this.gatekeeperAuthority.publicKey,
-      this.gatekeeperNetwork
+      this.gatekeeperNetwork,
     );
     return this.updateToken(
       gatewayTokenKey,
       revoke(
         gatewayTokenKey,
         this.gatekeeperAuthority.publicKey,
-        gatekeeperAccount
+        gatekeeperAccount,
       ),
       Action.REVOKE,
-      options
+      options,
     );
   }
 
@@ -228,14 +268,19 @@ export class GatekeeperService {
    */
   async freeze(
     gatewayTokenKey: PublicKey,
-    options?: TransactionOptions
+    options?: TransactionOptions,
   ): Promise<SendableDataTransaction<GatewayToken>> {
     const instruction: TransactionInstruction = freeze(
       gatewayTokenKey,
       this.gatekeeperAuthority.publicKey,
-      this.gatekeeperAccountAddress()
+      this.gatekeeperAccountAddress(),
     );
-    return this.updateToken(gatewayTokenKey, instruction, Action.FREEZE, options);
+    return this.updateToken(
+      gatewayTokenKey,
+      instruction,
+      Action.FREEZE,
+      options,
+    );
   }
 
   /**
@@ -247,14 +292,19 @@ export class GatekeeperService {
    */
   async unfreeze(
     gatewayTokenKey: PublicKey,
-    options?: TransactionOptions
+    options?: TransactionOptions,
   ): Promise<SendableDataTransaction<GatewayToken>> {
     const instruction: TransactionInstruction = unfreeze(
       gatewayTokenKey,
       this.gatekeeperAuthority.publicKey,
-      this.gatekeeperAccountAddress()
+      this.gatekeeperAccountAddress(),
     );
-    return this.updateToken(gatewayTokenKey, instruction, Action.UNFREEZE, options);
+    return this.updateToken(
+      gatewayTokenKey,
+      instruction,
+      Action.UNFREEZE,
+      options,
+    );
   }
 
   /**
@@ -265,9 +315,14 @@ export class GatekeeperService {
    */
   async findGatewayTokenForOwner(
     owner: PublicKey,
-    includeRevoked = false
+    includeRevoked = false,
   ): Promise<GatewayToken | null> {
-    return findGatewayToken(this.connection, owner, this.gatekeeperNetwork, includeRevoked);
+    return findGatewayToken(
+      this.connection,
+      owner,
+      this.gatekeeperNetwork,
+      includeRevoked,
+    );
   }
 
   /**
@@ -281,15 +336,20 @@ export class GatekeeperService {
   async updateExpiry(
     gatewayTokenKey: PublicKey,
     expireTime: number,
-    options?: TransactionOptions
+    options?: TransactionOptions,
   ): Promise<SendableDataTransaction<GatewayToken>> {
     const instruction: TransactionInstruction = updateExpiry(
       gatewayTokenKey,
       this.gatekeeperAuthority.publicKey,
       this.gatekeeperAccountAddress(),
-      expireTime
+      expireTime,
     );
-    return this.updateToken(gatewayTokenKey, instruction, Action.REFRESH, options);
+    return this.updateToken(
+      gatewayTokenKey,
+      instruction,
+      Action.REFRESH,
+      options,
+    );
   }
 
   /**
@@ -300,52 +360,54 @@ export class GatekeeperService {
    * @returns Promise<SendableDataTransaction<GatewayToken>>
    */
   async burn(
-      gatewayTokenKey: PublicKey,
-      options?: TransactionOptions
+    gatewayTokenKey: PublicKey,
+    options?: TransactionOptions,
   ): Promise<SendableDataTransaction<void>> {
     const instruction: TransactionInstruction = burn(
-        gatewayTokenKey,
-        this.gatekeeperAuthority.publicKey,
-        this.gatekeeperAccountAddress(),
-        this.gatekeeperAuthority.publicKey,
+      gatewayTokenKey,
+      this.gatekeeperAuthority.publicKey,
+      this.gatekeeperAccountAddress(),
+      this.gatekeeperAuthority.publicKey,
     );
     const normalizedOptions = await this.optionsWithDefaults(options);
-    const transaction = new Transaction().add(instruction);
+    const transaction = new Transaction().add(
+      ...this.withPriorityFee(),
+      instruction,
+    );
 
     return new SendableTransaction(this.connection, transaction)
-        .withData(() => {})
-        .feePayer(normalizedOptions.feePayer)
-        .addHashOrNonce(normalizedOptions.blockhashOrNonce)
-        .then((t) => t.partialSign(this.gatekeeperAuthority));
+      .withData(() => {})
+      .feePayer(normalizedOptions.feePayer)
+      .addHashOrNonce(normalizedOptions.blockhashOrNonce)
+      .then((t) => t.partialSign(this.gatekeeperAuthority));
   }
 
   // equivalent to GatekeeperNetworkService.hasGatekeeper, but requires no network private key
   async isRegistered(): Promise<boolean> {
     const gatekeeperAccount = getGatekeeperAccountAddress(
       this.gatekeeperAuthority.publicKey,
-      this.gatekeeperNetwork
+      this.gatekeeperNetwork,
     );
-    const gatekeeperAccountInfo = await this.connection.getAccountInfo(
-      gatekeeperAccount
-    );
+    const gatekeeperAccountInfo =
+      await this.connection.getAccountInfo(gatekeeperAccount);
 
     return Boolean(gatekeeperAccountInfo);
   }
 
   async updateTransactionBlockhash(
     transaction: TransactionHolder,
-    options?: TransactionOptions
+    options?: TransactionOptions,
   ): Promise<void> {
     const normalizedOptions = await this.optionsWithDefaults(options);
     const transactionSignedByGatekeeper = Boolean(
       transaction.transaction.signatures.some((sig) =>
-        sig.publicKey.equals(this.gatekeeperAuthority.publicKey)
-      )
+        sig.publicKey.equals(this.gatekeeperAuthority.publicKey),
+      ),
     );
     const transactionSignedByPayer = Boolean(
       transaction.transaction.signatures.some((sig) =>
-        sig.publicKey.equals(normalizedOptions.rentPayer)
-      )
+        sig.publicKey.equals(normalizedOptions.rentPayer),
+      ),
     );
     if (
       (transactionSignedByGatekeeper || transactionSignedByPayer) &&
@@ -375,13 +437,13 @@ export class SimpleGatekeeperService {
     connection: Connection,
     gatekeeperNetwork: PublicKey,
     gatekeeperAuthority: Keypair,
-    config: GatekeeperConfig = {}
+    config: GatekeeperConfig = {},
   ) {
     this.gs = new GatekeeperService(
       connection,
       gatekeeperNetwork,
       gatekeeperAuthority,
-      config
+      config,
     );
   }
 
@@ -394,7 +456,7 @@ export class SimpleGatekeeperService {
    */
   async issue(
     recipient: PublicKey,
-    options?: TransactionOptions
+    options?: TransactionOptions,
   ): Promise<GatewayToken | null> {
     return this.gs
       .issue(recipient, options)
@@ -411,7 +473,7 @@ export class SimpleGatekeeperService {
    */
   async revoke(
     gatewayTokenKey: PublicKey,
-    options?: TransactionOptions
+    options?: TransactionOptions,
   ): Promise<GatewayToken | null> {
     return this.gs
       .revoke(gatewayTokenKey, options)
@@ -428,7 +490,7 @@ export class SimpleGatekeeperService {
    */
   async freeze(
     gatewayTokenKey: PublicKey,
-    options?: TransactionOptions
+    options?: TransactionOptions,
   ): Promise<GatewayToken | null> {
     return this.gs
       .freeze(gatewayTokenKey, options)
@@ -445,7 +507,7 @@ export class SimpleGatekeeperService {
    */
   async unfreeze(
     gatewayTokenKey: PublicKey,
-    options?: TransactionOptions
+    options?: TransactionOptions,
   ): Promise<GatewayToken | null> {
     return this.gs
       .unfreeze(gatewayTokenKey, options)
@@ -464,7 +526,7 @@ export class SimpleGatekeeperService {
   async updateExpiry(
     gatewayTokenKey: PublicKey,
     expireTime: number,
-    options?: TransactionOptions
+    options?: TransactionOptions,
   ): Promise<GatewayToken | null> {
     return this.gs
       .updateExpiry(gatewayTokenKey, expireTime, options)

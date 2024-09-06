@@ -4,185 +4,167 @@
 /* eslint-disable */
 import type {
   BaseContract,
-  BigNumber,
   BigNumberish,
   BytesLike,
-  CallOverrides,
-  ContractTransaction,
-  PayableOverrides,
-  PopulatedTransaction,
-  Signer,
-  utils,
-} from "ethers";
-import type {
   FunctionFragment,
   Result,
+  Interface,
   EventFragment,
-} from "@ethersproject/abi";
-import type { Listener, Provider } from "@ethersproject/providers";
+  AddressLike,
+  ContractRunner,
+  ContractMethod,
+  Listener,
+} from "ethers";
 import type {
-  TypedEventFilter,
-  TypedEvent,
+  TypedContractEvent,
+  TypedDeferredTopicFilter,
+  TypedEventLog,
+  TypedLogDescription,
   TypedListener,
-  OnEvent,
-  PromiseOrValue,
+  TypedContractMethod,
 } from "../common";
 
 export declare namespace IForwarder {
   export type ForwardRequestStruct = {
-    from: PromiseOrValue<string>;
-    to: PromiseOrValue<string>;
-    value: PromiseOrValue<BigNumberish>;
-    gas: PromiseOrValue<BigNumberish>;
-    nonce: PromiseOrValue<BigNumberish>;
-    data: PromiseOrValue<BytesLike>;
+    from: AddressLike;
+    to: AddressLike;
+    value: BigNumberish;
+    gas: BigNumberish;
+    nonce: BigNumberish;
+    data: BytesLike;
   };
 
   export type ForwardRequestStructOutput = [
-    string,
-    string,
-    BigNumber,
-    BigNumber,
-    BigNumber,
-    string
+    from: string,
+    to: string,
+    value: bigint,
+    gas: bigint,
+    nonce: bigint,
+    data: string
   ] & {
     from: string;
     to: string;
-    value: BigNumber;
-    gas: BigNumber;
-    nonce: BigNumber;
+    value: bigint;
+    gas: bigint;
+    nonce: bigint;
     data: string;
   };
 }
 
-export interface FlexibleNonceForwarderInterface extends utils.Interface {
-  functions: {
-    "execute((address,address,uint256,uint256,uint256,bytes),bytes)": FunctionFragment;
-    "getNonce(address)": FunctionFragment;
-  };
+export interface FlexibleNonceForwarderInterface extends Interface {
+  getFunction(nameOrSignature: "execute" | "getNonce"): FunctionFragment;
 
-  getFunction(nameOrSignatureOrTopic: "execute" | "getNonce"): FunctionFragment;
+  getEvent(nameOrSignatureOrTopic: "ForwardResult"): EventFragment;
 
   encodeFunctionData(
     functionFragment: "execute",
-    values: [IForwarder.ForwardRequestStruct, PromiseOrValue<BytesLike>]
+    values: [IForwarder.ForwardRequestStruct, BytesLike]
   ): string;
   encodeFunctionData(
     functionFragment: "getNonce",
-    values: [PromiseOrValue<string>]
+    values: [AddressLike]
   ): string;
 
   decodeFunctionResult(functionFragment: "execute", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "getNonce", data: BytesLike): Result;
-
-  events: {
-    "ForwardResult(bool)": EventFragment;
-  };
-
-  getEvent(nameOrSignatureOrTopic: "ForwardResult"): EventFragment;
 }
 
-export interface ForwardResultEventObject {
-  arg0: boolean;
+export namespace ForwardResultEvent {
+  export type InputTuple = [arg0: boolean];
+  export type OutputTuple = [arg0: boolean];
+  export interface OutputObject {
+    arg0: boolean;
+  }
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
+  export type Filter = TypedDeferredTopicFilter<Event>;
+  export type Log = TypedEventLog<Event>;
+  export type LogDescription = TypedLogDescription<Event>;
 }
-export type ForwardResultEvent = TypedEvent<
-  [boolean],
-  ForwardResultEventObject
->;
-
-export type ForwardResultEventFilter = TypedEventFilter<ForwardResultEvent>;
 
 export interface FlexibleNonceForwarder extends BaseContract {
-  connect(signerOrProvider: Signer | Provider | string): this;
-  attach(addressOrName: string): this;
-  deployed(): Promise<this>;
+  connect(runner?: ContractRunner | null): FlexibleNonceForwarder;
+  waitForDeployment(): Promise<this>;
 
   interface: FlexibleNonceForwarderInterface;
 
-  queryFilter<TEvent extends TypedEvent>(
-    event: TypedEventFilter<TEvent>,
+  queryFilter<TCEvent extends TypedContractEvent>(
+    event: TCEvent,
     fromBlockOrBlockhash?: string | number | undefined,
     toBlock?: string | number | undefined
-  ): Promise<Array<TEvent>>;
+  ): Promise<Array<TypedEventLog<TCEvent>>>;
+  queryFilter<TCEvent extends TypedContractEvent>(
+    filter: TypedDeferredTopicFilter<TCEvent>,
+    fromBlockOrBlockhash?: string | number | undefined,
+    toBlock?: string | number | undefined
+  ): Promise<Array<TypedEventLog<TCEvent>>>;
 
-  listeners<TEvent extends TypedEvent>(
-    eventFilter?: TypedEventFilter<TEvent>
-  ): Array<TypedListener<TEvent>>;
-  listeners(eventName?: string): Array<Listener>;
-  removeAllListeners<TEvent extends TypedEvent>(
-    eventFilter: TypedEventFilter<TEvent>
-  ): this;
-  removeAllListeners(eventName?: string): this;
-  off: OnEvent<this>;
-  on: OnEvent<this>;
-  once: OnEvent<this>;
-  removeListener: OnEvent<this>;
+  on<TCEvent extends TypedContractEvent>(
+    event: TCEvent,
+    listener: TypedListener<TCEvent>
+  ): Promise<this>;
+  on<TCEvent extends TypedContractEvent>(
+    filter: TypedDeferredTopicFilter<TCEvent>,
+    listener: TypedListener<TCEvent>
+  ): Promise<this>;
 
-  functions: {
-    execute(
-      req: IForwarder.ForwardRequestStruct,
-      signature: PromiseOrValue<BytesLike>,
-      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
+  once<TCEvent extends TypedContractEvent>(
+    event: TCEvent,
+    listener: TypedListener<TCEvent>
+  ): Promise<this>;
+  once<TCEvent extends TypedContractEvent>(
+    filter: TypedDeferredTopicFilter<TCEvent>,
+    listener: TypedListener<TCEvent>
+  ): Promise<this>;
 
-    getNonce(
-      from: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<[BigNumber]>;
-  };
+  listeners<TCEvent extends TypedContractEvent>(
+    event: TCEvent
+  ): Promise<Array<TypedListener<TCEvent>>>;
+  listeners(eventName?: string): Promise<Array<Listener>>;
+  removeAllListeners<TCEvent extends TypedContractEvent>(
+    event?: TCEvent
+  ): Promise<this>;
 
-  execute(
-    req: IForwarder.ForwardRequestStruct,
-    signature: PromiseOrValue<BytesLike>,
-    overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
+  execute: TypedContractMethod<
+    [req: IForwarder.ForwardRequestStruct, signature: BytesLike],
+    [[boolean, string]],
+    "payable"
+  >;
 
-  getNonce(
-    from: PromiseOrValue<string>,
-    overrides?: CallOverrides
-  ): Promise<BigNumber>;
+  getNonce: TypedContractMethod<[from: AddressLike], [bigint], "view">;
 
-  callStatic: {
-    execute(
-      req: IForwarder.ForwardRequestStruct,
-      signature: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides
-    ): Promise<[boolean, string]>;
+  getFunction<T extends ContractMethod = ContractMethod>(
+    key: string | FunctionFragment
+  ): T;
 
-    getNonce(
-      from: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-  };
+  getFunction(
+    nameOrSignature: "execute"
+  ): TypedContractMethod<
+    [req: IForwarder.ForwardRequestStruct, signature: BytesLike],
+    [[boolean, string]],
+    "payable"
+  >;
+  getFunction(
+    nameOrSignature: "getNonce"
+  ): TypedContractMethod<[from: AddressLike], [bigint], "view">;
+
+  getEvent(
+    key: "ForwardResult"
+  ): TypedContractEvent<
+    ForwardResultEvent.InputTuple,
+    ForwardResultEvent.OutputTuple,
+    ForwardResultEvent.OutputObject
+  >;
 
   filters: {
-    "ForwardResult(bool)"(arg0?: null): ForwardResultEventFilter;
-    ForwardResult(arg0?: null): ForwardResultEventFilter;
-  };
-
-  estimateGas: {
-    execute(
-      req: IForwarder.ForwardRequestStruct,
-      signature: PromiseOrValue<BytesLike>,
-      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
-
-    getNonce(
-      from: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-  };
-
-  populateTransaction: {
-    execute(
-      req: IForwarder.ForwardRequestStruct,
-      signature: PromiseOrValue<BytesLike>,
-      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
-
-    getNonce(
-      from: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
+    "ForwardResult(bool)": TypedContractEvent<
+      ForwardResultEvent.InputTuple,
+      ForwardResultEvent.OutputTuple,
+      ForwardResultEvent.OutputObject
+    >;
+    ForwardResult: TypedContractEvent<
+      ForwardResultEvent.InputTuple,
+      ForwardResultEvent.OutputTuple,
+      ForwardResultEvent.OutputObject
+    >;
   };
 }

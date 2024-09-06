@@ -13,7 +13,7 @@ describe("util", () => {
       expect(numToBuffer(65536).toString("hex")).to.equal("010000");
       expect(numToBuffer(4294967296).toString("hex")).to.equal("0100000000");
       expect(numToBuffer(2 ** 64).toString("hex")).to.equal(
-        "010000000000000000"
+        "010000000000000000",
       );
     });
   });

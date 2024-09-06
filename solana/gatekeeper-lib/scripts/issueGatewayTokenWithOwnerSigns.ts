@@ -12,16 +12,19 @@ import * as path from "path";
 
 const LAMPORTS_FOR_ISSUANCE = 2_000_000; // The owner needs this much to issue their own token.
 
-const gatekeeperKey = require(path.join(
-  homedir(),
-  ".config",
-  "solana",
-  "G1y4BUXnbSMsdcXbCTMEdRWW9Th9tU9WfAmgbPDX7rRG.json"
-));
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const gatekeeperKey = require(
+  path.join(
+    homedir(),
+    ".config",
+    "solana",
+    "G1y4BUXnbSMsdcXbCTMEdRWW9Th9tU9WfAmgbPDX7rRG.json",
+  ),
+);
 const gatekeeper = Keypair.fromSecretKey(Buffer.from(gatekeeperKey));
 
 const gatekeeperNetworkKey = new PublicKey(
-  "tgnuXXNMDLK8dy7Xm1TdeGyc95MDym4bvAQCwcW21Bf"
+  "tgnuXXNMDLK8dy7Xm1TdeGyc95MDym4bvAQCwcW21Bf",
 );
 
 const owner = Keypair.generate();
@@ -34,7 +37,7 @@ const gatekeeperService = new GatekeeperService(
   gatekeeper,
   {
     rentPayer: owner.publicKey,
-  }
+  },
 );
 
 console.log("Issuing gateway token for " + owner.publicKey);
@@ -44,9 +47,9 @@ console.log("Issuing gateway token for " + owner.publicKey);
     connection,
     owner.publicKey,
     clusterApiUrl("devnet"),
-    LAMPORTS_FOR_ISSUANCE
+    LAMPORTS_FOR_ISSUANCE,
   );
-  const { blockhash } = await connection.getRecentBlockhash(SOLANA_COMMITMENT);
+  const { blockhash } = await connection.getLatestBlockhash(SOLANA_COMMITMENT);
 
   //  Creates a transaction signed by the gatekeeper only
   const sendableTx = await gatekeeperService.issue(owner.publicKey, {
@@ -63,8 +66,11 @@ console.log("Issuing gateway token for " + owner.publicKey);
   const deserializedTx = Transaction.from(Buffer.from(serializedTx, "base64"));
   deserializedTx.partialSign(owner);
 
-  const txSig = await connection.sendRawTransaction(deserializedTx.serialize());
-  console.log("txSig", txSig);
-  await connection.confirmTransaction(txSig);
+  const signature = await connection.sendRawTransaction(
+    deserializedTx.serialize(),
+  );
+  const latestBlockhash = await this.connection.getLatestBlockhash();
+  console.log("Tx signature", signature);
+  await connection.confirmTransaction({ signature, ...latestBlockhash });
   console.log("confirmed");
 })().catch((error) => console.error(error));

@@ -1,4 +1,4 @@
-import { airdropTo, GatekeeperNetworkService } from "@identity.com/solana-gatekeeper-lib";
+import { airdropTo, GatekeeperNetworkService } from "@civic/solana-gatekeeper-lib";
 import { Command, Flags } from "@oclif/core";
 import { Keypair, PublicKey } from "@solana/web3.js";
 
@@ -7,6 +7,8 @@ import {
   clusterFlag,
   gatekeeperKeyFlag,
   gatekeeperNetworkKeyFlag,
+  prioFeeFlag,
+  skipPreflightFlag,
 } from "../util/flags";
 import { getConnectionFromEnv } from "../util/utils";
 
@@ -24,6 +26,8 @@ export default class AddGatekeeper extends Command {
     gatekeeperNetworkKey: gatekeeperNetworkKeyFlag(),
     cluster: clusterFlag(),
     airdrop: airdropFlag,
+    priorityFeeLamports: prioFeeFlag(),
+    skipPreflight: skipPreflightFlag,
   };
 
   static args = [
@@ -60,8 +64,8 @@ export default class AddGatekeeper extends Command {
       gatekeeperNetwork
     );
     const gatekeeperAccount = await networkService
-      .addGatekeeper(gatekeeper)
-      .then((t) => t.send())
+      .addGatekeeper(gatekeeper, flags.priorityFeeLamports ? { priorityFeeMicroLamports: flags.priorityFeeLamports } : undefined)
+      .then((t) => t.send(flags.skipPreflight ? {skipPreflight: true}: {}))
       .then((t) => t.confirm());
     this.log(
       `Added gatekeeper to network. Gatekeeper account: ${

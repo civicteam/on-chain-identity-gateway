@@ -5,6 +5,8 @@ import {
   clusterFlag,
   gatekeeperKeyFlag,
   gatekeeperNetworkPubkeyFlag,
+  prioFeeFlag,
+  skipPreflightFlag,
 } from "../util/flags";
 import { getTokenUpdateProperties } from "../util/utils";
 
@@ -13,7 +15,7 @@ export default class Burn extends Command {
 
   static examples = [
     `$ gateway burn EzZgkwaDrgycsiyGeCVRXXRcieE1fxhGMp829qwj5TMv
-Revoked
+Burned
 `,
   ];
 
@@ -23,6 +25,8 @@ Revoked
     gatekeeperNetworkKey: gatekeeperNetworkPubkeyFlag(),
     cluster: clusterFlag(),
     airdrop: airdropFlag,
+    priorityFeeLamports: prioFeeFlag(),
+    skipPreflight: skipPreflightFlag,
   };
 
   static args = [
@@ -47,7 +51,7 @@ Revoked
 
     await service
       .burn(gatewayToken)
-      .then((t) => t.send())
+      .then((t) => t.send(flags.skipPreflight ? {skipPreflight: true}: {}))
       .then((t) => t.confirm());
 
     this.log("Burned");

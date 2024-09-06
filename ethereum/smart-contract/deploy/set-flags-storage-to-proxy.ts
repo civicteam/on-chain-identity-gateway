@@ -8,7 +8,7 @@ import { ethers } from 'hardhat';
  * @param hre
  */
 const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
-  const { deployments, upgrades } = hre;
+  const { deployments } = hre;
   const deployedGatewayToken = await deployments.get('GatewayTokenProxy');
   const flagsStorage = await deployments.get('FlagsStorageProxy');
 

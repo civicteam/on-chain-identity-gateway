@@ -1,8 +1,8 @@
 import { HardhatRuntimeEnvironment } from 'hardhat/types';
 import { DeployFunction } from 'hardhat-deploy/types';
 import { getAccounts } from '../scripts/util';
-import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers';
-import { Contract } from 'ethers';
+import { GatewayToken } from '../typechain-types';
+import { GatewayToken__factory } from '../../gateway-eth-ts/src/contracts/typechain-types';
 
 /**
  * Deploy the base set of gatekeeper networks.
@@ -17,6 +17,9 @@ const networks = {
     b1gz9sD7TeH6cagodm4zTcAx6LkZ56Etisvgr6jGFQb: 7,
     uniqobk8oGh4XBLMqM68K8M2zNu3CdYX7q5go7whQiv: 10,
     vaa1QRNEBb1G2XjPohqGWnPsvxWnwwXF67pdjrhDSwM: 11,
+    cidNdd9GGhpgUJRTrto1A1ayN2PKAuaW7pg1rqj6bRD: BigInt(
+      '0x09266570c8755cb9e9d8ea3d75c5251514f0eb45c6f2a86d39ace69e516988ec',
+    ),
   },
   dev: {
     tigoYhp9SpCDoCQmXGj2im5xa3mnjR1zuXrpCJ5ZRmi: 14,
@@ -29,25 +32,25 @@ const networks = {
 
 const addToNetwork = async (
   networkName: string,
-  deployer: SignerWithAddress,
   gatekeeper: string,
-  contract: Contract,
-  slotId: number,
+  contract: GatewayToken,
+  slotId: number | bigint,
 ) => {
   console.log('Creating NETWORK: ' + networkName + ' with slotId: ' + slotId + ' and gatekeeper: ' + gatekeeper);
   if (await contract.getNetwork(slotId)) {
     console.log('network ' + slotId + ' already exists');
   } else {
-    const createNetworkTx = await (await contract.createNetwork(slotId, networkName, false, NULL_ADDRESS)).wait();
+    const tx = await contract.createNetwork(BigInt(slotId), networkName, false, NULL_ADDRESS);
+    const createNetworkTxReceipt = await tx.wait();
     console.log(
       'created network ' +
         networkName +
         ' (' +
         slotId +
         ') on Gateway Token at ' +
-        contract.address +
+        (await contract.getAddress()) +
         ' using ' +
-        createNetworkTx.gasUsed.toNumber() +
+        createNetworkTxReceipt?.gasUsed.toString() +
         ' gas',
     );
   }
@@ -58,9 +61,9 @@ const addToNetwork = async (
       'added new gatekeeper with ' +
         gatekeeper +
         ' address into Gateway Token at ' +
-        contract.address +
+        (await contract.getAddress()) +
         ' using ' +
-        addGatekeeperTx.gasUsed.toNumber() +
+        addGatekeeperTx?.gasUsed.toString() +
         ' gas',
     );
   } else console.log(`gatekeeper ${gatekeeper} already in network ${slotId}`);
@@ -81,13 +84,13 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   const deployerSigner = await ethers.getSigner(deployer);
 
   const gatewayToken = await deployments.get('GatewayTokenProxy');
-  const token = (await ethers.getContractAt('GatewayToken', gatewayToken.address)).connect(deployerSigner);
+  const token = GatewayToken__factory.connect(gatewayToken.address, deployerSigner);
 
   for (const [address, slotId] of Object.entries(networks.prod)) {
-    await addToNetwork(address, deployerSigner, prodGatekeeper, token, slotId);
+    await addToNetwork(address, prodGatekeeper, token, slotId);
   }
   for (const [address, slotId] of Object.entries(networks.dev)) {
-    await addToNetwork(address, deployerSigner, devGatekeeper, token, slotId);
+    await addToNetwork(address, devGatekeeper, token, slotId);
   }
 };
 

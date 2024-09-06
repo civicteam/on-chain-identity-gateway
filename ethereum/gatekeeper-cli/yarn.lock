@@ -217,6 +217,23 @@
     "@babel/helper-validator-identifier" "^7.15.7"
     to-fast-properties "^2.0.0"
 
+"@civic/gateway-eth-ts@^0.8.1":
+  version "0.8.1"
+  resolved "https://registry.yarnpkg.com/@civic/gateway-eth-ts/-/gateway-eth-ts-0.8.1.tgz#102b74923274346d1220b5ccfd817103593d1b95"
+  integrity sha512-3/l2vvOCPqIwZkj3WkbZVRED5ELJNvoEh2q6z7Qux9TU6T8IU1IT8a8NVe2pVEDLFeJFKrM9088aSTsCrJGt3Q==
+  dependencies:
+    "@ethersproject/abi" "^5.7.0"
+    "@ethersproject/abstract-signer" "^5.7.0"
+    "@ethersproject/providers" "^5.7.2"
+    "@types/ramda" "^0.28.14"
+    bignumber.js "^9.0.1"
+    debug "^4.3.4"
+    eth-sig-util "2.1.1"
+    ethers "^5.7.2"
+    gas-price-oracle "^0.3.3"
+    ramda "^0.28.0"
+    tslib "^2.5.0"
+
 "@cspotcode/source-map-support@^0.8.0":
   version "0.8.1"
   resolved "https://registry.yarnpkg.com/@cspotcode/source-map-support/-/source-map-support-0.8.1.tgz#00629c35a688e05a88b1cda684fb9d5e73f000a1"
@@ -599,23 +616,6 @@
   version "1.2.1"
   resolved "https://registry.npmjs.org/@humanwhocodes/object-schema/-/object-schema-1.2.1.tgz"
   integrity sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==
-
-"@identity.com/gateway-eth-ts@0.8.1-alpha.3":
-  version "0.8.1-alpha.3"
-  resolved "https://registry.yarnpkg.com/@identity.com/gateway-eth-ts/-/gateway-eth-ts-0.8.1-alpha.3.tgz#d08e27d16d4de376f08c4ffe111d15295a320b0e"
-  integrity sha512-GtqQ5tpy3oPBYgHCRke+gpZQCId9ck3dDSSWzzdu7gOMJ/2CzjKmZXU2WeRHqvJsxXCh5/FSGLpcDyrloXl8pw==
-  dependencies:
-    "@ethersproject/abi" "^5.7.0"
-    "@ethersproject/abstract-signer" "^5.7.0"
-    "@ethersproject/providers" "^5.7.2"
-    "@types/ramda" "^0.28.14"
-    bignumber.js "^9.0.1"
-    debug "^4.3.4"
-    eth-sig-util "2.1.1"
-    ethers "^5.7.2"
-    gas-price-oracle "^0.3.3"
-    ramda "^0.28.0"
-    tslib "^2.5.0"
 
 "@isaacs/string-locale-compare@^1.1.0":
   version "1.1.0"

@@ -1,16 +1,11 @@
-import {
-  clusterApiUrl,
-  Connection,
-  Keypair,
-  PublicKey,
-  Transaction,
-} from "@solana/web3.js";
-import { expireToken, findGatewayToken, getGatewayToken } from "../src";
+import { clusterApiUrl, Connection, Keypair, PublicKey } from "@solana/web3.js";
+import { expireToken, getGatewayToken, makeTransaction } from "../src";
 import * as os from "os";
 
 const gatewayToken = new PublicKey(process.argv[2]);
 const keypair = Keypair.fromSecretKey(
-  Buffer.from(require(os.homedir() + "/.config/solana/id.json"))
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  Buffer.from(require(os.homedir() + "/.config/solana/id.json")),
 );
 
 (async () => {
@@ -28,13 +23,11 @@ const keypair = Keypair.fromSecretKey(
   const instruction = expireToken(
     gatewayToken,
     keypair.publicKey,
-    token.gatekeeperNetwork
+    token.gatekeeperNetwork,
   );
 
-  const tx = await connection.sendTransaction(
-    new Transaction().add(instruction),
-    [keypair]
-  );
+  const tx = await makeTransaction(connection, [instruction], keypair);
+  const txSig = await connection.sendTransaction(tx);
 
-  console.log(tx);
+  console.log(txSig);
 })().catch(console.error);

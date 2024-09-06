@@ -31,7 +31,7 @@ export const getClusterUrl = (cluster: ExtendedCluster): string => {
 
 export const getConnection = (
   clusterUrl: string = process.env.SOLANA_CLUSTER_URL ||
-    getClusterUrl(process.env.SOLANA_CLUSTER as ExtendedCluster)
+    getClusterUrl(process.env.SOLANA_CLUSTER as ExtendedCluster),
 ): Connection => {
   console.log("Using Cluster URL: " + clusterUrl);
   return new Connection(clusterUrl, SOLANA_COMMITMENT);
@@ -54,11 +54,11 @@ export type HashOrNonce =
   | "find";
 export async function addHashOrNonce(
   transaction: TransactionHolder,
-  hashOrNonce: HashOrNonce
+  hashOrNonce: HashOrNonce,
 ): Promise<void> {
   if (hashOrNonce === "find") {
     transaction.transaction.recentBlockhash = await transaction.connection
-      .getRecentBlockhash()
+      .getLatestBlockhash()
       .then((rbh) => rbh.blockhash);
   } else if ("recentBlockhash" in hashOrNonce) {
     transaction.transaction.recentBlockhash = hashOrNonce.recentBlockhash;
@@ -68,10 +68,9 @@ export async function addHashOrNonce(
 }
 
 export class SendableTransaction implements TransactionHolder {
-  // eslint-disable-next-line no-useless-constructor
   constructor(
     readonly connection: Connection,
-    readonly transaction: Transaction
+    readonly transaction: Transaction,
   ) {}
 
   withData<T>(data: T | (() => T | Promise<T>)): SendableDataTransaction<T> {
@@ -93,7 +92,7 @@ export class SendableTransaction implements TransactionHolder {
 
     const txSig = await this.connection.sendRawTransaction(
       this.transaction.serialize(),
-      fullOptions
+      fullOptions,
     );
 
     return new SentTransaction(this.connection, txSig);
@@ -101,7 +100,7 @@ export class SendableTransaction implements TransactionHolder {
 
   static fromSerialized(
     connection: Connection,
-    message: Buffer
+    message: Buffer,
   ): SendableTransaction {
     return new SendableTransaction(connection, Transaction.from(message));
   }
@@ -123,10 +122,9 @@ export class SendableTransaction implements TransactionHolder {
 }
 
 export class SendableDataTransaction<T> implements TransactionHolder {
-  // eslint-disable-next-line no-useless-constructor
   constructor(
     readonly sendableTransaction: SendableTransaction,
-    readonly data: DataCallback<T>
+    readonly data: DataCallback<T>,
   ) {}
 
   get connection(): Connection {
@@ -172,12 +170,12 @@ export type DataOrGeneralDataCallback<T> = T | (() => T | Promise<T>);
 
 // checks if the input is a data callback or purely data.
 const isGeneralDataCallback = <T>(
-  data: DataOrGeneralDataCallback<T>
+  data: DataOrGeneralDataCallback<T>,
 ): data is () => T | Promise<T> => typeof data === "function";
 
 // Convert the input callback into a standardised function that returns a promise of data
 const normalizeDataCallback = <T>(
-  d: DataOrGeneralDataCallback<T>
+  d: DataOrGeneralDataCallback<T>,
 ): DataCallback<T> => {
   if (isGeneralDataCallback(d)) {
     return () => Promise.resolve(d());
@@ -187,10 +185,9 @@ const normalizeDataCallback = <T>(
 };
 
 export class SentTransaction {
-  // eslint-disable-next-line no-useless-constructor
   constructor(
     readonly connection: Connection,
-    readonly signature: TransactionSignature
+    readonly signature: TransactionSignature,
   ) {}
 
   withData<T>(data: DataOrGeneralDataCallback<T>): SentDataTransaction<T> {
@@ -199,18 +196,19 @@ export class SentTransaction {
 
   async confirm(
     commitment?: Commitment,
-    errorCallback?: (error: TransactionError) => void
+    errorCallback?: (error: TransactionError) => void,
   ): Promise<void> {
+    const latestBlockhash = await this.connection.getLatestBlockhash();
     const result = await this.connection.confirmTransaction(
-      this.signature,
-      commitment ? commitment : SOLANA_COMMITMENT
+      { signature: this.signature, ...latestBlockhash },
+      commitment ? commitment : SOLANA_COMMITMENT,
     );
     if (result.value.err) {
       if (errorCallback) {
         errorCallback(result.value.err);
       } else {
         throw new Error(
-          `Error confirming transaction: ${result.value.err.toString()}`
+          `Error confirming transaction: ${result.value.err.toString()}`,
         );
       }
     }
@@ -218,10 +216,9 @@ export class SentTransaction {
 }
 
 export class SentDataTransaction<T> {
-  // eslint-disable-next-line no-useless-constructor
   constructor(
     readonly sentTransaction: SentTransaction,
-    readonly data: DataCallback<T>
+    readonly data: DataCallback<T>,
   ) {}
 
   get signature(): TransactionSignature {
@@ -230,7 +227,7 @@ export class SentDataTransaction<T> {
 
   async confirm(
     commitment?: Commitment,
-    errorCallback?: (error: TransactionError) => void
+    errorCallback?: (error: TransactionError) => void,
   ): Promise<T | null> {
     await this.sentTransaction.confirm(commitment, errorCallback);
     return this.data instanceof Function ? this.data() : this.data;

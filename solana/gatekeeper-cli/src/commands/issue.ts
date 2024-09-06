@@ -6,9 +6,11 @@ import {
   clusterFlag,
   gatekeeperKeyFlag,
   gatekeeperNetworkPubkeyFlag,
+  prioFeeFlag,
+  skipPreflightFlag,
 } from "../util/flags";
 import {getConnectionFromEnv, prettyPrint} from "../util/utils";
-import {airdropTo, GatekeeperService} from "@identity.com/solana-gatekeeper-lib";
+import {airdropTo, GatekeeperService} from "@civic/solana-gatekeeper-lib";
 
 export default class Issue extends Command {
   static description = "Issue a gateway token to a wallet";
@@ -31,6 +33,8 @@ export default class Issue extends Command {
     gatekeeperNetworkKey: gatekeeperNetworkPubkeyFlag(),
     cluster: clusterFlag(),
     airdrop: airdropFlag,
+    priorityFeeLamports: prioFeeFlag(),
+    skipPreflight: skipPreflightFlag,
   };
 
   static args = [
@@ -60,15 +64,18 @@ export default class Issue extends Command {
       await airdropTo(connection, gatekeeper.publicKey, flags.cluster as string);
     }
 
+    const gkOptions = {...(flags.expiry
+      ? {
+          defaultExpirySeconds: flags.expiry,
+        }
+      : {}),
+      ...(flags.priorityFeeLamports ? {priorityFeeMicroLamports: flags.priorityFeeLamports} : {}),
+    };
     const service = new GatekeeperService(
       connection,
       gatekeeperNetwork,
       gatekeeper,
-      flags.expiry
-        ? {
-            defaultExpirySeconds: flags.expiry,
-          }
-        : {}
+      gkOptions
     );
 
     const gatekeeperAccountExists = await service.isRegistered();
@@ -80,7 +87,7 @@ export default class Issue extends Command {
 
     const issuedToken = await service
       .issue(address)
-      .then((t) => t.send())
+      .then((t) => t.send(flags.skipPreflight ? {skipPreflight: true}: {}))
       .then((t) => t.confirm());
     if (issuedToken) {
       this.log(prettyPrint(issuedToken));

@@ -1,6 +1,6 @@
 # On-chain Identity Gateway
 
-Welcome to the Identity.com On-chain Identity Gateway monorepo.
+Welcome to the Civic On-chain Identity Gateway monorepo.
 
 This repository contains libraries that help a
 smart contract or program on the Blockchain with regulations
@@ -38,11 +38,11 @@ Inside each chain's directory (e.g. solana/) are the following libraries:
 
 | Directory      	| Description                                                                                               | Published at                                                                      |
 |------------------	|---------------------------------------------------------------------------------------------------------	|-----------------------------------------------------------------------------------|
-| http-client       | Used by dApp developers to discover and use gateway tokens and to interact with gatekeepers               | [npm](https://www.npmjs.com/package/@identity.com/solana-gateway-http-client) 	|
-| gateway-ts        | Wrapper library for the blockchain smart-contract or program                                              | [npm](https://www.npmjs.com/package/@identity.com/solana-gateway-ts)              |
+| http-client       | Used by dApp developers to discover and use gateway tokens and to interact with gatekeepers               | [npm](https://www.npmjs.com/package/@civic/solana-gateway-http-client) 	|
+| gateway-ts        | Wrapper library for the blockchain smart-contract or program                                              | [npm](https://www.npmjs.com/package/@civic/solana-gateway-ts)              |
 | integration-lib	| Used by on-chain program or smart-contract developers to restrict the contract to authorised users only 	|                                                                                   |
 | program           | The source-code for the gateway program or smart-contract                                               	|                                                                                   |
-| gatekeeper-lib    | Used by gatekeepers to allow them to issue gateway tokens on the chain.                                 	| [npm](https://www.npmjs.com/package/@identity.com/solana-gatekeeper-lib) 	        |
+| gatekeeper-lib    | Used by gatekeepers to allow them to issue gateway tokens on the chain.                                 	| [npm](https://www.npmjs.com/package/@civic/solana-gatekeeper-lib) 	        |
 
 ## Integration
 

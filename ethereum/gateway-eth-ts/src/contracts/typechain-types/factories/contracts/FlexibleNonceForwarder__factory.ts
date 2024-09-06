@@ -3,15 +3,18 @@
 /* tslint:disable */
 /* eslint-disable */
 import {
-  Signer,
-  utils,
   Contract,
   ContractFactory,
-  BigNumberish,
-  Overrides,
+  ContractTransactionResponse,
+  Interface,
 } from "ethers";
-import type { Provider, TransactionRequest } from "@ethersproject/providers";
-import type { PromiseOrValue } from "../../common";
+import type {
+  Signer,
+  BigNumberish,
+  ContractDeployTransaction,
+  ContractRunner,
+} from "ethers";
+import type { NonPayableOverrides } from "../../common";
 import type {
   FlexibleNonceForwarder,
   FlexibleNonceForwarderInterface,
@@ -181,41 +184,41 @@ export class FlexibleNonceForwarder__factory extends ContractFactory {
     }
   }
 
-  override deploy(
-    blockAgeTolerance: PromiseOrValue<BigNumberish>,
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<FlexibleNonceForwarder> {
-    return super.deploy(
-      blockAgeTolerance,
-      overrides || {}
-    ) as Promise<FlexibleNonceForwarder>;
-  }
   override getDeployTransaction(
-    blockAgeTolerance: PromiseOrValue<BigNumberish>,
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): TransactionRequest {
+    blockAgeTolerance: BigNumberish,
+    overrides?: NonPayableOverrides & { from?: string }
+  ): Promise<ContractDeployTransaction> {
     return super.getDeployTransaction(blockAgeTolerance, overrides || {});
   }
-  override attach(address: string): FlexibleNonceForwarder {
-    return super.attach(address) as FlexibleNonceForwarder;
+  override deploy(
+    blockAgeTolerance: BigNumberish,
+    overrides?: NonPayableOverrides & { from?: string }
+  ) {
+    return super.deploy(blockAgeTolerance, overrides || {}) as Promise<
+      FlexibleNonceForwarder & {
+        deploymentTransaction(): ContractTransactionResponse;
+      }
+    >;
   }
-  override connect(signer: Signer): FlexibleNonceForwarder__factory {
-    return super.connect(signer) as FlexibleNonceForwarder__factory;
+  override connect(
+    runner: ContractRunner | null
+  ): FlexibleNonceForwarder__factory {
+    return super.connect(runner) as FlexibleNonceForwarder__factory;
   }
 
   static readonly bytecode = _bytecode;
   static readonly abi = _abi;
   static createInterface(): FlexibleNonceForwarderInterface {
-    return new utils.Interface(_abi) as FlexibleNonceForwarderInterface;
+    return new Interface(_abi) as FlexibleNonceForwarderInterface;
   }
   static connect(
     address: string,
-    signerOrProvider: Signer | Provider
+    runner?: ContractRunner | null
   ): FlexibleNonceForwarder {
     return new Contract(
       address,
       _abi,
-      signerOrProvider
-    ) as FlexibleNonceForwarder;
+      runner
+    ) as unknown as FlexibleNonceForwarder;
   }
 }

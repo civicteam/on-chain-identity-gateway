@@ -14,7 +14,6 @@ import {
   SOLANA_COMMITMENT,
 } from "../../src";
 import { VALIDATOR_URL } from "../constants";
-import { describe } from "mocha";
 import { getAccountWithState, matchesPubkeyArray } from "./utils";
 import { Assignable } from "../../src/lib/solanaBorsh";
 
@@ -41,8 +40,8 @@ describe("findGatewayTokensForOwnerAndNetwork", () => {
       getGatewayTokenAddressForOwnerAndGatekeeperNetwork(
         owner,
         gatekeeperNetworkKey,
-        i
-      )
+        i,
+      ),
     );
   });
   afterEach(sandbox.restore);
@@ -50,7 +49,7 @@ describe("findGatewayTokensForOwnerAndNetwork", () => {
   const makeGTAccount = (
     address = gatewayTokenAddresses[0],
     statusProp: Record<string, Assignable> = { active: new Active({}) },
-    expiry?: number
+    expiry?: number,
   ) =>
     getAccountWithState(
       new GatewayTokenState(statusProp),
@@ -58,7 +57,7 @@ describe("findGatewayTokensForOwnerAndNetwork", () => {
       owner,
       gatekeeperNetworkKey,
       gatekeeperKey,
-      expiry
+      expiry,
     ).account;
 
   context("with no token accounts found", () => {
@@ -68,7 +67,7 @@ describe("findGatewayTokensForOwnerAndNetwork", () => {
         await findGatewayTokensForOwnerAndNetwork(
           connection,
           owner,
-          gatekeeperNetworkKey
+          gatekeeperNetworkKey,
         );
       expect(findGatewayTokensResponse).to.deep.equal([]);
     });
@@ -87,7 +86,7 @@ describe("findGatewayTokensForOwnerAndNetwork", () => {
             await findGatewayTokensForOwnerAndNetwork(
               connection,
               owner,
-              gatekeeperNetworkKey
+              gatekeeperNetworkKey,
             );
           expect(findGatewayTokensResponse).to.deep.equal([]);
         });
@@ -103,7 +102,7 @@ describe("findGatewayTokensForOwnerAndNetwork", () => {
             await findGatewayTokensForOwnerAndNetwork(
               connection,
               owner,
-              gatekeeperNetworkKey
+              gatekeeperNetworkKey,
             );
           expect(findGatewayTokensResponse.length).to.equal(1);
           expect(findGatewayTokensResponse[0]).to.deep.equal({
@@ -132,7 +131,7 @@ describe("findGatewayTokensForOwnerAndNetwork", () => {
               connection,
               owner,
               gatekeeperNetworkKey,
-              true
+              true,
             );
           expect(findGatewayTokensResponse).to.containSubset([
             {
@@ -164,7 +163,7 @@ describe("findGatewayTokensForOwnerAndNetwork", () => {
               connection,
               owner,
               gatekeeperNetworkKey,
-              true
+              true,
             );
           expect(findGatewayTokensResponse.length).to.eq(2);
           expect(findGatewayTokensResponse).to.containSubset([
@@ -200,12 +199,12 @@ describe("findGatewayTokensForOwnerAndNetwork", () => {
         makeGTAccount(
           expiredGatewayTokenAddress,
           undefined,
-          Math.floor(Date.now() / 1000) - 10_000 // expired 10s ago
+          Math.floor(Date.now() / 1000) - 10_000, // expired 10s ago
         ),
         makeGTAccount(
           validGatewayTokenAddress,
           undefined,
-          Math.floor(Date.now() / 1000) + 10_000 // expires in 10s
+          Math.floor(Date.now() / 1000) + 10_000, // expires in 10s
         ),
       ]);
 
@@ -214,14 +213,14 @@ describe("findGatewayTokensForOwnerAndNetwork", () => {
           connection,
           owner,
           gatekeeperNetworkKey,
-          true
+          true,
         );
       expect(findGatewayTokensResponse.length).to.equal(2);
       expect(findGatewayTokensResponse[0].publicKey.toBase58()).to.equal(
-        validGatewayTokenAddress.toBase58()
+        validGatewayTokenAddress.toBase58(),
       );
       expect(findGatewayTokensResponse[1].publicKey.toBase58()).to.equal(
-        expiredGatewayTokenAddress.toBase58()
+        expiredGatewayTokenAddress.toBase58(),
       );
     });
   });
@@ -242,7 +241,7 @@ describe("findGatewayTokensForOwnerAndNetwork", () => {
         gatekeeperNetworkKey,
         true,
         0,
-        100
+        100,
       );
 
       expectsFirst100AccountsRequested.verify();
@@ -255,7 +254,7 @@ describe("findGatewayTokensForOwnerAndNetwork", () => {
         .once()
         .withArgs(
           matchesPubkeyArray(gatewayTokenAddresses.slice(0, 10)),
-          SOLANA_COMMITMENT
+          SOLANA_COMMITMENT,
         );
       expectsFirst10AccountsRequested.resolves(R.times(() => null, 10));
 
@@ -265,7 +264,7 @@ describe("findGatewayTokensForOwnerAndNetwork", () => {
         gatekeeperNetworkKey,
         true,
         0,
-        10
+        10,
       );
 
       expectsFirst10AccountsRequested.verify();
@@ -278,7 +277,7 @@ describe("findGatewayTokensForOwnerAndNetwork", () => {
         .once()
         .withArgs(
           matchesPubkeyArray(gatewayTokenAddresses.slice(10, 20)),
-          SOLANA_COMMITMENT
+          SOLANA_COMMITMENT,
         );
       expectsSecond10AccountsRequested.resolves(R.times(() => null, 10));
 
@@ -288,7 +287,7 @@ describe("findGatewayTokensForOwnerAndNetwork", () => {
         gatekeeperNetworkKey,
         true,
         10,
-        10
+        10,
       );
 
       expectsSecond10AccountsRequested.verify();
