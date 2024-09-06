@@ -1,15 +1,13 @@
 import 'dotenv/config';
 import * as dotenv from 'dotenv';
 import '@nomicfoundation/hardhat-toolbox';
-import '@nomiclabs/hardhat-ethers';
+import '@nomicfoundation/hardhat-ethers';
 import '@typechain/hardhat';
 import 'hardhat-deploy';
 import '@nomiclabs/hardhat-solhint';
-import '@nomiclabs/hardhat-etherscan';
 import '@openzeppelin/hardhat-upgrades';
 import 'hardhat-contract-sizer';
-import './config/tasks';
-import {defaultPath, networks} from "./config/networks";
+import { defaultPath, networks } from './config/networks';
 
 dotenv.config();
 
@@ -27,7 +25,7 @@ module.exports = {
   },
   contractSizer: {
     runOnCompile: true,
-    strict: true
+    strict: true,
   },
   paths: {
     sources: defaultPath,
@@ -57,7 +55,7 @@ module.exports = {
       polygonZkEVM: process.env.POLYGONSCAN_API_KEY,
       polygonZkEVMTestnet: process.env.POLYGONSCAN_API_KEY,
       arbitrumOne: process.env.ARBISCAN_API_KEY,
-      polygonAmoy: process.env.OKLINK_AMOY_API_KEY
+      polygonAmoy: process.env.OKLINK_AMOY_API_KEY,
     },
     customChains: [
       {
@@ -77,12 +75,11 @@ module.exports = {
         chainId: 1442,
       },
       {
-        network: "polygonAmoy",
+        network: 'polygonAmoy',
         chainId: 80002,
         urls: {
-          apiURL:
-              "https://www.oklink.com/api/explorer/v1/contract/verify/async/api/polygonAmoy",
-          browserURL: "https://www.oklink.com/polygonAmoy",
+          apiURL: 'https://www.oklink.com/api/explorer/v1/contract/verify/async/api/polygonAmoy',
+          browserURL: 'https://www.oklink.com/polygonAmoy',
         },
       },
     ],
@@ -97,7 +94,7 @@ module.exports = {
   },
   typechain: {
     outDir: 'typechain-types',
-    // target: 'ethers-v5',
+    target: 'ethers-v6',
     // alwaysGenerateOverloads: false, // should overloads with full signatures like deposit(uint256) be generated always, even if there are no overloads?
     // externalArtifacts: ['externalArtifacts/*.json'], // optional array of glob patterns with external artifacts to process (for example external libs from node_modules)
     // dontOverrideCompile: false // defaults to false

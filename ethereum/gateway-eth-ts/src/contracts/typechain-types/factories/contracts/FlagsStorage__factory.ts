@@ -2,9 +2,14 @@
 // @ts-nocheck
 /* tslint:disable */
 /* eslint-disable */
-import { Signer, utils, Contract, ContractFactory, Overrides } from "ethers";
-import type { Provider, TransactionRequest } from "@ethersproject/providers";
-import type { PromiseOrValue } from "../../common";
+import {
+  Contract,
+  ContractFactory,
+  ContractTransactionResponse,
+  Interface,
+} from "ethers";
+import type { Signer, ContractDeployTransaction, ContractRunner } from "ethers";
+import type { NonPayableOverrides } from "../../common";
 import type {
   FlagsStorage,
   FlagsStorageInterface,
@@ -408,32 +413,31 @@ export class FlagsStorage__factory extends ContractFactory {
     }
   }
 
-  override deploy(
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<FlagsStorage> {
-    return super.deploy(overrides || {}) as Promise<FlagsStorage>;
-  }
   override getDeployTransaction(
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): TransactionRequest {
+    overrides?: NonPayableOverrides & { from?: string }
+  ): Promise<ContractDeployTransaction> {
     return super.getDeployTransaction(overrides || {});
   }
-  override attach(address: string): FlagsStorage {
-    return super.attach(address) as FlagsStorage;
+  override deploy(overrides?: NonPayableOverrides & { from?: string }) {
+    return super.deploy(overrides || {}) as Promise<
+      FlagsStorage & {
+        deploymentTransaction(): ContractTransactionResponse;
+      }
+    >;
   }
-  override connect(signer: Signer): FlagsStorage__factory {
-    return super.connect(signer) as FlagsStorage__factory;
+  override connect(runner: ContractRunner | null): FlagsStorage__factory {
+    return super.connect(runner) as FlagsStorage__factory;
   }
 
   static readonly bytecode = _bytecode;
   static readonly abi = _abi;
   static createInterface(): FlagsStorageInterface {
-    return new utils.Interface(_abi) as FlagsStorageInterface;
+    return new Interface(_abi) as FlagsStorageInterface;
   }
   static connect(
     address: string,
-    signerOrProvider: Signer | Provider
+    runner?: ContractRunner | null
   ): FlagsStorage {
-    return new Contract(address, _abi, signerOrProvider) as FlagsStorage;
+    return new Contract(address, _abi, runner) as unknown as FlagsStorage;
   }
 }

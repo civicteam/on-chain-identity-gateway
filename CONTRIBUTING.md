@@ -5,8 +5,8 @@ We’re still working out the kinks to make contributing to this project as easy
 Civic has adopted a [Code of Conduct](CODE_OF_CONDUCT.md) that we expect project participants to adhere to. Please read the full text so that you can understand what actions will and will not be tolerated.
 
 # Contributors & Team Members Development
-Most internal changes made by Civic & Civic engineers will be synced to GitHub. Civic & Civic use this code in production. The team is likely to have an enterprise version of the code containing specific environment details and that part is not synced with the code here. 
-Changes from the community are handled through GitHub pull requests which go through our review process. Once a change made on GitHub is approved, it will be imported to the Civic & Civic internal repositories.
+Most internal changes made by Civic engineers will be synced to GitHub. Civic use this code in production. The team is likely to have an enterprise version of the code containing specific environment details and that part is not synced with the code here. 
+Changes from the community are handled through GitHub pull requests which go through our review process. Once a change made on GitHub is approved, it will be imported to the Civic internal repositories.
 
 # Branch Organization
 We will do our best to keep the master branch in good shape, with tests passing at all times. But in order to move fast, we will make API changes that your application might not be compatible with. We recommend that you use the latest stable and published version.

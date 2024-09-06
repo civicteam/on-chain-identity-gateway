@@ -3,15 +3,19 @@
 /* tslint:disable */
 /* eslint-disable */
 import {
-  Signer,
-  utils,
   Contract,
   ContractFactory,
-  BigNumberish,
-  Overrides,
+  ContractTransactionResponse,
+  Interface,
 } from "ethers";
-import type { Provider, TransactionRequest } from "@ethersproject/providers";
-import type { PromiseOrValue } from "../../../common";
+import type {
+  Signer,
+  BigNumberish,
+  AddressLike,
+  ContractDeployTransaction,
+  ContractRunner,
+} from "ethers";
+import type { NonPayableOverrides } from "../../../common";
 import type {
   GatewayTokenClientERC2771Test,
   GatewayTokenClientERC2771TestInterface,
@@ -104,48 +108,51 @@ export class GatewayTokenClientERC2771Test__factory extends ContractFactory {
     }
   }
 
-  override deploy(
-    gatewayTokenContract: PromiseOrValue<string>,
-    gatekeeperNetwork: PromiseOrValue<BigNumberish>,
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<GatewayTokenClientERC2771Test> {
-    return super.deploy(
-      gatewayTokenContract,
-      gatekeeperNetwork,
-      overrides || {}
-    ) as Promise<GatewayTokenClientERC2771Test>;
-  }
   override getDeployTransaction(
-    gatewayTokenContract: PromiseOrValue<string>,
-    gatekeeperNetwork: PromiseOrValue<BigNumberish>,
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): TransactionRequest {
+    gatewayTokenContract: AddressLike,
+    gatekeeperNetwork: BigNumberish,
+    overrides?: NonPayableOverrides & { from?: string }
+  ): Promise<ContractDeployTransaction> {
     return super.getDeployTransaction(
       gatewayTokenContract,
       gatekeeperNetwork,
       overrides || {}
     );
   }
-  override attach(address: string): GatewayTokenClientERC2771Test {
-    return super.attach(address) as GatewayTokenClientERC2771Test;
+  override deploy(
+    gatewayTokenContract: AddressLike,
+    gatekeeperNetwork: BigNumberish,
+    overrides?: NonPayableOverrides & { from?: string }
+  ) {
+    return super.deploy(
+      gatewayTokenContract,
+      gatekeeperNetwork,
+      overrides || {}
+    ) as Promise<
+      GatewayTokenClientERC2771Test & {
+        deploymentTransaction(): ContractTransactionResponse;
+      }
+    >;
   }
-  override connect(signer: Signer): GatewayTokenClientERC2771Test__factory {
-    return super.connect(signer) as GatewayTokenClientERC2771Test__factory;
+  override connect(
+    runner: ContractRunner | null
+  ): GatewayTokenClientERC2771Test__factory {
+    return super.connect(runner) as GatewayTokenClientERC2771Test__factory;
   }
 
   static readonly bytecode = _bytecode;
   static readonly abi = _abi;
   static createInterface(): GatewayTokenClientERC2771TestInterface {
-    return new utils.Interface(_abi) as GatewayTokenClientERC2771TestInterface;
+    return new Interface(_abi) as GatewayTokenClientERC2771TestInterface;
   }
   static connect(
     address: string,
-    signerOrProvider: Signer | Provider
+    runner?: ContractRunner | null
   ): GatewayTokenClientERC2771Test {
     return new Contract(
       address,
       _abi,
-      signerOrProvider
-    ) as GatewayTokenClientERC2771Test;
+      runner
+    ) as unknown as GatewayTokenClientERC2771Test;
   }
 }

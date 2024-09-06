@@ -2,9 +2,14 @@
 // @ts-nocheck
 /* tslint:disable */
 /* eslint-disable */
-import { Signer, utils, Contract, ContractFactory, Overrides } from "ethers";
-import type { Provider, TransactionRequest } from "@ethersproject/providers";
-import type { PromiseOrValue } from "../../../common";
+import {
+  Contract,
+  ContractFactory,
+  ContractTransactionResponse,
+  Interface,
+} from "ethers";
+import type { Signer, ContractDeployTransaction, ContractRunner } from "ethers";
+import type { NonPayableOverrides } from "../../../common";
 import type {
   GatewayTokenInternalsTest,
   GatewayTokenInternalsTestInterface,
@@ -2370,36 +2375,37 @@ export class GatewayTokenInternalsTest__factory extends ContractFactory {
     }
   }
 
-  override deploy(
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<GatewayTokenInternalsTest> {
-    return super.deploy(overrides || {}) as Promise<GatewayTokenInternalsTest>;
-  }
   override getDeployTransaction(
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): TransactionRequest {
+    overrides?: NonPayableOverrides & { from?: string }
+  ): Promise<ContractDeployTransaction> {
     return super.getDeployTransaction(overrides || {});
   }
-  override attach(address: string): GatewayTokenInternalsTest {
-    return super.attach(address) as GatewayTokenInternalsTest;
+  override deploy(overrides?: NonPayableOverrides & { from?: string }) {
+    return super.deploy(overrides || {}) as Promise<
+      GatewayTokenInternalsTest & {
+        deploymentTransaction(): ContractTransactionResponse;
+      }
+    >;
   }
-  override connect(signer: Signer): GatewayTokenInternalsTest__factory {
-    return super.connect(signer) as GatewayTokenInternalsTest__factory;
+  override connect(
+    runner: ContractRunner | null
+  ): GatewayTokenInternalsTest__factory {
+    return super.connect(runner) as GatewayTokenInternalsTest__factory;
   }
 
   static readonly bytecode = _bytecode;
   static readonly abi = _abi;
   static createInterface(): GatewayTokenInternalsTestInterface {
-    return new utils.Interface(_abi) as GatewayTokenInternalsTestInterface;
+    return new Interface(_abi) as GatewayTokenInternalsTestInterface;
   }
   static connect(
     address: string,
-    signerOrProvider: Signer | Provider
+    runner?: ContractRunner | null
   ): GatewayTokenInternalsTest {
     return new Contract(
       address,
       _abi,
-      signerOrProvider
-    ) as GatewayTokenInternalsTest;
+      runner
+    ) as unknown as GatewayTokenInternalsTest;
   }
 }

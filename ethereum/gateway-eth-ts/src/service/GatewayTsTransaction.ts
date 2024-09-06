@@ -1,4 +1,4 @@
-import { Overrides, PopulatedTransaction } from "ethers";
+import { Overrides, ContractTransaction } from "ethers";
 import { GatewayToken } from "../contracts/typechain-types";
 import { GatewayTsInternal } from "./GatewayTsInternal";
 import {
@@ -8,27 +8,45 @@ import {
   readOnlyOpNames,
 } from "../utils/types";
 import { pick } from "ramda";
+import { TypedContractMethod } from "../contracts/typechain-types/common";
 
-type MappedGatewayToken = ReadOnlyOperation &
-  Pick<GatewayToken["populateTransaction"], WriteOps>;
+type MappedGatewayToken = ReadOnlyOperation & Pick<GatewayToken, WriteOps>;
 
 // A GatewayToken API that returns an PopulatedTransaction, rather than
 // a transaction directly on the GatewayToken contract. Use this for relaying with relayers that provide their own
 // forwarder, or any other process that wants to separate tx building and signing
 export class GatewayTsTransaction extends GatewayTsInternal<
   MappedGatewayToken,
-  PopulatedTransaction
+  ContractTransaction
 > {
   constructor(gatewayTokenContract: GatewayToken, options?: Overrides) {
-    // construct a new mappedGatewayToken object comprising write operations that return PopulatedTransactions
+    // construct a new mappedGatewayToken object comprising write operations that return ContractTransactions
     // and read operations that don't. See the description of MappedGatewayToken above for more details.
     const raw: ReadOnlyOperation = pick(readOnlyOpNames, gatewayTokenContract);
-    const mapped: Pick<GatewayToken["populateTransaction"], WriteOps> = pick(
-      mappedOpNames,
-      gatewayTokenContract.populateTransaction
+    // const mapped: Pick<GatewayToken, WriteOps> = pick(
+    //   mappedOpNames,
+    //   gatewayTokenContract
+    // );
+
+    const entries = mappedOpNames.map(
+      (
+        name
+      ): [keyof GatewayToken, TypedContractMethod["populateTransaction"]] => {
+        const fn = gatewayTokenContract[name] as TypedContractMethod<
+          unknown[],
+          unknown
+        >;
+        const wrappedFn = fn.populateTransaction.bind(gatewayTokenContract);
+        return [name, wrappedFn];
+      }
     );
+    const mappedOps = Object.fromEntries(entries) as Pick<
+      GatewayToken,
+      WriteOps
+    >;
+
     const mappedGatewayToken = {
-      ...mapped,
+      ...mappedOps,
       ...raw,
     };
     super(mappedGatewayToken, options);

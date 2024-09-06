@@ -2,9 +2,14 @@
 // @ts-nocheck
 /* tslint:disable */
 /* eslint-disable */
-import { Signer, utils, Contract, ContractFactory, Overrides } from "ethers";
-import type { Provider, TransactionRequest } from "@ethersproject/providers";
-import type { PromiseOrValue } from "../../common";
+import {
+  Contract,
+  ContractFactory,
+  ContractTransactionResponse,
+  Interface,
+} from "ethers";
+import type { Signer, ContractDeployTransaction, ContractRunner } from "ethers";
+import type { NonPayableOverrides } from "../../common";
 import type {
   ChargeHandler,
   ChargeHandlerInterface,
@@ -580,32 +585,31 @@ export class ChargeHandler__factory extends ContractFactory {
     }
   }
 
-  override deploy(
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ChargeHandler> {
-    return super.deploy(overrides || {}) as Promise<ChargeHandler>;
-  }
   override getDeployTransaction(
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): TransactionRequest {
+    overrides?: NonPayableOverrides & { from?: string }
+  ): Promise<ContractDeployTransaction> {
     return super.getDeployTransaction(overrides || {});
   }
-  override attach(address: string): ChargeHandler {
-    return super.attach(address) as ChargeHandler;
+  override deploy(overrides?: NonPayableOverrides & { from?: string }) {
+    return super.deploy(overrides || {}) as Promise<
+      ChargeHandler & {
+        deploymentTransaction(): ContractTransactionResponse;
+      }
+    >;
   }
-  override connect(signer: Signer): ChargeHandler__factory {
-    return super.connect(signer) as ChargeHandler__factory;
+  override connect(runner: ContractRunner | null): ChargeHandler__factory {
+    return super.connect(runner) as ChargeHandler__factory;
   }
 
   static readonly bytecode = _bytecode;
   static readonly abi = _abi;
   static createInterface(): ChargeHandlerInterface {
-    return new utils.Interface(_abi) as ChargeHandlerInterface;
+    return new Interface(_abi) as ChargeHandlerInterface;
   }
   static connect(
     address: string,
-    signerOrProvider: Signer | Provider
+    runner?: ContractRunner | null
   ): ChargeHandler {
-    return new Contract(address, _abi, signerOrProvider) as ChargeHandler;
+    return new Contract(address, _abi, runner) as unknown as ChargeHandler;
   }
 }
