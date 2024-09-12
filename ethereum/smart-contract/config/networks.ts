@@ -195,4 +195,14 @@ export const networks = {
     accounts: liveAccounts,
     chainId: 324,
   },
+  xlayerMainnet: {
+    url: process.env.XLAYER_RPC ?? 'https://xlayerrpc.okx.com',
+    accounts: liveAccounts,
+    chainId: 196,
+  },
+  xlayerTestnet: {
+    url: process.env.XLAYERTESTNET_RPC ?? 'https://xlayertestrpc.okx.com',
+    accounts: liveAccounts,
+    chainId: 195,
+  },
 };
