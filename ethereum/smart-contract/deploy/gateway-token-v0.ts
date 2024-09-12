@@ -15,7 +15,7 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
 
   const args = ['Gateway Protocol', 'PASS', deployer, flagsStorage.address, []];
   // use the old proxy contract to retain the correct Create2 Address
-  const gatewayTokenContract = await deployProxyCreate2(hre, 'GatewayToken', args, GatewayToken__factory.connect);
+  const gatewayTokenContract = await deployProxyCreate2(hre, 'GatewayToken', args, GatewayToken__factory.connect, false);
 
   const gatewayTokenAddress = await gatewayTokenContract.getAddress();
   console.log('deployed GatewayToken at ' + gatewayTokenAddress);

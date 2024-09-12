@@ -141,6 +141,14 @@ export const networks = {
     url: 'https://base.llamarpc.com',
     chainId: 8453,
   },
+  xlayer: {
+    url: 'https://xlayerrpc.okx.com',
+    chainId: 196,
+  },
+  xlayerTestnet: {
+    url: 'https://xlayertestrpc.okx.com',
+    chainId: 195,
+  },
 }
 
 class ExtendedInfuraProvider extends InfuraProvider {
