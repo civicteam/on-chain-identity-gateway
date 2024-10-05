@@ -4012,7 +4012,7 @@ dependencies = [
 
 [[package]]
 name = "solana-gateway-anchor"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "anchor-lang",
  "solana-gateway 0.6.0 (registry+https://github.com/rust-lang/crates.io-index)",
