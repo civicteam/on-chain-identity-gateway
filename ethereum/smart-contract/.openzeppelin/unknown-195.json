@@ -6,6 +6,10 @@
       "kind": "uups"
     },
     {
+      "address": "0xF65b6396dF6B7e2D8a6270E3AB6c7BB08BAEF22E",
+      "kind": "uups"
+    },
+    {
       "address": "0x490D0801844C41E88674F00940590D646E6948b8",
       "kind": "uups"
     }
@@ -422,7 +426,10 @@
           }
         },
         "namespaces": {}
-      }
+      },
+      "allAddresses": [
+        "0x65Bb8eb7c66c107e379C1C5781268393303E4b50"
+      ]
     },
     "13836734afb45ba379b5c62c5c00cb83c301d79f18080a56cc75d8270b417b9b": {
       "address": "0xe25c6C4FCAec2010bAE4B05d863BE2A5a5DB940F",
@@ -564,7 +571,10 @@
           }
         },
         "namespaces": {}
-      }
+      },
+      "allAddresses": [
+        "0xe25c6C4FCAec2010bAE4B05d863BE2A5a5DB940F"
+      ]
     },
     "81b4cd7e01048963fb08ccb5d81369968a50274e2c39bd76e56a995f795a0b25": {
       "address": "0x5CCe0cc24E860da62e68DCeFA87544df3f2474A6",
