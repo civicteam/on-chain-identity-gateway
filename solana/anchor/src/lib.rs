@@ -46,6 +46,10 @@ impl Deref for Pass {
     }
 }
 
+#[cfg(feature = "idl-build")]
+impl anchor_lang::IdlBuild for Pass {}
+
+#[cfg(feature = "idl-build")]
 impl anchor_lang::Discriminator for Pass {
     const DISCRIMINATOR: [u8; 8] = [0; 8];
 }
