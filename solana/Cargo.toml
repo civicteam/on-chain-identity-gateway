@@ -1,6 +1,7 @@
 [workspace]
 members = [
-    "program"
+    "program",
+    "anchor"
 ]
 
 [profile.release]
@@ -8,3 +9,6 @@ lto = true
 
 [profile.test]
 opt-level = 0
+
+[workspace.dependencies]
+solana-gateway = { path = "program" }

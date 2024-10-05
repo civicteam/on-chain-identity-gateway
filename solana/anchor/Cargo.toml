@@ -1,0 +1,23 @@
+[package]
+name = "solana-gateway-anchor"
+version = "0.1.0"
+description = "Allows anchor programs to check the status of Civic Passes"
+edition = "2021"
+authors = ["Daniel Kelleher <daniel@civic>"]
+repository = "https://github.com/civicteam/on-chain-identity-gateway"
+license = "Apache-2.0"
+
+[lib]
+crate-type = ["cdylib", "lib"]
+name = "solana_gateway_anchor"
+
+[features]
+no-entrypoint = []
+no-idl = []
+no-log-ix-name = []
+cpi = ["no-entrypoint"]
+default = []
+
+[dependencies]
+anchor-lang = "0.30.1"
+solana-gateway = "0.6.0"
