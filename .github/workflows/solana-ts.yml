@@ -54,7 +54,7 @@ jobs:
     strategy:
       matrix:
         # This should match rust-toolchain.toml ( actions-rs/toolchain@v1 does not pick it up directly in monorepos )
-        rust: ["1.74"]
+        rust: ["1.76"]
         node: ["20.x"]
         solana: ["v1.18.18"]
         os: [ubuntu-latest]
