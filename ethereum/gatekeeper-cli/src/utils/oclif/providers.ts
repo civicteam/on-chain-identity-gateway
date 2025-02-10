@@ -149,6 +149,22 @@ export const networks = {
     url: 'https://xlayertestrpc.okx.com',
     chainId: 195,
   },
+  unichain: {
+    url: '', // TODO: NOT YET AVAILABLE
+    chainId: 130,
+  },
+  unichainSepolia: {
+    url: 'https://sepolia.unichain.org',
+    chainId: 1301,
+  },
+  sonic: {
+    url: 'https://rpc.soniclabs.com',
+    chainId: 146,
+  },
+  sonicTestnet: {
+    url: 'https://rpc.blaze.soniclabs.com',
+    chainId: 57_054,
+  },
 }
 
 class ExtendedInfuraProvider extends InfuraProvider {

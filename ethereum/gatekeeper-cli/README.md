@@ -78,7 +78,7 @@ $ npm install -g @civic/gateway-eth-cli
 $ gateway-eth COMMAND
 running command...
 $ gateway-eth (--version)
-@civic/gateway-eth-cli/0.2.5 darwin-arm64 node-v20.13.1
+@civic/gateway-eth-cli/0.2.6 darwin-arm64 node-v20.13.1
 $ gateway-eth --help [COMMAND]
 USAGE
   $ gateway-eth COMMAND
@@ -116,7 +116,7 @@ USAGE
     localhost|ethereum|sepolia|polygonAmoy|polygon|auroraTestnet|aurora|optimismSepolia|optimism|palmTestnet|palm|arbitr
     umSepolia|arbitrum|celo|celoAlfajores|avalancheCChain|avalancheCChainFuji|starknet|starknetGoerli|xdc|xdcApothem|bsc
     |bscTestnet|cronos|fantom|fantomTestnet|gnosis|moonbeam|moonriver|polygonZkEVMTestnet|polygonZkEVM|baseSepolia|base|
-    xlayer|xlayerTestnet] [-f <value>] [-g <value>] [-w <value>]
+    xlayer|xlayerTestnet|unichain|unichainSepolia|sonic|sonicTestnet] [-f <value>] [-g <value>] [-w <value>]
 
 ARGUMENTS
   ADDRESS  Gatekeeper address to add to the gatekeeper network
@@ -127,7 +127,7 @@ FLAGS
       <options: localhost|ethereum|sepolia|polygonAmoy|polygon|auroraTestnet|aurora|optimismSepolia|optimism|palmTestnet|p
       alm|arbitrumSepolia|arbitrum|celo|celoAlfajores|avalancheCChain|avalancheCChainFuji|starknet|starknetGoerli|xdc|xdcA
       pothem|bsc|bscTestnet|cronos|fantom|fantomTestnet|gnosis|moonbeam|moonriver|polygonZkEVMTestnet|polygonZkEVM|baseSep
-      olia|base|xlayer|xlayerTestnet>
+      olia|base|xlayer|xlayerTestnet|unichain|unichainSepolia|sonic|sonicTestnet>
 
   -f, --fees=<value>
       Gas Price level to execute transaction with. For example: instant, fast, standard, slow
@@ -159,7 +159,7 @@ EXAMPLES
   $ gateway-eth add-gatekeeper 0x893F4Be53274353CD3379C87C8fd1cb4f8458F94 -n 123
 ```
 
-_See code: [dist/commands/add-gatekeeper.ts](https://github.com/civicteam/on-chain-identity-gateway/blob/v0.2.5/dist/commands/add-gatekeeper.ts)_
+_See code: [dist/commands/add-gatekeeper.ts](https://github.com/civicteam/on-chain-identity-gateway/blob/v0.2.6/dist/commands/add-gatekeeper.ts)_
 
 ## `gateway-eth add-network-authority ADDRESS`
 
@@ -171,7 +171,7 @@ USAGE
     localhost|ethereum|sepolia|polygonAmoy|polygon|auroraTestnet|aurora|optimismSepolia|optimism|palmTestnet|palm|arbitr
     umSepolia|arbitrum|celo|celoAlfajores|avalancheCChain|avalancheCChainFuji|starknet|starknetGoerli|xdc|xdcApothem|bsc
     |bscTestnet|cronos|fantom|fantomTestnet|gnosis|moonbeam|moonriver|polygonZkEVMTestnet|polygonZkEVM|baseSepolia|base|
-    xlayer|xlayerTestnet] [-f <value>] [-g <value>] [-w <value>]
+    xlayer|xlayerTestnet|unichain|unichainSepolia|sonic|sonicTestnet] [-f <value>] [-g <value>] [-w <value>]
 
 ARGUMENTS
   ADDRESS  Network authority address to add to the gatekeeper network
@@ -182,7 +182,7 @@ FLAGS
       <options: localhost|ethereum|sepolia|polygonAmoy|polygon|auroraTestnet|aurora|optimismSepolia|optimism|palmTestnet|p
       alm|arbitrumSepolia|arbitrum|celo|celoAlfajores|avalancheCChain|avalancheCChainFuji|starknet|starknetGoerli|xdc|xdcA
       pothem|bsc|bscTestnet|cronos|fantom|fantomTestnet|gnosis|moonbeam|moonriver|polygonZkEVMTestnet|polygonZkEVM|baseSep
-      olia|base|xlayer|xlayerTestnet>
+      olia|base|xlayer|xlayerTestnet|unichain|unichainSepolia|sonic|sonicTestnet>
 
   -f, --fees=<value>
       Gas Price level to execute transaction with. For example: instant, fast, standard, slow
@@ -214,7 +214,7 @@ EXAMPLES
   $ gateway-eth add-network-authority 0x893F4Be53274353CD3379C87C8fd1cb4f8458F94 -n 123
 ```
 
-_See code: [dist/commands/add-network-authority.ts](https://github.com/civicteam/on-chain-identity-gateway/blob/v0.2.5/dist/commands/add-network-authority.ts)_
+_See code: [dist/commands/add-network-authority.ts](https://github.com/civicteam/on-chain-identity-gateway/blob/v0.2.6/dist/commands/add-network-authority.ts)_
 
 ## `gateway-eth burn ADDRESS`
 
@@ -226,7 +226,7 @@ USAGE
     localhost|ethereum|sepolia|polygonAmoy|polygon|auroraTestnet|aurora|optimismSepolia|optimism|palmTestnet|palm|arbitr
     umSepolia|arbitrum|celo|celoAlfajores|avalancheCChain|avalancheCChainFuji|starknet|starknetGoerli|xdc|xdcApothem|bsc
     |bscTestnet|cronos|fantom|fantomTestnet|gnosis|moonbeam|moonriver|polygonZkEVMTestnet|polygonZkEVM|baseSepolia|base|
-    xlayer|xlayerTestnet] [-f <value>] [-g <value>] [-w <value>]
+    xlayer|xlayerTestnet|unichain|unichainSepolia|sonic|sonicTestnet] [-f <value>] [-g <value>] [-w <value>]
 
 ARGUMENTS
   ADDRESS  Token owner address
@@ -237,7 +237,7 @@ FLAGS
       <options: localhost|ethereum|sepolia|polygonAmoy|polygon|auroraTestnet|aurora|optimismSepolia|optimism|palmTestnet|p
       alm|arbitrumSepolia|arbitrum|celo|celoAlfajores|avalancheCChain|avalancheCChainFuji|starknet|starknetGoerli|xdc|xdcA
       pothem|bsc|bscTestnet|cronos|fantom|fantomTestnet|gnosis|moonbeam|moonriver|polygonZkEVMTestnet|polygonZkEVM|baseSep
-      olia|base|xlayer|xlayerTestnet>
+      olia|base|xlayer|xlayerTestnet|unichain|unichainSepolia|sonic|sonicTestnet>
 
   -f, --fees=<value>
       Gas Price level to execute transaction with. For example: instant, fast, standard, slow
@@ -269,7 +269,7 @@ EXAMPLES
   $ gateway-eth burn 0x893F4Be53274353CD3379C87C8fd1cb4f8458F94 -n 123
 ```
 
-_See code: [dist/commands/burn.ts](https://github.com/civicteam/on-chain-identity-gateway/blob/v0.2.5/dist/commands/burn.ts)_
+_See code: [dist/commands/burn.ts](https://github.com/civicteam/on-chain-identity-gateway/blob/v0.2.6/dist/commands/burn.ts)_
 
 ## `gateway-eth create-gatekeeper-network ID NAME`
 
@@ -281,7 +281,8 @@ USAGE
     localhost|ethereum|sepolia|polygonAmoy|polygon|auroraTestnet|aurora|optimismSepolia|optimism|palmTestnet|palm|arbitr
     umSepolia|arbitrum|celo|celoAlfajores|avalancheCChain|avalancheCChainFuji|starknet|starknetGoerli|xdc|xdcApothem|bsc
     |bscTestnet|cronos|fantom|fantomTestnet|gnosis|moonbeam|moonriver|polygonZkEVMTestnet|polygonZkEVM|baseSepolia|base|
-    xlayer|xlayerTestnet] [-t <value>] [-f <value>] [-g <value>] [-w <value>]
+    xlayer|xlayerTestnet|unichain|unichainSepolia|sonic|sonicTestnet] [-t <value>] [-f <value>] [-g <value>] [-w
+    <value>]
 
 ARGUMENTS
   ID    ID of the new network
@@ -293,7 +294,7 @@ FLAGS
       <options: localhost|ethereum|sepolia|polygonAmoy|polygon|auroraTestnet|aurora|optimismSepolia|optimism|palmTestnet|p
       alm|arbitrumSepolia|arbitrum|celo|celoAlfajores|avalancheCChain|avalancheCChainFuji|starknet|starknetGoerli|xdc|xdcA
       pothem|bsc|bscTestnet|cronos|fantom|fantomTestnet|gnosis|moonbeam|moonriver|polygonZkEVMTestnet|polygonZkEVM|baseSep
-      olia|base|xlayer|xlayerTestnet>
+      olia|base|xlayer|xlayerTestnet|unichain|unichainSepolia|sonic|sonicTestnet>
 
   -f, --fees=<value>
       Gas Price level to execute transaction with. For example: instant, fast, standard, slow
@@ -322,7 +323,7 @@ EXAMPLES
   $ gateway-eth create-gatekeeper-network <number> <name>
 ```
 
-_See code: [dist/commands/create-gatekeeper-network.ts](https://github.com/civicteam/on-chain-identity-gateway/blob/v0.2.5/dist/commands/create-gatekeeper-network.ts)_
+_See code: [dist/commands/create-gatekeeper-network.ts](https://github.com/civicteam/on-chain-identity-gateway/blob/v0.2.6/dist/commands/create-gatekeeper-network.ts)_
 
 ## `gateway-eth freeze ADDRESS`
 
@@ -334,7 +335,7 @@ USAGE
     localhost|ethereum|sepolia|polygonAmoy|polygon|auroraTestnet|aurora|optimismSepolia|optimism|palmTestnet|palm|arbitr
     umSepolia|arbitrum|celo|celoAlfajores|avalancheCChain|avalancheCChainFuji|starknet|starknetGoerli|xdc|xdcApothem|bsc
     |bscTestnet|cronos|fantom|fantomTestnet|gnosis|moonbeam|moonriver|polygonZkEVMTestnet|polygonZkEVM|baseSepolia|base|
-    xlayer|xlayerTestnet] [-f <value>] [-g <value>] [-w <value>]
+    xlayer|xlayerTestnet|unichain|unichainSepolia|sonic|sonicTestnet] [-f <value>] [-g <value>] [-w <value>]
 
 ARGUMENTS
   ADDRESS  Token owner address
@@ -345,7 +346,7 @@ FLAGS
       <options: localhost|ethereum|sepolia|polygonAmoy|polygon|auroraTestnet|aurora|optimismSepolia|optimism|palmTestnet|p
       alm|arbitrumSepolia|arbitrum|celo|celoAlfajores|avalancheCChain|avalancheCChainFuji|starknet|starknetGoerli|xdc|xdcA
       pothem|bsc|bscTestnet|cronos|fantom|fantomTestnet|gnosis|moonbeam|moonriver|polygonZkEVMTestnet|polygonZkEVM|baseSep
-      olia|base|xlayer|xlayerTestnet>
+      olia|base|xlayer|xlayerTestnet|unichain|unichainSepolia|sonic|sonicTestnet>
 
   -f, --fees=<value>
       Gas Price level to execute transaction with. For example: instant, fast, standard, slow
@@ -377,7 +378,7 @@ EXAMPLES
   $ gateway-eth freeze 0x893F4Be53274353CD3379C87C8fd1cb4f8458F94 -n 123
 ```
 
-_See code: [dist/commands/freeze.ts](https://github.com/civicteam/on-chain-identity-gateway/blob/v0.2.5/dist/commands/freeze.ts)_
+_See code: [dist/commands/freeze.ts](https://github.com/civicteam/on-chain-identity-gateway/blob/v0.2.6/dist/commands/freeze.ts)_
 
 ## `gateway-eth get-gatekeeper-network ID`
 
@@ -389,7 +390,7 @@ USAGE
     localhost|ethereum|sepolia|polygonAmoy|polygon|auroraTestnet|aurora|optimismSepolia|optimism|palmTestnet|palm|arbitr
     umSepolia|arbitrum|celo|celoAlfajores|avalancheCChain|avalancheCChainFuji|starknet|starknetGoerli|xdc|xdcApothem|bsc
     |bscTestnet|cronos|fantom|fantomTestnet|gnosis|moonbeam|moonriver|polygonZkEVMTestnet|polygonZkEVM|baseSepolia|base|
-    xlayer|xlayerTestnet] [-t <value>]
+    xlayer|xlayerTestnet|unichain|unichainSepolia|sonic|sonicTestnet] [-t <value>]
 
 ARGUMENTS
   ID  ID of the network
@@ -400,7 +401,7 @@ FLAGS
       <options: localhost|ethereum|sepolia|polygonAmoy|polygon|auroraTestnet|aurora|optimismSepolia|optimism|palmTestnet|p
       alm|arbitrumSepolia|arbitrum|celo|celoAlfajores|avalancheCChain|avalancheCChainFuji|starknet|starknetGoerli|xdc|xdcA
       pothem|bsc|bscTestnet|cronos|fantom|fantomTestnet|gnosis|moonbeam|moonriver|polygonZkEVMTestnet|polygonZkEVM|baseSep
-      olia|base|xlayer|xlayerTestnet>
+      olia|base|xlayer|xlayerTestnet|unichain|unichainSepolia|sonic|sonicTestnet>
 
   -h, --help
       Show CLI help.
@@ -416,7 +417,7 @@ EXAMPLES
   $ gateway-eth get-gatekeeper-network <number>
 ```
 
-_See code: [dist/commands/get-gatekeeper-network.ts](https://github.com/civicteam/on-chain-identity-gateway/blob/v0.2.5/dist/commands/get-gatekeeper-network.ts)_
+_See code: [dist/commands/get-gatekeeper-network.ts](https://github.com/civicteam/on-chain-identity-gateway/blob/v0.2.6/dist/commands/get-gatekeeper-network.ts)_
 
 ## `gateway-eth get-token ADDRESS`
 
@@ -428,7 +429,7 @@ USAGE
     localhost|ethereum|sepolia|polygonAmoy|polygon|auroraTestnet|aurora|optimismSepolia|optimism|palmTestnet|palm|arbitr
     umSepolia|arbitrum|celo|celoAlfajores|avalancheCChain|avalancheCChainFuji|starknet|starknetGoerli|xdc|xdcApothem|bsc
     |bscTestnet|cronos|fantom|fantomTestnet|gnosis|moonbeam|moonriver|polygonZkEVMTestnet|polygonZkEVM|baseSepolia|base|
-    xlayer|xlayerTestnet]
+    xlayer|xlayerTestnet|unichain|unichainSepolia|sonic|sonicTestnet]
 
 ARGUMENTS
   ADDRESS  Token owner address
@@ -439,7 +440,7 @@ FLAGS
       <options: localhost|ethereum|sepolia|polygonAmoy|polygon|auroraTestnet|aurora|optimismSepolia|optimism|palmTestnet|p
       alm|arbitrumSepolia|arbitrum|celo|celoAlfajores|avalancheCChain|avalancheCChainFuji|starknet|starknetGoerli|xdc|xdcA
       pothem|bsc|bscTestnet|cronos|fantom|fantomTestnet|gnosis|moonbeam|moonriver|polygonZkEVMTestnet|polygonZkEVM|baseSep
-      olia|base|xlayer|xlayerTestnet>
+      olia|base|xlayer|xlayerTestnet|unichain|unichainSepolia|sonic|sonicTestnet>
 
   -h, --help
       Show CLI help.
@@ -461,7 +462,7 @@ EXAMPLES
   $ gateway-eth get 0x893F4Be53274353CD3379C87C8fd1cb4f8458F94 -n 123
 ```
 
-_See code: [dist/commands/get-token.ts](https://github.com/civicteam/on-chain-identity-gateway/blob/v0.2.5/dist/commands/get-token.ts)_
+_See code: [dist/commands/get-token.ts](https://github.com/civicteam/on-chain-identity-gateway/blob/v0.2.6/dist/commands/get-token.ts)_
 
 ## `gateway-eth help [COMMAND]`
 
@@ -493,7 +494,7 @@ USAGE
     localhost|ethereum|sepolia|polygonAmoy|polygon|auroraTestnet|aurora|optimismSepolia|optimism|palmTestnet|palm|arbitr
     umSepolia|arbitrum|celo|celoAlfajores|avalancheCChain|avalancheCChainFuji|starknet|starknetGoerli|xdc|xdcApothem|bsc
     |bscTestnet|cronos|fantom|fantomTestnet|gnosis|moonbeam|moonriver|polygonZkEVMTestnet|polygonZkEVM|baseSepolia|base|
-    xlayer|xlayerTestnet] [-t <value>] [-n <value>]
+    xlayer|xlayerTestnet|unichain|unichainSepolia|sonic|sonicTestnet] [-t <value>] [-n <value>]
 
 ARGUMENTS
   GATEKEEPERADDRESS  Address of the Gatekeeper Authority
@@ -504,7 +505,7 @@ FLAGS
       <options: localhost|ethereum|sepolia|polygonAmoy|polygon|auroraTestnet|aurora|optimismSepolia|optimism|palmTestnet|p
       alm|arbitrumSepolia|arbitrum|celo|celoAlfajores|avalancheCChain|avalancheCChainFuji|starknet|starknetGoerli|xdc|xdcA
       pothem|bsc|bscTestnet|cronos|fantom|fantomTestnet|gnosis|moonbeam|moonriver|polygonZkEVMTestnet|polygonZkEVM|baseSep
-      olia|base|xlayer|xlayerTestnet>
+      olia|base|xlayer|xlayerTestnet|unichain|unichainSepolia|sonic|sonicTestnet>
 
   -h, --help
       Show CLI help.
@@ -523,7 +524,7 @@ EXAMPLES
   $ gateway-eth is-gatekeeper -n <slot id> <gatekeeper address>
 ```
 
-_See code: [dist/commands/is-gatekeeper.ts](https://github.com/civicteam/on-chain-identity-gateway/blob/v0.2.5/dist/commands/is-gatekeeper.ts)_
+_See code: [dist/commands/is-gatekeeper.ts](https://github.com/civicteam/on-chain-identity-gateway/blob/v0.2.6/dist/commands/is-gatekeeper.ts)_
 
 ## `gateway-eth issue ADDRESS [EXPIRY]`
 
@@ -535,7 +536,8 @@ USAGE
     localhost|ethereum|sepolia|polygonAmoy|polygon|auroraTestnet|aurora|optimismSepolia|optimism|palmTestnet|palm|arbitr
     umSepolia|arbitrum|celo|celoAlfajores|avalancheCChain|avalancheCChainFuji|starknet|starknetGoerli|xdc|xdcApothem|bsc
     |bscTestnet|cronos|fantom|fantomTestnet|gnosis|moonbeam|moonriver|polygonZkEVMTestnet|polygonZkEVM|baseSepolia|base|
-    xlayer|xlayerTestnet] [-f <value>] [-w <value>] [-g <value>] [-b <value>] [-u <value>] [-x <value>] [-a <value>]
+    xlayer|xlayerTestnet|unichain|unichainSepolia|sonic|sonicTestnet] [-f <value>] [-w <value>] [-g <value>] [-b
+    <value>] [-u <value>] [-x <value>] [-a <value>]
 
 ARGUMENTS
   ADDRESS  Token owner address
@@ -553,7 +555,7 @@ FLAGS
       <options: localhost|ethereum|sepolia|polygonAmoy|polygon|auroraTestnet|aurora|optimismSepolia|optimism|palmTestnet|p
       alm|arbitrumSepolia|arbitrum|celo|celoAlfajores|avalancheCChain|avalancheCChainFuji|starknet|starknetGoerli|xdc|xdcA
       pothem|bsc|bscTestnet|cronos|fantom|fantomTestnet|gnosis|moonbeam|moonriver|polygonZkEVMTestnet|polygonZkEVM|baseSep
-      olia|base|xlayer|xlayerTestnet>
+      olia|base|xlayer|xlayerTestnet|unichain|unichainSepolia|sonic|sonicTestnet>
 
   -f, --fees=<value>
       Gas Price level to execute transaction with. For example: instant, fast, standard, slow
@@ -591,7 +593,7 @@ EXAMPLES
   $ gateway-eth issue 0x893F4Be53274353CD3379C87C8fd1cb4f8458F94 -n 123
 ```
 
-_See code: [dist/commands/issue.ts](https://github.com/civicteam/on-chain-identity-gateway/blob/v0.2.5/dist/commands/issue.ts)_
+_See code: [dist/commands/issue.ts](https://github.com/civicteam/on-chain-identity-gateway/blob/v0.2.6/dist/commands/issue.ts)_
 
 ## `gateway-eth listen ADDRESS`
 
@@ -603,7 +605,7 @@ USAGE
     localhost|ethereum|sepolia|polygonAmoy|polygon|auroraTestnet|aurora|optimismSepolia|optimism|palmTestnet|palm|arbitr
     umSepolia|arbitrum|celo|celoAlfajores|avalancheCChain|avalancheCChainFuji|starknet|starknetGoerli|xdc|xdcApothem|bsc
     |bscTestnet|cronos|fantom|fantomTestnet|gnosis|moonbeam|moonriver|polygonZkEVMTestnet|polygonZkEVM|baseSepolia|base|
-    xlayer|xlayerTestnet]
+    xlayer|xlayerTestnet|unichain|unichainSepolia|sonic|sonicTestnet]
 
 ARGUMENTS
   ADDRESS  Token owner address
@@ -614,7 +616,7 @@ FLAGS
       <options: localhost|ethereum|sepolia|polygonAmoy|polygon|auroraTestnet|aurora|optimismSepolia|optimism|palmTestnet|p
       alm|arbitrumSepolia|arbitrum|celo|celoAlfajores|avalancheCChain|avalancheCChainFuji|starknet|starknetGoerli|xdc|xdcA
       pothem|bsc|bscTestnet|cronos|fantom|fantomTestnet|gnosis|moonbeam|moonriver|polygonZkEVMTestnet|polygonZkEVM|baseSep
-      olia|base|xlayer|xlayerTestnet>
+      olia|base|xlayer|xlayerTestnet|unichain|unichainSepolia|sonic|sonicTestnet>
 
   -h, --help
       Show CLI help.
@@ -633,7 +635,7 @@ EXAMPLES
   $ gateway-eth listen 0x893F4Be53274353CD3379C87C8fd1cb4f8458F94 -n 123
 ```
 
-_See code: [dist/commands/listen.ts](https://github.com/civicteam/on-chain-identity-gateway/blob/v0.2.5/dist/commands/listen.ts)_
+_See code: [dist/commands/listen.ts](https://github.com/civicteam/on-chain-identity-gateway/blob/v0.2.6/dist/commands/listen.ts)_
 
 ## `gateway-eth refresh ADDRESS [EXPIRY]`
 
@@ -645,7 +647,7 @@ USAGE
     localhost|ethereum|sepolia|polygonAmoy|polygon|auroraTestnet|aurora|optimismSepolia|optimism|palmTestnet|palm|arbitr
     umSepolia|arbitrum|celo|celoAlfajores|avalancheCChain|avalancheCChainFuji|starknet|starknetGoerli|xdc|xdcApothem|bsc
     |bscTestnet|cronos|fantom|fantomTestnet|gnosis|moonbeam|moonriver|polygonZkEVMTestnet|polygonZkEVM|baseSepolia|base|
-    xlayer|xlayerTestnet] [-f <value>] [-g <value>] [-w <value>]
+    xlayer|xlayerTestnet|unichain|unichainSepolia|sonic|sonicTestnet] [-f <value>] [-g <value>] [-w <value>]
 
 ARGUMENTS
   ADDRESS  Token owner address
@@ -657,7 +659,7 @@ FLAGS
       <options: localhost|ethereum|sepolia|polygonAmoy|polygon|auroraTestnet|aurora|optimismSepolia|optimism|palmTestnet|p
       alm|arbitrumSepolia|arbitrum|celo|celoAlfajores|avalancheCChain|avalancheCChainFuji|starknet|starknetGoerli|xdc|xdcA
       pothem|bsc|bscTestnet|cronos|fantom|fantomTestnet|gnosis|moonbeam|moonriver|polygonZkEVMTestnet|polygonZkEVM|baseSep
-      olia|base|xlayer|xlayerTestnet>
+      olia|base|xlayer|xlayerTestnet|unichain|unichainSepolia|sonic|sonicTestnet>
 
   -f, --fees=<value>
       Gas Price level to execute transaction with. For example: instant, fast, standard, slow
@@ -689,7 +691,7 @@ EXAMPLES
   $ gateway-eth refresh 0x893F4Be53274353CD3379C87C8fd1cb4f8458F94 60 -n 123
 ```
 
-_See code: [dist/commands/refresh.ts](https://github.com/civicteam/on-chain-identity-gateway/blob/v0.2.5/dist/commands/refresh.ts)_
+_See code: [dist/commands/refresh.ts](https://github.com/civicteam/on-chain-identity-gateway/blob/v0.2.6/dist/commands/refresh.ts)_
 
 ## `gateway-eth remove-gatekeeper ADDRESS`
 
@@ -701,7 +703,7 @@ USAGE
     localhost|ethereum|sepolia|polygonAmoy|polygon|auroraTestnet|aurora|optimismSepolia|optimism|palmTestnet|palm|arbitr
     umSepolia|arbitrum|celo|celoAlfajores|avalancheCChain|avalancheCChainFuji|starknet|starknetGoerli|xdc|xdcApothem|bsc
     |bscTestnet|cronos|fantom|fantomTestnet|gnosis|moonbeam|moonriver|polygonZkEVMTestnet|polygonZkEVM|baseSepolia|base|
-    xlayer|xlayerTestnet] [-f <value>] [-g <value>] [-w <value>]
+    xlayer|xlayerTestnet|unichain|unichainSepolia|sonic|sonicTestnet] [-f <value>] [-g <value>] [-w <value>]
 
 ARGUMENTS
   ADDRESS  Gatekeeper address to remove from the gatekeeper network
@@ -712,7 +714,7 @@ FLAGS
       <options: localhost|ethereum|sepolia|polygonAmoy|polygon|auroraTestnet|aurora|optimismSepolia|optimism|palmTestnet|p
       alm|arbitrumSepolia|arbitrum|celo|celoAlfajores|avalancheCChain|avalancheCChainFuji|starknet|starknetGoerli|xdc|xdcA
       pothem|bsc|bscTestnet|cronos|fantom|fantomTestnet|gnosis|moonbeam|moonriver|polygonZkEVMTestnet|polygonZkEVM|baseSep
-      olia|base|xlayer|xlayerTestnet>
+      olia|base|xlayer|xlayerTestnet|unichain|unichainSepolia|sonic|sonicTestnet>
 
   -f, --fees=<value>
       Gas Price level to execute transaction with. For example: instant, fast, standard, slow
@@ -744,7 +746,7 @@ EXAMPLES
   $ gateway-eth remove-gatekeeper 0x893F4Be53274353CD3379C87C8fd1cb4f8458F94 -n 123
 ```
 
-_See code: [dist/commands/remove-gatekeeper.ts](https://github.com/civicteam/on-chain-identity-gateway/blob/v0.2.5/dist/commands/remove-gatekeeper.ts)_
+_See code: [dist/commands/remove-gatekeeper.ts](https://github.com/civicteam/on-chain-identity-gateway/blob/v0.2.6/dist/commands/remove-gatekeeper.ts)_
 
 ## `gateway-eth remove-network-authority ADDRESS`
 
@@ -756,7 +758,7 @@ USAGE
     localhost|ethereum|sepolia|polygonAmoy|polygon|auroraTestnet|aurora|optimismSepolia|optimism|palmTestnet|palm|arbitr
     umSepolia|arbitrum|celo|celoAlfajores|avalancheCChain|avalancheCChainFuji|starknet|starknetGoerli|xdc|xdcApothem|bsc
     |bscTestnet|cronos|fantom|fantomTestnet|gnosis|moonbeam|moonriver|polygonZkEVMTestnet|polygonZkEVM|baseSepolia|base|
-    xlayer|xlayerTestnet] [-f <value>] [-g <value>] [-w <value>]
+    xlayer|xlayerTestnet|unichain|unichainSepolia|sonic|sonicTestnet] [-f <value>] [-g <value>] [-w <value>]
 
 ARGUMENTS
   ADDRESS  Network authority address to add to the gatekeeper network
@@ -767,7 +769,7 @@ FLAGS
       <options: localhost|ethereum|sepolia|polygonAmoy|polygon|auroraTestnet|aurora|optimismSepolia|optimism|palmTestnet|p
       alm|arbitrumSepolia|arbitrum|celo|celoAlfajores|avalancheCChain|avalancheCChainFuji|starknet|starknetGoerli|xdc|xdcA
       pothem|bsc|bscTestnet|cronos|fantom|fantomTestnet|gnosis|moonbeam|moonriver|polygonZkEVMTestnet|polygonZkEVM|baseSep
-      olia|base|xlayer|xlayerTestnet>
+      olia|base|xlayer|xlayerTestnet|unichain|unichainSepolia|sonic|sonicTestnet>
 
   -f, --fees=<value>
       Gas Price level to execute transaction with. For example: instant, fast, standard, slow
@@ -799,7 +801,7 @@ EXAMPLES
   $ gateway-eth remove-network-authority 0x893F4Be53274353CD3379C87C8fd1cb4f8458F94 -n 123
 ```
 
-_See code: [dist/commands/remove-network-authority.ts](https://github.com/civicteam/on-chain-identity-gateway/blob/v0.2.5/dist/commands/remove-network-authority.ts)_
+_See code: [dist/commands/remove-network-authority.ts](https://github.com/civicteam/on-chain-identity-gateway/blob/v0.2.6/dist/commands/remove-network-authority.ts)_
 
 ## `gateway-eth rename-gatekeeper-network ID NAME`
 
@@ -811,7 +813,8 @@ USAGE
     localhost|ethereum|sepolia|polygonAmoy|polygon|auroraTestnet|aurora|optimismSepolia|optimism|palmTestnet|palm|arbitr
     umSepolia|arbitrum|celo|celoAlfajores|avalancheCChain|avalancheCChainFuji|starknet|starknetGoerli|xdc|xdcApothem|bsc
     |bscTestnet|cronos|fantom|fantomTestnet|gnosis|moonbeam|moonriver|polygonZkEVMTestnet|polygonZkEVM|baseSepolia|base|
-    xlayer|xlayerTestnet] [-t <value>] [-f <value>] [-g <value>] [-w <value>]
+    xlayer|xlayerTestnet|unichain|unichainSepolia|sonic|sonicTestnet] [-t <value>] [-f <value>] [-g <value>] [-w
+    <value>]
 
 ARGUMENTS
   ID    ID of the new network
@@ -823,7 +826,7 @@ FLAGS
       <options: localhost|ethereum|sepolia|polygonAmoy|polygon|auroraTestnet|aurora|optimismSepolia|optimism|palmTestnet|p
       alm|arbitrumSepolia|arbitrum|celo|celoAlfajores|avalancheCChain|avalancheCChainFuji|starknet|starknetGoerli|xdc|xdcA
       pothem|bsc|bscTestnet|cronos|fantom|fantomTestnet|gnosis|moonbeam|moonriver|polygonZkEVMTestnet|polygonZkEVM|baseSep
-      olia|base|xlayer|xlayerTestnet>
+      olia|base|xlayer|xlayerTestnet|unichain|unichainSepolia|sonic|sonicTestnet>
 
   -f, --fees=<value>
       Gas Price level to execute transaction with. For example: instant, fast, standard, slow
@@ -852,7 +855,7 @@ EXAMPLES
   $ gateway-eth rename-gatekeeper-network <name> <number>
 ```
 
-_See code: [dist/commands/rename-gatekeeper-network.ts](https://github.com/civicteam/on-chain-identity-gateway/blob/v0.2.5/dist/commands/rename-gatekeeper-network.ts)_
+_See code: [dist/commands/rename-gatekeeper-network.ts](https://github.com/civicteam/on-chain-identity-gateway/blob/v0.2.6/dist/commands/rename-gatekeeper-network.ts)_
 
 ## `gateway-eth revoke ADDRESS`
 
@@ -864,7 +867,7 @@ USAGE
     localhost|ethereum|sepolia|polygonAmoy|polygon|auroraTestnet|aurora|optimismSepolia|optimism|palmTestnet|palm|arbitr
     umSepolia|arbitrum|celo|celoAlfajores|avalancheCChain|avalancheCChainFuji|starknet|starknetGoerli|xdc|xdcApothem|bsc
     |bscTestnet|cronos|fantom|fantomTestnet|gnosis|moonbeam|moonriver|polygonZkEVMTestnet|polygonZkEVM|baseSepolia|base|
-    xlayer|xlayerTestnet] [-f <value>] [-g <value>] [-w <value>]
+    xlayer|xlayerTestnet|unichain|unichainSepolia|sonic|sonicTestnet] [-f <value>] [-g <value>] [-w <value>]
 
 ARGUMENTS
   ADDRESS  Token owner address
@@ -875,7 +878,7 @@ FLAGS
       <options: localhost|ethereum|sepolia|polygonAmoy|polygon|auroraTestnet|aurora|optimismSepolia|optimism|palmTestnet|p
       alm|arbitrumSepolia|arbitrum|celo|celoAlfajores|avalancheCChain|avalancheCChainFuji|starknet|starknetGoerli|xdc|xdcA
       pothem|bsc|bscTestnet|cronos|fantom|fantomTestnet|gnosis|moonbeam|moonriver|polygonZkEVMTestnet|polygonZkEVM|baseSep
-      olia|base|xlayer|xlayerTestnet>
+      olia|base|xlayer|xlayerTestnet|unichain|unichainSepolia|sonic|sonicTestnet>
 
   -f, --fees=<value>
       Gas Price level to execute transaction with. For example: instant, fast, standard, slow
@@ -907,7 +910,7 @@ EXAMPLES
   $ gateway-eth revoke 0x893F4Be53274353CD3379C87C8fd1cb4f8458F94 -n 123
 ```
 
-_See code: [dist/commands/revoke.ts](https://github.com/civicteam/on-chain-identity-gateway/blob/v0.2.5/dist/commands/revoke.ts)_
+_See code: [dist/commands/revoke.ts](https://github.com/civicteam/on-chain-identity-gateway/blob/v0.2.6/dist/commands/revoke.ts)_
 
 ## `gateway-eth unfreeze ADDRESS`
 
@@ -919,7 +922,7 @@ USAGE
     localhost|ethereum|sepolia|polygonAmoy|polygon|auroraTestnet|aurora|optimismSepolia|optimism|palmTestnet|palm|arbitr
     umSepolia|arbitrum|celo|celoAlfajores|avalancheCChain|avalancheCChainFuji|starknet|starknetGoerli|xdc|xdcApothem|bsc
     |bscTestnet|cronos|fantom|fantomTestnet|gnosis|moonbeam|moonriver|polygonZkEVMTestnet|polygonZkEVM|baseSepolia|base|
-    xlayer|xlayerTestnet] [-f <value>] [-g <value>] [-w <value>]
+    xlayer|xlayerTestnet|unichain|unichainSepolia|sonic|sonicTestnet] [-f <value>] [-g <value>] [-w <value>]
 
 ARGUMENTS
   ADDRESS  Token owner address
@@ -930,7 +933,7 @@ FLAGS
       <options: localhost|ethereum|sepolia|polygonAmoy|polygon|auroraTestnet|aurora|optimismSepolia|optimism|palmTestnet|p
       alm|arbitrumSepolia|arbitrum|celo|celoAlfajores|avalancheCChain|avalancheCChainFuji|starknet|starknetGoerli|xdc|xdcA
       pothem|bsc|bscTestnet|cronos|fantom|fantomTestnet|gnosis|moonbeam|moonriver|polygonZkEVMTestnet|polygonZkEVM|baseSep
-      olia|base|xlayer|xlayerTestnet>
+      olia|base|xlayer|xlayerTestnet|unichain|unichainSepolia|sonic|sonicTestnet>
 
   -f, --fees=<value>
       Gas Price level to execute transaction with. For example: instant, fast, standard, slow
@@ -962,7 +965,7 @@ EXAMPLES
   $ gateway-eth unfreeze 0x893F4Be53274353CD3379C87C8fd1cb4f8458F94 -n 123
 ```
 
-_See code: [dist/commands/unfreeze.ts](https://github.com/civicteam/on-chain-identity-gateway/blob/v0.2.5/dist/commands/unfreeze.ts)_
+_See code: [dist/commands/unfreeze.ts](https://github.com/civicteam/on-chain-identity-gateway/blob/v0.2.6/dist/commands/unfreeze.ts)_
 
 ## `gateway-eth verify ADDRESS`
 
@@ -974,7 +977,7 @@ USAGE
     localhost|ethereum|sepolia|polygonAmoy|polygon|auroraTestnet|aurora|optimismSepolia|optimism|palmTestnet|palm|arbitr
     umSepolia|arbitrum|celo|celoAlfajores|avalancheCChain|avalancheCChainFuji|starknet|starknetGoerli|xdc|xdcApothem|bsc
     |bscTestnet|cronos|fantom|fantomTestnet|gnosis|moonbeam|moonriver|polygonZkEVMTestnet|polygonZkEVM|baseSepolia|base|
-    xlayer|xlayerTestnet]
+    xlayer|xlayerTestnet|unichain|unichainSepolia|sonic|sonicTestnet]
 
 ARGUMENTS
   ADDRESS  Token owner address
@@ -985,7 +988,7 @@ FLAGS
       <options: localhost|ethereum|sepolia|polygonAmoy|polygon|auroraTestnet|aurora|optimismSepolia|optimism|palmTestnet|p
       alm|arbitrumSepolia|arbitrum|celo|celoAlfajores|avalancheCChain|avalancheCChainFuji|starknet|starknetGoerli|xdc|xdcA
       pothem|bsc|bscTestnet|cronos|fantom|fantomTestnet|gnosis|moonbeam|moonriver|polygonZkEVMTestnet|polygonZkEVM|baseSep
-      olia|base|xlayer|xlayerTestnet>
+      olia|base|xlayer|xlayerTestnet|unichain|unichainSepolia|sonic|sonicTestnet>
 
   -h, --help
       Show CLI help.
