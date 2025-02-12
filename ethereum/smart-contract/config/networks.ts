@@ -216,7 +216,7 @@ export const networks = {
     chainId: 1301,
   },
   unichainMainnet: {
-    url: process.env.UNICHAINMAINNET_RPC ?? '', // TODO: NOT YET AVAILABLE
+    url: process.env.UNICHAINMAINNET_RPC ?? 'https://mainnet.unichain.org',
     accounts: liveAccounts,
     chainId: 130,
   },

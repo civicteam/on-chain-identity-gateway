@@ -150,7 +150,7 @@ export const networks = {
     chainId: 195,
   },
   unichain: {
-    url: '', // TODO: NOT YET AVAILABLE
+    url: 'https://mainnet.unichain.org',
     chainId: 130,
   },
   unichainSepolia: {
