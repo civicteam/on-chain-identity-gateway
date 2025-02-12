@@ -205,4 +205,29 @@ export const networks = {
     accounts: liveAccounts,
     chainId: 195,
   },
+  powerDcloudTestnet: {
+    url: process.env.POWERDCLOUDTESTNET_RPC ?? 'http://c3n1.thepower.io:1083/jsonrpc',
+    accounts: liveAccounts,
+    chainId: 1000000003,
+  },
+  unichainSepolia: {
+    url: process.env.UNICHAINSEPOLIA_RPC ?? 'https://sepolia.unichain.org',
+    accounts: liveAccounts,
+    chainId: 1301,
+  },
+  unichainMainnet: {
+    url: process.env.UNICHAINMAINNET_RPC ?? 'https://mainnet.unichain.org',
+    accounts: liveAccounts,
+    chainId: 130,
+  },
+  sonicTestnet: {
+    url: process.env.SONICTESTNET_RPC ?? 'https://rpc.blaze.soniclabs.com',
+    accounts: liveAccounts,
+    chainId: 57054,
+  },
+  sonicMainnet: {
+    url: process.env.SONICMAINNET_RPC ?? 'https://rpc.soniclabs.com',
+    accounts: liveAccounts,
+    chainId: 146,
+  }
 };
