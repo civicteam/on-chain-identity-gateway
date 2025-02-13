@@ -150,7 +150,7 @@ export const networks = {
     chainId: 195,
   },
   unichain: {
-    url: '', // TODO: NOT YET AVAILABLE
+    url: 'https://mainnet.unichain.org',
     chainId: 130,
   },
   unichainSepolia: {
@@ -164,6 +164,10 @@ export const networks = {
   sonicTestnet: {
     url: 'https://rpc.blaze.soniclabs.com',
     chainId: 57_054,
+  },
+  powerDcloudTestnet: {
+    url: 'http://c3n1.thepower.io:1083/jsonrpc',
+    chainId: 1_000_000_003,
   },
 }
 
