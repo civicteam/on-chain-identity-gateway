@@ -165,6 +165,10 @@ export const networks = {
     url: 'https://rpc.blaze.soniclabs.com',
     chainId: 57_054,
   },
+  powerDcloudTestnet: {
+    url: 'http://c3n1.thepower.io:1083/jsonrpc',
+    chainId: 1_000_000_003,
+  },
 }
 
 class ExtendedInfuraProvider extends InfuraProvider {
